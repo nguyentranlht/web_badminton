@@ -10,6 +10,8 @@ import javax.xml.stream.Location;
 import lombok.*;
 import org.hibernate.validator.constraints.Length;
 
+import java.util.List;
+
 @Setter
 @Getter
 @RequiredArgsConstructor
@@ -55,4 +57,7 @@ public class Badminton {
 
     @NotBlank(message = "Thời gian đóng cửa không được để trống")
     private String closingTime;
+
+    @OneToMany(mappedBy = "badmintonCourt", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<BadmintonDetail> badmintonDetails;
 }
