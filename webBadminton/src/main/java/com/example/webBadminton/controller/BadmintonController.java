@@ -12,11 +12,11 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Controller
-@RequestMapping("/badmintons")
+@RequestMapping("/courts")
 public class BadmintonController {
     @GetMapping
     public String home() {
-        return "badminton/list";
+        return "court/list";
     }
 
 //    @Autowired
