@@ -1,5 +1,5 @@
 package com.example.webBadminton.controller;
-import com.example.webBadminton.model.Badminton;
+//import com.example.webBadminton.model.Badminton;
 import com.example.webBadminton.service.BadmintonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,13 +16,13 @@ import java.util.stream.Collectors;
 public class BadmintonController {
     @GetMapping
     public String home() {
-        return "badminton/list";
+        return "badminton/badminton-list";
     }
 
-    @Autowired
-    private BadmintonService badmintonService;
-
-    // Đường dẫn thư mục để lưu trữ hình ảnh
-    private final String uploadDir = "src/main/resources/static/img/";
+//    @Autowired
+//    private BadmintonService badmintonService;
+//
+//    // Đường dẫn thư mục để lưu trữ hình ảnh
+//    private final String uploadDir = "src/main/resources/static/img/";
 
 }

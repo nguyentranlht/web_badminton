@@ -1,50 +1,99 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 <head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login</title>
-  <th:block th:replace="~{layout :: link-css}"></th:block>
+  <meta charset="utf-8">
+  <title>BMT WEB</title>
+  <!-- Google Web Fonts -->
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Font Awesome -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+
+  <!-- Libraries Stylesheet -->
+  <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+  <link href="lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
+
+  <!-- Customized Bootstrap Stylesheet -->
+  <link href="css/style.css" rel="stylesheet">
 </head>
 <body>
-<th:block th:replace="~{layout :: header}"></th:block>
-<div class="container">
-  <div class="row justify-content-center">
-    <div class="col-md-8">
-      <div class="card mt-5">
-        <h3 class="card-title text-center">Login</h3>
-        <form th:action="@{/login}" method="post" class="card-body">
-          <fieldset>
-            <legend>Please login</legend>
-            <div th:if="${param.error}" class="alert alert-danger">
-              Invalid username and password.
-            </div>
-            <div th:if="${param.logout}" class="alert alert-success">
-              You have been logged out.
-            </div>
-            <div class="form-group">
-              <label for="username">Username:</label>
-              <input type="text" class="form-control" id="username" name="username" required>
-            </div>
-            <div class="form-group">
-              <label for="password">Password:</label>
-              <input type="password" class="form-control" id="password" name="password" required>
-            </div>
-            <div class="form-group form-check">
-              <input type="checkbox" class="form-check-input" id="remember-me">
-              <label class="form-check-label" for="remember-me">Remember me</label>
-            </div>
-            <div class="form-group">
-              <button type="submit" class="btn btn-primary">Login</button>
-              <a class="text-primary text-center" href="/register">Don't have account. Sign up?</a>
-            </div>
-          </fieldset>
-        </form>
+<th:block th:replace="layout :: header"></th:block>
+
+<!-- Registration Start -->
+<div class="container-fluid bg-registration py-5" style="margin: 90px 0;">
+  <div class="container py-5">
+    <div class="row align-items-center">
+      <div class="col-lg-7 mb-5 mb-lg-0">
+        <div class="mb-4">
+          <h6 class="text-primary text-uppercase" style="letter-spacing: 5px;">Mega Offer</h6>
+          <h1 class="text-white"><span class="text-primary">30% OFF</span> For Honeymoon</h1>
+        </div>
+        <p class="text-white">Invidunt lorem justo sanctus clita. Erat lorem labore ea, justo dolor lorem ipsum ut sed eos,
+          ipsum et dolor kasd sit ea justo. Erat justo sed sed diam. Ea et erat ut sed diam sea ipsum est
+          dolor</p>
+        <ul class="list-inline text-white m-0">
+          <li class="py-2"><i class="fa fa-check text-primary mr-3"></i>Labore eos amet dolor amet diam</li>
+          <li class="py-2"><i class="fa fa-check text-primary mr-3"></i>Etsea et sit dolor amet ipsum</li>
+          <li class="py-2"><i class="fa fa-check text-primary mr-3"></i>Diam dolor diam elitripsum vero.</li>
+        </ul>
+      </div>
+      <div class="col-lg-5">
+        <div class="card border-0">
+          <div class="card-header bg-primary text-center p-4">
+            <h1 class="text-white m-0">Sign Up Now</h1>
+          </div>
+          <div class="card-body rounded-bottom bg-white p-5">
+            <form>
+              <div class="form-group">
+                <input type="text" class="form-control p-4" placeholder="Your name" required="required" />
+              </div>
+              <div class="form-group">
+                <input type="email" class="form-control p-4" placeholder="Your email" required="required" />
+              </div>
+              <div class="form-group">
+                <select class="custom-select px-4" style="height: 47px;">
+                  <option selected>Select a destination</option>
+                  <option value="1">destination 1</option>
+                  <option value="2">destination 1</option>
+                  <option value="3">destination 1</option>
+                </select>
+              </div>
+              <div>
+                <button class="btn btn-primary btn-block py-3" type="submit">Sign Up Now</button>
+              </div>
+            </form>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </div>
+<!-- Registration End -->
+
 <th:block th:replace="~{layout :: footer}"></th:block>
+
+
+<!-- Back to Top -->
+<a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="fa fa-angle-double-up"></i></a>
+
+
+<!-- JavaScript Libraries -->
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+<script src="lib/easing/easing.min.js"></script>
+<script src="lib/owlcarousel/owl.carousel.min.js"></script>
+<script src="lib/tempusdominus/js/moment.min.js"></script>
+<script src="lib/tempusdominus/js/moment-timezone.min.js"></script>
+<script src="lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
+
+<!-- Contact Javascript File -->
+<script src="mail/jqBootstrapValidation.min.js"></script>
+<script src="mail/contact.js"></script>
+
+<!-- Template Javascript -->
+<script src="js/main.js"></script>
 </body>
+
 </html>
