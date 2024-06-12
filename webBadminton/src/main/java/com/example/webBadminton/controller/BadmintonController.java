@@ -23,7 +23,7 @@ public class BadmintonController {
     public String getAllBadmintons(Model model){
         List<Badminton> badmintons = badmintonService.getAllBadmintons();
         model.addAttribute("badmintons", badmintons);
-        return "/badmintons/list";
+        return "/badminton/list";
     }
 
 
