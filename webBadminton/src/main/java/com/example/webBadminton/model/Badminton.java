@@ -1,11 +1,11 @@
 package com.example.webBadminton.model;
 
+import com.example.webBadminton.validator.annotation.ValidUserId;
 import jakarta.persistence.*;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import javax.xml.stream.Location;
 
 import lombok.*;
 import org.hibernate.validator.constraints.Length;
@@ -58,4 +58,9 @@ public class Badminton {
 
     @OneToMany(mappedBy = "badminton", cascade = CascadeType.ALL)
     private List<Court> courts;
+
+    @ManyToOne
+    @JoinColumn(name = "user", referencedColumnName = "id")
+    @ValidUserId
+    private User user;
 }

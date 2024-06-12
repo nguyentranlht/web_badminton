@@ -4,7 +4,6 @@ import lombok.*;
 
 import jakarta.persistence.*;
 import javax.validation.constraints.NotBlank;
-import java.util.List;
 
 @Data
 @Entity
