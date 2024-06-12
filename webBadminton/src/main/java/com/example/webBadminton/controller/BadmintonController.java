@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 public class BadmintonController {
     @GetMapping
     public String home() {
-        return "badminton/badminton-list";
+        return "badminton/list";
     }
 
 //    @Autowired
