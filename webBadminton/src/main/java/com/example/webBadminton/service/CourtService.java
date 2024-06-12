@@ -1,12 +1,12 @@
 package com.example.webBadminton.service;
 
-import com.example.webBadminton.model.Badminton;
 import com.example.webBadminton.model.Court;
 import com.example.webBadminton.repository.ICourtRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
-
+@Service
 public class CourtService {
     @Autowired
     private ICourtRepository courtRepository;

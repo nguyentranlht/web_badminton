@@ -5,20 +5,14 @@ import com.example.webBadminton.model.Court;
 import com.example.webBadminton.service.BadmintonService;
 
 import com.example.webBadminton.service.CourtService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
-import java.io.IOException;
-import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/courts")
@@ -31,14 +25,10 @@ public class CourtController {
 
     // Đường dẫn thư mục để lưu trữ hình ảnh
     private final String uploadDir = "src/main/resources/static/img/";
-
     // Display a list of all products
     @GetMapping()
     public String showCourtList(Model model) {
-        List<Court> courts = courtService.getAllCourts()
-                .stream()
-                //.sorted(Comparator.comparingDouble(Court::getPrice))
-                .collect(Collectors.toList());
+        List<Court> courts = courtService.getAllCourts();
         model.addAttribute("courts", courts);
         return "/court/list";
     }
@@ -51,17 +41,11 @@ public class CourtController {
     }
 
     @PostMapping("/add")
-    public String addCourt(@Valid Court court, BindingResult result, @RequestParam("image") MultipartFile image) {
-        if (result.hasErrors()) {
+    public String addBadminton(@Valid Badminton badminton, BindingResult result){
+        if(result.hasErrors()){
             return "/court/add";
         }
-        try {
-            courtService.addCourt(court);
-        } catch (Exception e) {
-            // Handle image upload exception
-            e.printStackTrace();
-            return "/court/add";
-        }
+        badmintonService.addBadminton(badminton);
         return "redirect:/courts";
     }
 }
