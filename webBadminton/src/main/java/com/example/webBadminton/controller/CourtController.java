@@ -40,27 +40,27 @@ public class CourtController {
                 //.sorted(Comparator.comparingDouble(Court::getPrice))
                 .collect(Collectors.toList());
         model.addAttribute("courts", courts);
-        return "/courts/list";
+        return "/court/list";
     }
 
     @GetMapping("/add")
     public String showAddForm(Model model) {
         model.addAttribute("court", new Court());
         model.addAttribute("badmintons", badmintonService.getAllBadmintons());
-        return "/courts/add";
+        return "/court/add";
     }
 
     @PostMapping("/add")
     public String addCourt(@Valid Court court, BindingResult result, @RequestParam("image") MultipartFile image) {
         if (result.hasErrors()) {
-            return "/courts/add";
+            return "/court/add";
         }
         try {
-            courtService.addCourt(court, image);
+            courtService.addCourt(court);
         } catch (Exception e) {
             // Handle image upload exception
             e.printStackTrace();
-            return "/courts/add";
+            return "/court/add";
         }
         return "redirect:/courts";
     }

@@ -56,6 +56,6 @@ public class Badminton {
     @NotBlank(message = "Thời gian đóng cửa không được để trống")
     private String closingTime;
 
-//    @OneToMany(mappedBy = "badmintonCourt", cascade = CascadeType.ALL, orphanRemoval = true)
-//    private List<BadmintonDetail> badmintonDetails;
+    @OneToMany(mappedBy = "court", cascade = CascadeType.ALL)
+    private List<Court> courts;
 }

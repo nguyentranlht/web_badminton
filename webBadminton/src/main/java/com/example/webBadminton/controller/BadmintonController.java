@@ -17,7 +17,8 @@ import java.util.stream.Collectors;
 @Controller
 @RequestMapping("/badmintons")
 public class BadmintonController {
-    private final BadmintonService badmintonService;
+    @Autowired
+    private BadmintonService badmintonService;
 
     @GetMapping("/")
     public String getAllBadmintons(Model model){
@@ -41,11 +42,5 @@ public class BadmintonController {
         badmintonService.addBadminton(badminton);
         return "redirect:/badmintons";
     }
-
-//    @Autowired
-//    private BadmintonService badmintonService;
-//
-//    // Đường dẫn thư mục để lưu trữ hình ảnh
-//    private final String uploadDir = "src/main/resources/static/img/";
 
 }
