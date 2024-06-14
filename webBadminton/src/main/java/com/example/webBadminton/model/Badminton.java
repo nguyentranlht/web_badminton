@@ -33,6 +33,10 @@ public class Badminton {
     @Min(value = 1, message = "Giá thuê sân không được nhỏ hơn 1")
     private double rentalPrice;
 
+    @NotNull(message = "Giá thuê sân không được để trống")
+    @Min(value = 1, message = "Giá thuê sân không được nhỏ hơn 1")
+    private double rating;
+
     @NotNull(message = "Số lượng sân không được để trống")
     @Min(value = 1, message = "Số lượng sân không được nhỏ hơn 1")
     private int courtQuantity;
@@ -41,12 +45,6 @@ public class Badminton {
     private String imageUrl;
 
     private String location;
-
-    @Min(value = 1, message = "Số người tối thiểu phải là 1")
-    private int minPlayers;
-
-    @Max(value = 4, message = "Số người tối đa phải là 4")
-    private int maxPlayers;
 
     private String amenities; // Tiện nghi có sẵn tại sân
 

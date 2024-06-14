@@ -43,7 +43,7 @@ public class SecurityConfig {
                         .permitAll()
                         .requestMatchers( "/books/edit", "/books/delete")
                         .hasAnyAuthority("ADMIN")
-                        .requestMatchers("/books", "/books/add")
+                        .requestMatchers("/badmintons", "/books/add")
                         .hasAnyAuthority("ADMIN", "USER")
                         .requestMatchers("/api/**")
                         .hasAnyAuthority("ADMIN", "USER")
