@@ -33,19 +33,19 @@ public class CourtController {
         return "/admin/court/list";
     }
 
-    @GetMapping("/add")
-    public String showAddForm(Model model) {
-        model.addAttribute("court", new Court());
-        model.addAttribute("badmintons", badmintonService.getAllBadmintons());
-        return "/admin/court/add";
-    }
-
-    @PostMapping("/add")
-    public String addBadminton(@Valid Badminton badminton, BindingResult result){
-        if(result.hasErrors()){
-            return "/admin/court/add";
-        }
-        badmintonService.addBadminton(badminton);
-        return "redirect:/admin/courts";
-    }
+//    @GetMapping("/add")
+//    public String showAddForm(Model model) {
+//        model.addAttribute("court", new Court());
+//        model.addAttribute("badmintons", badmintonService.getAllBadmintons());
+//        return "/admin/court/add";
+//    }
+//
+//    @PostMapping("/add")
+//    public String addBadminton(@Valid Badminton badminton, BindingResult result){
+//        if(result.hasErrors()){
+//            return "/admin/court/add";
+//        }
+//        badmintonService.addBadminton(badminton);
+//        return "redirect:/admin/courts";
+//    }
 }

@@ -68,16 +68,13 @@
                 <td th:text="${badminton.closingTime}"></td>
                 <td>
                     <a th:href="@{/badmintons/edit/{id}(id=${badminton.id})}" class="btn btn-success btn-sm">Edit</a>
-                    <a th:href="@{/badmintons/delete/{id}(id=${badminton.id})}" class="btn btn-danger btn-sm"
+                    <a th:href="@{/admin/badmintons/delete/{id}(id=${badminton.id})}" class="btn btn-danger btn-sm"
                        onclick="return confirm('Are you sure?')">Delete</a>
                 </td>
             </tr>
             </tbody>
         </table>
 
-        <!-- Footer Start -->
-        <th:block th:replace="admin/layoutadmin :: admin-footer"></th:block>
-        <!-- Footer End -->
     </div>
     <!-- Content End -->
 

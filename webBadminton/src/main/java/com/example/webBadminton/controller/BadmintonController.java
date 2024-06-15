@@ -28,19 +28,19 @@ public class BadmintonController {
     }
 
 
-    @GetMapping("/add")
-    public String showAddForm(Model model){
-        model.addAttribute("badminton", new Badminton());
-        return "/badminton/add";
-    }
-
-    @PostMapping("/add")
-    public String addBadminton(@Valid Badminton badminton, BindingResult result){
-        if(result.hasErrors()){
-            return "/badminton/add";
-        }
-        badmintonService.addBadminton(badminton);
-        return "redirect:/badmintons";
-    }
+//    @GetMapping("/add")
+//    public String showAddForm(Model model){
+//        model.addAttribute("badminton", new Badminton());
+//        return "/badminton/add";
+//    }
+//
+//    @PostMapping("/add")
+//    public String addBadminton(@Valid Badminton badminton, BindingResult result){
+//        if(result.hasErrors()){
+//            return "/badminton/add";
+//        }
+//        badmintonService.addBadminton(badminton);
+//        return "redirect:/badmintons";
+//    }
 
 }

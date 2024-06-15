@@ -59,11 +59,11 @@
             <tr th:each="court : ${courts}">
                 <td th:text="${court.id}"></td>
                 <td th:text="${court.courtName}"></td>
-                <td th:text="${court.rentalPrice}"></td>
+<!--                <td th:text="${court.rentalPrice}"></td>-->
                 <td th:text="${court.badminton.badmintonName}"></td>
                 <td>
                     <a th:href="@{/courts/edit/{id}(id=${court.id})}" class="btn btn-success btn-sm">Edit</a>
-                    <a th:href="@{/courts/delete/{id}(id=${court.id})}" class="btn btn-danger btn-sm"
+                    <a th:href="@{/admin/courts/delete/{id}(id=${court.id})}" class="btn btn-danger btn-sm"
                        onclick="return confirm('Are you sure?')">Delete</a>
                 </td>
             </tr>
@@ -73,7 +73,7 @@
 
 
         <!-- Footer Start -->
-        <th:block th:replace="admin/layoutadmin :: admin-footer"></th:block>
+
         <!-- Footer End -->
     </div>
     <!-- Content End -->

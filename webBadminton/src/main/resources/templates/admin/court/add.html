@@ -122,7 +122,7 @@
                 <div class="col-sm-12 col-xl-6">
                     <div class="bg-light rounded h-100 p-4">
                         <h1>Add New Court</h1>
-                        <form th:action="@{/courts/add}" th:object="${court}" method="post" class="needs-validation" novalidate>
+                        <form th:action="@{/admin/courts/add}" th:object="${court}" method="post" class="needs-validation" novalidate>
                             <div class="mb-3">
                                 <label for="courtName" class="form-label">Court Name:</label>
                                 <input type="text" th:field="*{courtName}" class="form-control" id="courtName" required>
@@ -151,7 +151,7 @@
         <!-- Form End -->
 
         <!-- Footer Start -->
-        <th:block th:replace="admin/layoutadmin :: admin-footer"></th:block>
+
         <!-- Footer End -->
     </div>
     <!-- Content End -->
