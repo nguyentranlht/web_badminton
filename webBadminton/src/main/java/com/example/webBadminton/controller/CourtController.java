@@ -15,7 +15,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @Controller
-@RequestMapping("/courts")
+@RequestMapping("/admin/courts")
 public class CourtController {
     @Autowired
     private CourtService courtService;
@@ -30,22 +30,22 @@ public class CourtController {
     public String showCourtList(Model model) {
         List<Court> courts = courtService.getAllCourts();
         model.addAttribute("courts", courts);
-        return "/court/list";
+        return "/admin/court/list";
     }
 
     @GetMapping("/add")
     public String showAddForm(Model model) {
         model.addAttribute("court", new Court());
         model.addAttribute("badmintons", badmintonService.getAllBadmintons());
-        return "/court/add";
+        return "/admin/court/add";
     }
 
     @PostMapping("/add")
     public String addBadminton(@Valid Badminton badminton, BindingResult result){
         if(result.hasErrors()){
-            return "/court/add";
+            return "/admin/court/add";
         }
         badmintonService.addBadminton(badminton);
-        return "redirect:/courts";
+        return "redirect:/admin/courts";
     }
 }

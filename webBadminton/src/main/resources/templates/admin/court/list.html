@@ -45,58 +45,32 @@
         <!-- Navbar Start -->
         <th:block th:replace="admin/layoutadmin :: admin-header"></th:block>
         <!-- Navbar End -->
+        <table class="table table-bordered table-hover">
+            <thead class="table-dark">
+            <tr>
+                <th>ID</th>
+                <th>Court Name</th>
+                <th>Rental Price</th>
+                <th>Badminton</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="court : ${courts}">
+                <td th:text="${court.id}"></td>
+                <td th:text="${court.courtName}"></td>
+                <td th:text="${court.rentalPrice}"></td>
+                <td th:text="${court.badminton.badmintonName}"></td>
+                <td>
+                    <a th:href="@{/courts/edit/{id}(id=${court.id})}" class="btn btn-success btn-sm">Edit</a>
+                    <a th:href="@{/courts/delete/{id}(id=${court.id})}" class="btn btn-danger btn-sm"
+                       onclick="return confirm('Are you sure?')">Delete</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
 
-        <!-- Form Start -->
-        <div class="container-fluid pt-4 px-4">
-            <div class="row g-4">
-                <div class="col-sm-12 col-xl-6">
-                    <div class="bg-light rounded h-100 p-4">
-                        <h1>Add New Badminton Court</h1>
-                        <form th:action="@{/badmintons/add}" th:object="${badminton}" method="post"
-                              enctype="multipart/form-data" class="needs-validation" novalidate>
-                            <div class="mb-3">
-                                <label for="badmintonName" class="form-label">Badminton Name:</label>
-                                <input type="text" th:field="*{badmintonName}" class="form-control" id="badmintonName" required>
-                                <div class="text-danger" th:if="${#fields.hasErrors('badmintonName')}" th:errors="*{badmintonName}"></div>
-                            </div>
-                            <div class="mb-3">
-                                <label for="address" class="form-label">Address:</label>
-                                <input type="text" th:field="*{address}" class="form-control" id="address" required>
-                                <div class="text-danger" th:if="${#fields.hasErrors('address')}" th:errors="*{address}"></div>
-                            </div>
-                            <!--<div class="mb-3">
-                                <label for="rentalPrice" class="form-label">Rental Price:</label>
-                                <input type="number" th:field="*{rentalPrice}" class="form-control" id="rentalPrice" required>
-                            </div>-->
-                            <div class="mb-3">
-                                <label for="courtQuantity" class="form-label">Court Quantity:</label>
-                                <input type="number" th:field="*{courtQuantity}" class="form-control" id="courtQuantity" required>
-                            </div>
-                            <!--<div class="mb-3">
-                                <label for="minPlayers" class="form-label">Minimum Players:</label>
-                                <input type="number" th:field="*{minPlayers}" class="form-control" id="minPlayers" required>
-                            </div>-->
-<!--                            <div class="mb-3">-->
-<!--                                <label for="maxPlayers" class="form-label">Maximum Players:</label>-->
-<!--                                <input type="number" th:field="*{maxPlayers}" class="form-control" id="maxPlayers" required>-->
-<!--                            </div>-->
-                            <div class="mb-3">
-                                <label for="openingTime" class="form-label">Opening Time:</label>
-                                <input type="time" th:field="*{openingTime}" class="form-control" id="openingTime" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="closingTime" class="form-label">Closing Time:</label>
-                                <input type="time" th:field="*{closingTime}" class="form-control" id="closingTime" required>
-                                <div id="timeError" class="text-danger" style="display: none;">Closing time must be at least one hour after the opening time.</div>
-                            </div>
-                            <button type="submit" class="btn btn-primary">Add Badminton</button>
-                            <a th:href="@{/admin}" class="btn btn-link">Cancel</a>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Form End -->
+
 
         <!-- Footer Start -->
         <th:block th:replace="admin/layoutadmin :: admin-footer"></th:block>
