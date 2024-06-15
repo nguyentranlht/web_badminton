@@ -67,6 +67,7 @@
             </button>
             <div class="collapse navbar-collapse justify-content-between px-3" id="navbarCollapse">
                 <div class="navbar-nav ml-auto py-0">
+                    <a href="/admin" class="nav-item nav-link" sec:authorize="hasAnyAuthority('ADMIN')">Admin</a>
                     <a href="/" class="nav-item nav-link active">Home</a>
                     <a href="#" class="nav-item nav-link">About</a>
                     <a href="#" class="nav-item nav-link">Services</a>
@@ -175,8 +176,5 @@
 
 <!-- Template Javascript -->
 <script src="user/js/main.js"></script>
-<footer th:fragment="footer">
-    <script th:src="@{/js/bootstrap.min.js}"></script>
-</footer>
 </body>
 </html>

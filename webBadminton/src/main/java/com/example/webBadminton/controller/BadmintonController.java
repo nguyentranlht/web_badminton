@@ -20,11 +20,11 @@ public class BadmintonController {
     @Autowired
     private BadmintonService badmintonService;
 
-    @GetMapping("/")
-    public String getAllBadmintons(Model model){
-        List<Badminton> badmintons = badmintonService.getAllBadmintons();
-        model.addAttribute("badmintons", badmintons);
-        return "/badminton/list";
+    @GetMapping()
+    public String getAllBadmintons(/*Model model*/){
+//        List<Badminton> badmintons = badmintonService.getAllBadmintons();
+//        model.addAttribute("badmintons", badmintons);
+        return "/user/badminton/list";
     }
 
 
