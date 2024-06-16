@@ -85,6 +85,30 @@
 <div th:insert="~{::${content}}">
     <!-- NỘI DUNG TRANG CON -->
 </div>
+<!-- Chat Frame Start -->
+<div th:fragment="chat-box" >
+        <div class="chat-container d-flex justify-content-center" style="display: block">
+            <div class="card mt-5">
+                <div class="d-flex flex-row justify-content-between p-3 adiv text-white" onclick="toggleChat()">
+                    <i class="fas fa-chevron-left" ></i>
+                    <span class="pb-3" >Live chat</span>
+                    <i class="fas fa-times" id="closeChatIcon" onclick="closeChat(event)"></i>
+                </div>
+                <div class="chat-box" style="display: none;">
+                    <div class="messages"></div>
+                    <div class="form-group px-3">
+                        <textarea class="chat-input form-control" rows="5" placeholder="Type your message"></textarea>
+                        <div class="send-btn" onclick="sendMessage()">
+                            <img src="/user/img/badminton.svg" alt="Send" style="width: 24px; height: 24px;">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Chat Frame End -->
 <!-- Footer Start -->
 <div th:fragment="footer" class="container-fluid bg-dark text-white-50 py-5 px-sm-3 px-lg-5" style="margin-top: 90px;">
     <div class="row pt-5">
@@ -175,6 +199,7 @@
 <script src="user/mail/contact.js"></script>
 
 <!-- Template Javascript -->
+<script src="user/js/script/scrip"></script>
 <script src="user/js/main.js"></script>
 </body>
 </html>

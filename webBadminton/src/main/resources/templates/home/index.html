@@ -15,6 +15,7 @@
 </head>
 <body>
 <th:block th:replace="layout :: header"></th:block>
+
     <!-- Carousel Start -->
     <div class="container-fluid p-0">
         <div id="header-carousel" class="carousel slide" data-ride="carousel">
@@ -364,7 +365,7 @@
         </div>
     </div>
     <!-- Team End -->
-
+    <th:block th:replace="~{layout :: chat-box}"></th:block>
     <th:block th:replace="~{layout :: footer}"></th:block>
 
 

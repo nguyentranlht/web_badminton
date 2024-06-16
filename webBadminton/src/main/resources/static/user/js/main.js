@@ -65,6 +65,135 @@
             }
         }
     });
+
+
     
 })(jQuery);
+function sendMessage() {
+    const input = document.querySelector('.chat-input');
+    const message = input.value.trim();
+
+    if (message !== '') {
+        // Display user message immediately
+        displayMessage(message, 'user');
+
+        // Save message to session
+        saveMessageToSession({text: message, sender: 'user'});
+
+        // Send the message to Rasa
+        fetch('http://localhost:5005/webhooks/rest/webhook', {  // Update the URL to your Rasa server's endpoint
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                message: message,
+                sender: 'user',
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            // Display Rasa's response
+            if (data && data.length > 0) {
+                data.forEach((message) => {
+                    displayMessage(message.text, 'bot');
+                    saveMessageToSession({text: message.text, sender: 'bot'});
+                });
+            }
+        })
+        .catch(error => console.error('Error talking to Rasa:', error));
+
+        // Clear input field
+        input.value = '';
+    }
+}
+
+function displayMessage(message, sender) {
+    const messageContainer = document.querySelector('.messages');
+    const messageDiv = document.createElement('div');
+    messageDiv.className = 'd-flex flex-row p-3';  // Sets up flex row
+
+    if (sender === 'bot') {
+        // Creating and setting up the bot avatar image
+        const botAvatar = document.createElement('img');
+        botAvatar.src = "https://img.icons8.com/color/48/000000/circled-user-female-skin-type-7.png";
+        botAvatar.width = 30;
+        botAvatar.height = 30;
+        botAvatar.className = 'ml-2';  // Add some margin to the right of the avatar
+
+        // Creating the text container for the message
+        const textDiv = document.createElement('div');
+        textDiv.className = 'chat p-3';  // Assigns padding and potential other styles
+        textDiv.textContent = message;
+
+        // Appending the avatar and text div to the messageDiv
+        messageDiv.appendChild(botAvatar);
+        messageDiv.appendChild(textDiv);
+    } else {
+         const userTextDiv = document.createElement('div');
+            userTextDiv.className = 'bg-white mr-2 p-3 flex-grow-1';  // Background white, margin-right for spacing
+            const userTextSpan = document.createElement('span');
+            userTextSpan.className = 'text-muted';  // Text styling
+            userTextSpan.textContent = message;
+
+            // Append the span to the div
+            userTextDiv.appendChild(userTextSpan);
+
+            // Creating and setting up the user avatar image
+            const userAvatar = document.createElement('img');
+            userAvatar.src = "https://img.icons8.com/color/48/000000/circled-user-male-skin-type-7.png";
+            userAvatar.width = 30;
+            userAvatar.height = 30;
+            userAvatar.className = 'align-self-center';  // Align the avatar vertically in the middle
+
+            messageDiv.style.justifyContent = 'flex-end';
+            // Append elements in the correct order for the user
+            messageDiv.appendChild(userTextDiv);
+            messageDiv.appendChild(userAvatar);
+    }
+
+    // Append the fully constructed messageDiv to the container and scroll into view
+    messageContainer.appendChild(messageDiv);// Auto-scroll to the latest message
+}
+
+function saveMessageToSession(messageObj) {
+    let messages = JSON.parse(sessionStorage.getItem('chatMessages')) || [];
+    messages.push(messageObj);
+    sessionStorage.setItem('chatMessages', JSON.stringify(messages));
+}
+
+function loadMessagesFromSession() {
+    let messages = JSON.parse(sessionStorage.getItem('chatMessages')) || [];
+    messages.forEach(message => {
+        displayMessage(message.text, message.sender);
+    });
+}
+
+// Load messages when the chat box loads
+document.addEventListener('DOMContentLoaded', loadMessagesFromSession);
+
+
+
+function toggleChat() {
+    var chatBox = document.querySelector('.chat-box');
+    const messageContainer = document.querySelector('.messages');
+    if (chatBox.style.display === 'none') {
+        chatBox.style.display = 'block';
+        console.log("Before scroll:", messageContainer.scrollTop, messageContainer.scrollHeight);
+        messageContainer.scrollTop = messageContainer.scrollHeight;
+        console.log("After scroll:", messageContainer.scrollTop);
+    } else {
+        chatBox.style.display = 'none';
+    }
+}
+
+function closeChat(event) {
+    event.stopPropagation(); // Stop the event from bubbling up to parent elements
+    const chatContainer = document.querySelector('.card');
+    if (chatContainer.style.display === 'none') {
+        chatContainer.style.display = 'block'; // Shows the chat container
+    } else {
+        chatContainer.style.display = 'none'; // Hides the chat container
+    }
+}
 
