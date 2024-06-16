@@ -105,6 +105,7 @@ function sendMessage() {
 
         // Clear input field
         input.value = '';
+        scrollChat();
     }
 }
 
@@ -172,16 +173,16 @@ function loadMessagesFromSession() {
 // Load messages when the chat box loads
 document.addEventListener('DOMContentLoaded', loadMessagesFromSession);
 
-
+function scrollChat(){
+    const messageContainer = document.querySelector('.messages');
+    messageContainer.scrollTop = messageContainer.scrollHeight;
+}
 
 function toggleChat() {
     var chatBox = document.querySelector('.chat-box');
-    const messageContainer = document.querySelector('.messages');
     if (chatBox.style.display === 'none') {
         chatBox.style.display = 'block';
-        console.log("Before scroll:", messageContainer.scrollTop, messageContainer.scrollHeight);
-        messageContainer.scrollTop = messageContainer.scrollHeight;
-        console.log("After scroll:", messageContainer.scrollTop);
+        scrollChat();
     } else {
         chatBox.style.display = 'none';
     }
