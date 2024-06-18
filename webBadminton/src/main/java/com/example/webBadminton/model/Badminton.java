@@ -26,9 +26,6 @@ public class Badminton {
     @NotBlank(message = "Tên sân không được để trống")
     private String badmintonName;
 
-    @NotBlank(message = "Địa chỉ không được để trống")
-    private String address;
-
     @NotNull(message = "Giá thuê sân không được để trống")
     @Min(value = 1, message = "Giá thuê sân không được nhỏ hơn 1")
     private double rentalPrice;
@@ -44,7 +41,6 @@ public class Badminton {
     //@Length(min = 0, max = 200, message = "Tên hình ảnh không quá 200 ký tự")
     private String imageUrl;
 
-    private String location;
 
     private String amenities; // Tiện nghi có sẵn tại sân
 
@@ -56,6 +52,9 @@ public class Badminton {
 
     @OneToMany(mappedBy = "badminton", cascade = CascadeType.ALL)
     private List<Court> courts;
+
+    @OneToOne(mappedBy = "id", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Location location;
 
     @ManyToOne
     @JoinColumn(name = "user", referencedColumnName = "id")

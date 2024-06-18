@@ -44,4 +44,13 @@ public class User {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Badminton> badmintons = new ArrayList<>();
+
+    public User(String username, String password, String name) {
+        this.username = username;
+        this.password = password;
+        this.name = name;
+    }
+
+    public User() {}
+
 }

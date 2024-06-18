@@ -59,6 +59,7 @@
                                 <input type="text" th:field="*{badmintonName}" class="form-control" id="badmintonName" required>
                                 <div class="text-danger" th:if="${#fields.hasErrors('badmintonName')}" th:errors="*{badmintonName}"></div>
                             </div>
+                            <th:block th:replace="admin/layoutadmin :: administrative-select"></th:block>
                             <div class="mb-3">
                                 <label for="address" class="form-label">Address:</label>
                                 <input type="text" th:field="*{address}" class="form-control" id="address" required>
@@ -119,8 +120,10 @@
 <script src="/admin/lib/tempusdominus/js/moment.min.js"></script>
 <script src="/admin/lib/tempusdominus/js/moment-timezone.min.js"></script>
 <script src="/admin/lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
 
 <!-- Template Javascript -->
+<script src="/admin/js/administrative_levels.js"></script>
 <script src="/admin/js/main.js"></script>
 
 <!--Kiểm tra EndDate > StartDate 1 tiếng -->

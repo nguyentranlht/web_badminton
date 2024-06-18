@@ -108,6 +108,22 @@
     </div>
 </div>
 
+<div th:fragment="locationSelector">
+    <div>
+        <select class="form-select form-select-sm mb-3" id="city" aria-label=".form-select-sm">
+            <option value="" selected>Chọn tỉnh thành</option>
+        </select>
+
+        <select class="form-select form-select-sm mb-3" id="district" aria-label=".form-select-sm">
+            <option value="" selected>Chọn quận huyện</option>
+        </select>
+
+        <select class="form-select form-select-sm" id="ward" aria-label=".form-select-sm">
+            <option value="" selected>Chọn phường xã</option>
+        </select>
+    </div>
+</div>
+
 <!-- Chat Frame End -->
 <!-- Footer Start -->
 <div th:fragment="footer" class="container-fluid bg-dark text-white-50 py-5 px-sm-3 px-lg-5" style="margin-top: 90px;">
@@ -199,7 +215,8 @@
 <script src="user/mail/contact.js"></script>
 
 <!-- Template Javascript -->
-<script src="user/js/script/scrip"></script>
 <script src="user/js/main.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
+
 </body>
 </html>
