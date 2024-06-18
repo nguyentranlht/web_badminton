@@ -6,6 +6,7 @@ import com.example.webBadminton.service.BadmintonService;
 
 import com.example.webBadminton.service.CourtService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -15,7 +16,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @Controller
-@RequestMapping("/admin/courts")
+@RequestMapping("/courts")
 public class CourtController {
     @Autowired
     private CourtService courtService;
@@ -26,11 +27,14 @@ public class CourtController {
     // Đường dẫn thư mục để lưu trữ hình ảnh
     private final String uploadDir = "src/main/resources/static/img/";
     // Display a list of all products
-    @GetMapping()
-    public String showCourtList(Model model) {
-        List<Court> courts = courtService.getAllCourts();
+    @GetMapping("/{id}")
+    public String showCourtList(@PathVariable Long id, Model model) {
+        List<Court> courts = courtService.getAllCourtsByIdBadminton(id);
+        if (courts.isEmpty()) {
+            return "/error";
+        }
         model.addAttribute("courts", courts);
-        return "/admin/court/list";
+        return "/user/court/list";
     }
 
 //    @GetMapping("/add")

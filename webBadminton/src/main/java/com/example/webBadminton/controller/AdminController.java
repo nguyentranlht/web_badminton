@@ -65,6 +65,13 @@ public class AdminController {
         return "/admin/court/add";
     }
 
+    @GetMapping("/courts")
+    public String showCourtListAdmin(Model model) {
+        List<Court> courts = courtService.getAllCourts();
+        model.addAttribute("courts", courts);
+        return "/admin/court/list";
+    }
+
     @PostMapping("/courts/add")
     public String addCourt(@Valid Court court, BindingResult result){
         if(result.hasErrors()){
