@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class CourtService {
     @Autowired
@@ -13,6 +15,10 @@ public class CourtService {
 
     public List<Court> getAllCourts() {
         return courtRepository.findAll();
+    }
+
+    public List<Court> getAllCourtsByIdBadminton(Long id) {
+        return courtRepository.findByBadmintonId(id);
     }
 
     public Court getCourtById(Long id) {

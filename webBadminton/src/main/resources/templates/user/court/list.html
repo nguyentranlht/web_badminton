@@ -6,7 +6,7 @@
     <meta charset="utf-8">
     <title>BMT WEB</title>
     <!-- Favicon -->
-    <link href="user/img/favicon.ico" rel="icon">
+    <link href="/user/img/favicon.ico" rel="icon">
 
     <!-- Google Web Fonts -->
     <link rel="preconnect" href="https://fonts.gstatic.com">
@@ -16,7 +16,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
 
     <!-- Customized Bootstrap Stylesheet -->
-    <link href="user/css/style.css" rel="stylesheet">
+    <link href="/user/css/style.css" rel="stylesheet">
 </head>
 
 <body>
@@ -25,7 +25,7 @@
     <div class="container-fluid page-header">
         <div class="container">
             <div class="d-flex flex-column align-items-center justify-content-center" style="min-height: 400px">
-                <h3 class="display-4 text-primary text-uppercase"><span class="text-white">Book</span> Now</h3>
+                <h3 class="display-4 text-primary text-uppercase"><span class="text-white">Book</span> Court</h3>
                 <div class="d-inline-flex text-white">
                 </div>
             </div>
@@ -86,29 +86,27 @@
         <div class="container pt-5 pb-3">
             <div class="text-center mb-3 pb-3">
                 <h6 class="text-primary text-uppercase" style="letter-spacing: 5px;">Packages</h6>
-                <h1>Pefect Badminton Court</h1>
+                <h1>Pefect Court</h1>
             </div>
             <div class="row">
-                <div class="col-lg-4 col-md-6 mb-4" th:each="badminton : ${badmintons}">
-                    <a th:href="@{/courts/{id}(id=${badminton.id})}" class="text-decoration-none text-dark">
-                        <div class="package-item bg-white mb-2">
-                            <img class="img-fluid" th:src="${badminton.imageUrl}" alt="">
-                            <div class="p-4">
-                                <div class="d-flex justify-content-between mb-3">
-                                    <small th:text="${badminton.location}" class="m-0"><i class="fa fa-map-marker-alt text-primary mr-2"></i>Location</small>
-                                    <small class="m-0"><i class="fa fa-calendar-alt text-primary mr-2"></i>3 hours</small>
-                                    <small class="m-0"><i class="fa fa-user text-primary mr-2"></i>2 Person</small>
-                                </div>
-                                <a th:text="${badminton.badmintonName}" class="h5 text-decoration-none" href="">Sân Cầu Lông</a>
-                                <div class="border-top mt-4 pt-4">
-                                    <div class="d-flex justify-content-between">
-                                        <h6 class="m-0"><i class="fa fa-star text-primary mr-2"></i>4.5 <small>(250)</small></h6>
-                                        <h5 class="m-0">70.000 ₫</h5>
-                                    </div>
+                <div class="col-lg-4 col-md-6 mb-4" th:each="court : ${courts}">
+                    <div class="package-item bg-white mb-2">
+                        <img class="img-fluid" alt="">
+                        <div class="p-4">
+                            <div class="d-flex justify-content-between mb-3">
+                                <small class="m-0"><i class="fa fa-map-marker-alt text-primary mr-2"></i>Location</small>
+                                <small class="m-0"><i class="fa fa-calendar-alt text-primary mr-2"></i>3 hours</small>
+                                <small class="m-0"><i class="fa fa-user text-primary mr-2"></i>2 Person</small>
+                            </div>
+                            <a th:text="${court.courtName}" class="h5 text-decoration-none" href="">Sân Cầu Lông</a>
+                            <div class="border-top mt-4 pt-4">
+                                <div class="d-flex justify-content-between">
+                                    <h6 class="m-0"><i class="fa fa-star text-primary mr-2"></i>4.5 <small>(250)</small></h6>
+                                    <h5 class="m-0">70.000 ₫</h5>
                                 </div>
                             </div>
                         </div>
-                    </a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -126,7 +124,7 @@
             <div class="row">
                 <div class="col-lg-4 col-md-6 mb-4">
                     <div class="destination-item position-relative overflow-hidden mb-2" style="position: relative; overflow: hidden; margin-bottom: 20px;">
-                        <img class="img-fluid" src="user/img/tphcm.jpg" alt="" style="width: 100%; height: 200px; object-fit: cover;">
+                        <img class="img-fluid" src="img/tphcm.jpg" alt="" style="width: 100%; height: 200px; object-fit: cover;">
                         <a class="destination-overlay text-white text-decoration-none" href="" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; background-color: rgba(0, 0, 0, 0.5); text-align: center; color: white; text-decoration: none;">
                             <h5 class="text-white" style="color: white;">TP HCM</h5>
                             <span>100 Courts</span>
@@ -135,7 +133,7 @@
                 </div>
                 <div class="col-lg-4 col-md-6 mb-4">
                     <div class="destination-item position-relative overflow-hidden mb-2" style="position: relative; overflow: hidden; margin-bottom: 20px;">
-                        <img class="img-fluid" src="user/img/hanoi.jpg" alt="" style="width: 100%; height: 200px; object-fit: cover;">
+                        <img class="img-fluid" src="img/hanoi.jpg" alt="" style="width: 100%; height: 200px; object-fit: cover;">
                         <a class="destination-overlay text-white text-decoration-none" href="" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; background-color: rgba(0, 0, 0, 0.5); text-align: center; color: white; text-decoration: none;">
                             <h5 class="text-white" style="color: white;">Ha Noi</h5>
                             <span>100 Courts</span>
@@ -144,7 +142,7 @@
                 </div>
                 <div class="col-lg-4 col-md-6 mb-4">
                     <div class="destination-item position-relative overflow-hidden mb-2" style="position: relative; overflow: hidden; margin-bottom: 20px;">
-                        <img class="img-fluid" src="user/img/danang.jpg" alt="" style="width: 100%; height: 200px; object-fit: cover;">
+                        <img class="img-fluid" src="img/danang.jpg" alt="" style="width: 100%; height: 200px; object-fit: cover;">
                         <a class="destination-overlay text-white text-decoration-none" href="" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; background-color: rgba(0, 0, 0, 0.5); text-align: center; color: white; text-decoration: none;">
                             <h5 class="text-white" style="color: white;">Da Nang</h5>
                             <span>100 Courts</span>
@@ -153,7 +151,7 @@
                 </div>
                 <div class="col-lg-4 col-md-6 mb-4">
                     <div class="destination-item position-relative overflow-hidden mb-2" style="position: relative; overflow: hidden; margin-bottom: 20px;">
-                        <img class="img-fluid" src="user/img/dongnai.jpg" alt="" style="width: 100%; height: 200px; object-fit: cover;">
+                        <img class="img-fluid" src="img/dongnai.jpg" alt="" style="width: 100%; height: 200px; object-fit: cover;">
                         <a class="destination-overlay text-white text-decoration-none" href="" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; background-color: rgba(0, 0, 0, 0.5); text-align: center; color: white; text-decoration: none;">
                             <h5 class="text-white" style="color: white;">Dong Nai</h5>
                             <span>100 Courts</span>
@@ -162,7 +160,7 @@
                 </div>
                 <div class="col-lg-4 col-md-6 mb-4">
                     <div class="destination-item position-relative overflow-hidden mb-2" style="position: relative; overflow: hidden; margin-bottom: 20px;">
-                        <img class="img-fluid" src="user/img/soctrang.jpg" alt="" style="width: 100%; height: 200px; object-fit: cover;">
+                        <img class="img-fluid" src="img/soctrang.jpg" alt="" style="width: 100%; height: 200px; object-fit: cover;">
                         <a class="destination-overlay text-white text-decoration-none" href="" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; background-color: rgba(0, 0, 0, 0.5); text-align: center; color: white; text-decoration: none;">
                             <h5 class="text-white" style="color: white;">Soc Trang</h5>
                             <span>100 Courts</span>
@@ -171,7 +169,7 @@
                 </div>
                 <div class="col-lg-4 col-md-6 mb-4">
                     <div class="destination-item position-relative overflow-hidden mb-2" style="position: relative; overflow: hidden; margin-bottom: 20px;">
-                        <img class="img-fluid" src="user/img/ninhthuan.jpg" alt="" style="width: 100%; height: 200px; object-fit: cover;">
+                        <img class="img-fluid" src="img/ninhthuan.jpg" alt="" style="width: 100%; height: 200px; object-fit: cover;">
                         <a class="destination-overlay text-white text-decoration-none" href="" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; background-color: rgba(0, 0, 0, 0.5); text-align: center; color: white; text-decoration: none;">
                             <h5 class="text-white" style="color: white;">Ninh Thuan</h5>
                             <span>100 Courts</span>
@@ -191,7 +189,7 @@
     <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="fa fa-angle-double-up"></i></a>
 
     <!-- Template Javascript -->
-    <script src="user/js/main.js"></script>
+    <script src="/user/js/main.js"></script>
 </body>
 
 </html>
