@@ -14,7 +14,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     <!-- Icon Font Stylesheet -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
 
     <!-- Libraries Stylesheet -->
@@ -32,62 +32,48 @@
 <body>
 <div class="container-fluid position-relative bg-white d-flex p-0">
     <!-- Spinner Start -->
-    <th:block th:replace="admin/layoutadmin :: admin-spinner"></th:block>
+    <th:block th:replace="~{admin/layoutadmin :: admin-spinner}"></th:block>
     <!-- Spinner End -->
 
     <!-- Sidebar Start -->
-    <th:block th:replace="admin/layoutadmin :: admin-sidebar"></th:block>
+    <th:block th:replace="~{admin/layoutadmin :: admin-sidebar}"></th:block>
     <!-- Sidebar End -->
 
 
     <!-- Content Start -->
     <div class="content">
         <!-- Navbar Start -->
-        <th:block th:replace="admin/layoutadmin :: admin-header"></th:block>
+        <th:block th:replace="~{admin/layoutadmin :: admin-header}"></th:block>
         <!-- Navbar End -->
-        <!-- Search Form Start -->
+
+        <!-- Form Start -->
         <div class="container-fluid pt-4 px-4">
-            <div class="bg-light rounded p-4">
-                <form th:action="@{/admin/badmintons/search}" method="get" class="d-flex">
-                    <input type="text" name="keyword" th:value="${keyword}" class="form-control me-2" placeholder="Search">
-                    <button type="submit" class="btn btn-primary"><i class="fas fa-search"></i></button>
-                </form>
+            <div class="row g-4">
+                <div class="col-sm-12 col-xl-6">
+                    <div class="bg-light rounded h-100 p-4">
+                        <h1>Update Court</h1>
+                        <form th:action="@{/admin/courts/edit/{id}(id=${court.id})}" th:object="${court}" method="post"
+                              enctype="multipart/form-data" class="needs-validation" novalidate>
+                            <div class="mb-3">
+                                <label for="courtName" class="form-label">Court Name:</label>
+                                <input type="text" th:field="*{courtName}" class="form-control" id="courtName" required>
+                                <div class="text-danger" th:if="${#fields.hasErrors('courtName')}" th:errors="*{courtName}"></div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="badminton" class="form-label">Badminton:</label>
+                                <select th:field="*{badminton}" class="form-control" id="badminton" required>
+                                    <option th:each="badminton : ${badmintons}" th:value="${badminton.id}" th:text="${badminton.badmintonName}"></option>
+                                </select>
+                                <div class="text-danger" th:if="${#fields.hasErrors('badminton')}" th:errors="*{badminton}"></div>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Update Court</button>
+                            <a th:href="@{/admin}" class="btn btn-link">Cancel</a>
+                        </form>
+                    </div>
+                </div>
             </div>
         </div>
-        <!-- Search Form End -->
-        <table class="table table-bordered table-hover">
-            <thead class="table-dark">
-            <tr>
-                <th>ID</th>
-                <th>Badminton Name</th>
-                <th>Address</th>
-                <th>Court Quantity</th>
-                <th>Opening Time</th>
-                <th>Closing Time</th>
-                <th>Actions</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="badminton : ${badmintons}">
-                <td th:text="${badminton.id}"></td>
-                <td th:text="${badminton.badmintonName}"></td>
-                <td th:text="${badminton.address}"></td>
-                <td th:text="${badminton.courtQuantity}"></td>
-                <td th:text="${badminton.openingTime}"></td>
-                <td th:text="${badminton.closingTime}"></td>
-                <td>
-                    <a th:href="@{/admin/badmintons/edit/{id}(id=${badminton.id})}" class="btn btn-success btn-sm">
-                        <i class="fa-solid fa-pen-to-square"></i>
-                    </a>
-                    <a th:href="@{/admin/badmintons/delete/{id}(id=${badminton.id})}" class="btn btn-danger btn-sm"
-                       onclick="return confirm('Are you sure?')">
-                        <i class="fa-solid fa-trash"></i>
-                    </a>
-                </td>
-            </tr>
-            </tbody>
-        </table>
-
+        <!-- Form End -->
     </div>
     <!-- Content End -->
 
@@ -109,6 +95,7 @@
 
 <!-- Template Javascript -->
 <script src="/admin/js/main.js"></script>
+
 <!--Kiểm tra EndDate > StartDate 1 tiếng -->
 <script>
     function validateTimes() {
@@ -128,6 +115,7 @@
         }
     }
 </script>
-</body>
-</html>
 
+</body>
+
+</html>

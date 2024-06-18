@@ -17,7 +17,7 @@
     <link href="user/css/style.css" rel="stylesheet">
 </head>
 <body>
-<th:block th:replace="layout :: header"></th:block>
+<th:block th:replace="~{layout :: header}"></th:block>
 
 <div class="d-flex align-items-center justify-content-center vh-100">
     <div class="text-center">
@@ -28,6 +28,6 @@
     </div>
 </div>
 
-<th:block th:replace="layout :: footer"></th:block>
+<th:block th:replace="~{layout :: footer}"></th:block>
 </body>
 </html>
