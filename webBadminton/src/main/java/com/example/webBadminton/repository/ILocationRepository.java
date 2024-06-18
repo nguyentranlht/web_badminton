@@ -13,21 +13,27 @@ import java.util.List;
 @Repository
 public interface ILocationRepository extends JpaRepository<Location, Long> {
     // Find by Province Code
-    List<Location> findByProvinceCode(String provinceCode);
+    @Query("SELECT l FROM Location l WHERE" +
+            "(:provinceId IS NULL OR l.provinceId = :provinceId)")
+    List<Location> findByProvinceId(String provinceId);
 
     // Find by District Code
-    List<Location> findByDistrictCode(String districtCode);
+    @Query("SELECT l FROM Location l WHERE" +
+            "(:districtId IS NULL OR l.districtId = :districtId)")
+    List<Location> findByDistrictId(String districtId);
 
     // Find by Ward Code
-    List<Location> findByWardCode(String wardCode);
+    @Query("SELECT l FROM Location l WHERE" +
+            "(:wardId IS NULL OR l.wardId = :wardId)")
+    List<Location> findByWardId(String wardId);
 
     // Advanced query: find by any combination of province, district, or ward code
     @Query("SELECT l FROM Location l WHERE " +
-            "(:provinceCode IS NULL OR l.provinceCode = :provinceCode) AND " +
-            "(:districtCode IS NULL OR l.districtCode = :districtCode) AND " +
-            "(:wardCode IS NULL OR l.wardCode = :wardCode)")
+            "(:provinceId IS NULL OR l.provinceId = :provinceId) AND " +
+            "(:districtId IS NULL OR l.districtId = :districtId) AND " +
+            "(:wardId IS NULL OR l.wardId = :wardId)")
     List<Location> findLocations(
-            @Param("provinceCode") String provinceCode,
-            @Param("districtCode") String districtCode,
-            @Param("wardCode") String wardCode);
+            @Param("provinceId") String provinceId,
+            @Param("districtId") String districtId,
+            @Param("wardId") String wardId);
 }

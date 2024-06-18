@@ -4,6 +4,7 @@ import com.example.webBadminton.model.Badminton;
 import com.example.webBadminton.model.Court;
 import com.example.webBadminton.service.BadmintonService;
 import com.example.webBadminton.service.CourtService;
+import com.example.webBadminton.service.LocationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,6 +24,8 @@ public class AdminController {
     private CourtService courtService;
     @Autowired
     private BadmintonService badmintonService;
+    @Autowired
+    private LocationService locationService;
 
     @GetMapping
     public String adminhome() {
@@ -32,7 +35,9 @@ public class AdminController {
     @GetMapping("/badmintons")
     public String getAllBadmintonsAdmin(Model model){
         List<Badminton> badmintons = badmintonService.getAllBadmintons();
+
         model.addAttribute("badmintons", badmintons);
+        model.addAttribute("location", locationService.getAll());
         return "/admin/badminton/list";
     }
 
@@ -48,6 +53,12 @@ public class AdminController {
         if(result.hasErrors()){
             return "/admin/badminton/add";
         }
+        badminton.getLocation().setProvinceName
+                (locationService.getProvinceName(badminton.getLocation().getProvinceId()));
+        badminton.getLocation().setDistrictName
+                (locationService.getDistrictName(badminton.getLocation().getDistrictId()));
+        badminton.getLocation().setWardName
+                (locationService.getWardName(badminton.getLocation().getWardId()));
         badmintonService.addBadminton(badminton);
         return "redirect:/admin/badmintons";
     }
