@@ -1,0 +1,171 @@
+version: "3.1"
+
+nlu:
+- intent: greet
+  examples: |
+    - hey
+    - hello
+    - hi
+    - hello there
+    - good morning
+    - good evening
+    - moin
+    - hey there
+    - let's go
+    - hey dude
+    - goodmorning
+    - goodevening
+    - good afternoon
+
+- intent: goodbye
+  examples: |
+    - cu
+    - good by
+    - cee you later
+    - good night
+    - bye
+    - goodbye
+    - have a nice day
+    - see you around
+    - bye bye
+    - see you later
+
+- intent: affirm
+  examples: |
+    - yes
+    - y
+    - indeed
+    - of course
+    - that sounds good
+    - correct
+
+- intent: deny
+  examples: |
+    - no
+    - n
+    - never
+    - I don't think so
+    - don't like that
+    - no way
+    - not really
+
+- intent: mood_great
+  examples: |
+    - perfect
+    - great
+    - amazing
+    - feeling like a king
+    - wonderful
+    - I am feeling very good
+    - I am great
+    - I am amazing
+    - I am going to save the world
+    - super stoked
+    - extremely good
+    - so so perfect
+    - so good
+    - so perfect
+
+- intent: mood_unhappy
+  examples: |
+    - my day was horrible
+    - I am sad
+    - I don't feel very well
+    - I am disappointed
+    - super sad
+    - I'm so sad
+    - sad
+    - very sad
+    - unhappy
+    - not good
+    - not very good
+    - extremly sad
+    - so saad
+    - so sad
+
+- intent: bot_challenge
+  examples: |
+    - are you a bot?
+    - are you a human?
+    - am I talking to a bot?
+    - am I talking to a human?
+
+- intent: askCourtAvailability
+  examples: |
+    - Are there any courts available on [Sunday](date)?
+    - Can I book a court for [tomorrow](date)?
+    - What times are available on [June 5th](date)?
+    - Do you have open courts this [afternoon](time_of_day)?
+    - Is there availability next [weekend](date)?
+
+- intent: courtLocation
+  examples: |
+    - Where are you located?
+    - What is the location of the courts?
+    - How do I get to the nearest court?
+    - Where can I find you?
+    - Directions to the court
+
+- intent: pricingQuery
+  examples: |
+    - How much does it cost to book a court?
+    - What are your rates?
+    - Pricing details for one hour of play
+    - Do you have special rates for groups?
+    - What's the fee for court booking?
+
+- intent: openingHours
+  examples: |
+    - What are your operating hours?
+    - When do you open and close?
+    - Opening times on weekends
+    - Are you open on [New Year's Day](holiday)?
+    - What hours are you open tomorrow?
+
+- intent: checkInProcess
+  examples: |
+    - How do I check in when I arrive?
+    - What is the check-in procedure?
+    - Where do I go to check in for my booking?
+    - Check-in steps?
+    - What do I need to do when I get there?
+
+- intent: bookingConfirmation
+  examples: |
+    - Can you confirm my booking?
+    - I need confirmation for my reservation
+    - Did my court booking go through?
+    - Confirm my booking for [Tuesday](date)
+    - Please send me a confirmation of my booking
+
+- intent: provideFeedback
+  examples: |
+    - I would like to give feedback
+    - Where can I leave a review?
+    - How do I provide feedback about my last visit?
+    - I want to give feedback on my booking experience
+    - Can I talk to someone about my experience?
+
+- intent: paymentOptions
+  examples: |
+    - What payment methods do you accept?
+    - Can I pay with a credit card?
+    - Do you accept online payments?
+    - Payment options available
+    - How can I pay for my booking?
+
+- intent: updateAccountInfo
+  examples: |
+    - I need to update my contact details
+    - How can I change my account information?
+    - Update account settings
+    - I want to change my email address
+    - Modify my account info
+
+- intent: help
+  examples: |
+    - Can you help me?
+    - I need some assistance
+    - Help me book a court
+    - I'm not sure what to do
+    - Assistance with booking

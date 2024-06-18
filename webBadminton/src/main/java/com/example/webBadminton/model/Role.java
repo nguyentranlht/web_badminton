@@ -1,7 +1,9 @@
 package com.example.webBadminton.model;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.RequiredArgsConstructor;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -10,6 +12,7 @@ import javax.validation.constraints.*;
 @Data
 @Entity
 @Table(name = "role")
+@AllArgsConstructor
 public class Role {
 
     @Id
@@ -28,4 +31,9 @@ public class Role {
     @ManyToMany(mappedBy = "roles")
     private Set<User> users = new HashSet<>();
 
+    public Role(String name) {
+        this.name = name;
+    }
+
+    public Role(){}
 }
