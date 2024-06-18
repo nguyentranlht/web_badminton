@@ -9769,12 +9769,6 @@ h6,
   list-style-type: none;
 }
 
-/* Chat box */
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap');
-body{
-	background: #EEEEEE;
-	font-family: 'Poppins', sans-serif;
-}
 .custom-card{
 	width: 300px;
 	border: none;
