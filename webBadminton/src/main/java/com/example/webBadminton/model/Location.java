@@ -31,4 +31,7 @@ public class Location {
     // Ward information
     @Column(name = "province_code")
     private String provinceCode;
+
+    @OneToOne(mappedBy = "location")
+    private Badminton badminton;
 }

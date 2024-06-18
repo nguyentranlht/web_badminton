@@ -9775,7 +9775,7 @@ body{
 	background: #EEEEEE;
 	font-family: 'Roboto', sans-serif;
 }
-.card{
+.custom-card{
 	width: 300px;
 	border: none;
 	border-radius: 15px;

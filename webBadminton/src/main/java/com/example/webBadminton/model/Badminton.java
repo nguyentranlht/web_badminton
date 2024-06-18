@@ -53,7 +53,8 @@ public class Badminton {
     @OneToMany(mappedBy = "badminton", cascade = CascadeType.ALL)
     private List<Court> courts;
 
-    @OneToOne(mappedBy = "id", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne
+    @JoinColumn(name = "location_id") // For One-to-One relationship
     private Location location;
 
     @ManyToOne
