@@ -2,22 +2,28 @@ package com.example.webBadminton.service;
 
 import com.example.webBadminton.model.Badminton;
 import com.example.webBadminton.repository.IBadmintonRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import javax.validation.constraints.NotNull;
 import java.util.List;
+import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
+@Transactional
 public class BadmintonService {
     @Autowired
-    private IBadmintonRepository badmintonRepository;
+    private final IBadmintonRepository badmintonRepository;
 
     public List<Badminton> getAllBadmintons() {
         return badmintonRepository.findAll();
     }
 
-    public Badminton getBadmintonById(Long id) {
-        return badmintonRepository.findById(id).orElse(null);
+    public Optional<Badminton> getBadmintonById(Long id) {
+        return badmintonRepository.findById(id);
     }
 
     public void addBadminton(Badminton badminton) {
@@ -30,5 +36,12 @@ public class BadmintonService {
 
     public void saveBadminton(Badminton badminton) {
         badmintonRepository.save(badminton);
+    }
+
+    public void updateBadminton(@NotNull Badminton badminton) {
+        Badminton existingBadminton = badmintonRepository.findById(badminton.getId())
+                .orElseThrow(() -> new IllegalStateException("Badminton with ID " + badminton.getId() + " does not exist."));
+        existingBadminton.setBadmintonName(badminton.getBadmintonName());
+        badmintonRepository.save(existingBadminton);
     }
 }

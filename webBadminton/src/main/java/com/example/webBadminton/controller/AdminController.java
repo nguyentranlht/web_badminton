@@ -8,13 +8,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import java.io.IOException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/admin")
@@ -52,10 +52,38 @@ public class AdminController {
         return "redirect:/admin/badmintons";
     }
 
+    @GetMapping("/badmintons/edit/{id}")
+    public String showUpdateForm(@PathVariable Long id, Model model){
+        Badminton badminton  = badmintonService.getBadmintonById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid badminton Id:" + id));
+        model.addAttribute("badminton", badminton);
+        return "/admin/badminton/update";
+    }
+    @PostMapping("/badmintons/edit/{id}")
+    public String updateBadminton(@PathVariable Long id, Model model, @Valid Badminton badminton, BindingResult result){
+        if(result.hasErrors()) {
+            badminton.setId(id);
+            return "/admin/badminton/update";
+        }
+        badmintonService.updateBadminton(badminton);
+        model.addAttribute("badmintons", badmintonService.getAllBadmintons());
+        return "redirect:/admin/badmintons";
+    }
+
     @GetMapping("/badmintons/delete/{id}")
     public String deleteBadminton(@PathVariable("id") Long id) {
         badmintonService.deleteBadminton(id);
         return "redirect:/admin/badmintons";
+    }
+
+    @GetMapping("/badmintons/search")
+    public String searchByNameBadminton(@RequestParam("keyword") String keyword, Model model){
+        List<Badminton> badmintons = badmintonService.getAllBadmintons()
+                .stream()
+                .filter(p-> p.getBadmintonName().toLowerCase().contains(keyword.toLowerCase())).collect(Collectors.toList());
+        model.addAttribute("badmintons", badmintons);
+        model.addAttribute("keyword", keyword);
+        return "/admin/badminton/list";
     }
 
     @GetMapping("/courts/add")
@@ -81,9 +109,40 @@ public class AdminController {
         return "redirect:/admin/courts";
     }
 
+    @GetMapping("/courts/edit/{id}")
+    public String showEditForm(@PathVariable Long id, Model model) {
+        Court court = courtService.getCourtById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid court Id:" + id));
+        model.addAttribute("court", court);
+        model.addAttribute("badmintons", badmintonService.getAllBadmintons());
+        return "/admin/court/update";
+    }
+
+    @PostMapping("/courts/edit/{id}")
+    public String updateCourt(@PathVariable Long id, @Valid Court court,
+                                BindingResult result, Model model) {
+        if (result.hasErrors()) {
+            court.setId(id);
+            return "/admin/court/update";
+        }
+        courtService.updateCourt(court);
+        model.addAttribute("courts", courtService.getAllCourts());
+        return "redirect:/admin/courts";
+    }
+
     @GetMapping("/courts/delete/{id}")
     public String deleteCourt(@PathVariable("id") Long id) {
         courtService.deleteCourt(id);
         return "redirect:/admin/courts";
+    }
+
+    @GetMapping("/courts/search")
+    public String searchByNameCourt(@RequestParam("keyword") String keyword, Model model){
+        List<Court> courts = courtService.getAllCourts()
+                .stream()
+                .filter(p-> p.getCourtName().toLowerCase().contains(keyword.toLowerCase())).collect(Collectors.toList());
+        model.addAttribute("courts", courts);
+        model.addAttribute("keyword", keyword);
+        return "/admin/court/list";
     }
 }

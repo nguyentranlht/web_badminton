@@ -14,7 +14,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     <!-- Icon Font Stylesheet -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
 
     <!-- Libraries Stylesheet -->
@@ -32,63 +32,61 @@
 <body>
 <div class="container-fluid position-relative bg-white d-flex p-0">
     <!-- Spinner Start -->
-    <th:block th:replace="admin/layoutadmin :: admin-spinner"></th:block>
+    <th:block th:replace="~{admin/layoutadmin :: admin-spinner}"></th:block>
     <!-- Spinner End -->
 
     <!-- Sidebar Start -->
-    <th:block th:replace="admin/layoutadmin :: admin-sidebar"></th:block>
+    <th:block th:replace="~{admin/layoutadmin :: admin-sidebar}"></th:block>
     <!-- Sidebar End -->
 
 
     <!-- Content Start -->
     <div class="content">
         <!-- Navbar Start -->
-        <th:block th:replace="admin/layoutadmin :: admin-header"></th:block>
+        <th:block th:replace="~{admin/layoutadmin :: admin-header}"></th:block>
         <!-- Navbar End -->
-        <!-- Search Form Start -->
+
+        <!-- Form Start -->
         <div class="container-fluid pt-4 px-4">
-            <div class="bg-light rounded p-4">
-                <form th:action="@{/admin/courts/search}" method="get" class="d-flex">
-                    <input type="text" name="keyword" th:value="${keyword}" class="form-control me-2" placeholder="Search">
-                    <button type="submit" class="btn btn-primary"><i class="fas fa-search"></i></button>
-                </form>
+            <div class="row g-4">
+                <div class="col-sm-12 col-xl-6">
+                    <div class="bg-light rounded h-100 p-4">
+                        <h1>Update Badminton</h1>
+                        <form th:action="@{/admin/badmintons/edit/{id}(id=${badminton.id})}" th:object="${badminton}" method="post"
+                              enctype="multipart/form-data" class="needs-validation" novalidate>
+                            <div class="mb-3">
+                                <label for="badmintonName" class="form-label">Badminton Name:</label>
+                                <input type="text" th:field="*{badmintonName}" class="form-control" id="badmintonName" required>
+                                <div class="text-danger" th:if="${#fields.hasErrors('badmintonName')}" th:errors="*{badmintonName}"></div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="address" class="form-label">Address:</label>
+                                <input type="text" th:field="*{address}" class="form-control" id="address" required>
+                                <div class="text-danger" th:if="${#fields.hasErrors('address')}" th:errors="*{address}"></div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="courtQuantity" class="form-label">Court Quantity:</label>
+                                <input type="number" th:field="*{courtQuantity}" class="form-control" id="courtQuantity" required>
+                                <div class="text-danger" th:if="${#fields.hasErrors('courtQuantity')}" th:errors="*{courtQuantity}"></div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="openingTime" class="form-label">Opening Time:</label>
+                                <input type="time" th:field="*{openingTime}" class="form-control" id="openingTime" required>
+                                <div class="text-danger" th:if="${#fields.hasErrors('openingTime')}" th:errors="*{openingTime}"></div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="closingTime" class="form-label">Closing Time:</label>
+                                <input type="time" th:field="*{closingTime}" class="form-control" id="closingTime" required>
+                                <div id="timeError" class="text-danger" style="display: none;">Closing time must be at least one hour after the opening time.</div>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Update Badminton</button>
+                            <a th:href="@{/admin}" class="btn btn-link">Cancel</a>
+                        </form>
+                    </div>
+                </div>
             </div>
         </div>
-        <!-- Search Form End -->
-        <table class="table table-bordered table-hover">
-            <thead class="table-dark">
-            <tr>
-                <th>ID</th>
-                <th>Court Name</th>
-                <!--<th>Rental Price</th>-->
-                <th>Badminton</th>
-                <th>Actions</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="court : ${courts}">
-                <td th:text="${court.id}"></td>
-                <td th:text="${court.courtName}"></td>
-<!--                <td th:text="${court.rentalPrice}"></td>-->
-                <td th:text="${court.badminton.badmintonName}"></td>
-                <td>
-                    <a th:href="@{/admin/courts/edit/{id}(id=${court.id})}" class="btn btn-success btn-sm">
-                        <i class="fa-solid fa-pen-to-square"></i>
-                    </a>
-                    <a th:href="@{/admin/courts/delete/{id}(id=${court.id})}" class="btn btn-danger btn-sm"
-                       onclick="return confirm('Are you sure?')">
-                        <i class="fa-solid fa-trash"></i>
-                    </a>
-                </td>
-            </tr>
-            </tbody>
-        </table>
-
-
-
-        <!-- Footer Start -->
-
-        <!-- Footer End -->
+        <!-- Form End -->
     </div>
     <!-- Content End -->
 
