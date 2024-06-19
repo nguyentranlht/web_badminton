@@ -45,7 +45,7 @@ public class SecurityConfig {
                         .requestMatchers("/badmintons", "/books/add")
                         .hasAnyAuthority("Admin", "User")
                         .requestMatchers("/api/**")
-                        .hasAnyAuthority("ADMIN", "USER")
+                        .hasAnyAuthority("Admin", "User","Super Admin")
                         .anyRequest().authenticated()
                 )
                 .logout(logout -> logout.logoutUrl("/logout")

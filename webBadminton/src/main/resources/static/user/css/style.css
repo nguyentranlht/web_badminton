@@ -9769,9 +9769,17 @@ h6,
   list-style-type: none;
 }
 
+/* Chat box */
 .custom-card{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    background-color: #fff;
+    background-clip: border-box;
+    border: 1px solid rgba(0, 0, 0, 0.125);
 	width: 300px;
-	border: none;
 	border-radius: 15px;
 	margin-right: 20px; /* Space from the right edge of the screen */
     margin-bottom: 20px; /* Space from the bottom edge of the screen */
