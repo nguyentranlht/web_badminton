@@ -20,7 +20,7 @@
 </head>
 
 <body>
-    <th:block th:replace="layout :: header"></th:block>
+    <th:block th:replace="~{layout :: header}"></th:block>
     <!-- Header Start -->
     <div class="container-fluid page-header">
         <div class="container">
@@ -86,23 +86,23 @@
         <div class="container pt-5 pb-3">
             <div class="text-center mb-3 pb-3">
                 <h6 class="text-primary text-uppercase" style="letter-spacing: 5px;">Packages</h6>
-                <h1>Pefect Court</h1>
+                <h1 th:text="${badminton.badmintonName}">Pefect Court</h1>
             </div>
             <div class="row">
                 <div class="col-lg-4 col-md-6 mb-4" th:each="court : ${courts}">
                     <div class="package-item bg-white mb-2">
                         <img class="img-fluid" src="/user/img/san1.jpg" style="border-radius: 20px 20px 0 0;" alt="Image">
                         <div class="p-4">
-                            <div class="d-flex justify-content-between mb-3">
-                                <small class="m-0"><i class="fa fa-map-marker-alt text-primary mr-2"></i>Location</small>
-                                <small class="m-0"><i class="fa fa-calendar-alt text-primary mr-2"></i>3 hours</small>
-                                <small class="m-0"><i class="fa fa-user text-primary mr-2"></i>2 Person</small>
+                            <div class="d-flex justify-content-between">
+                                <h5 th:text="${court.courtName}" class="h5 text-decoration-none text-center" href="">Sân Cầu Lông</h5>
+                                <h5 class="m-0 text-center"><span th:text="${#numbers.formatDecimal(badminton.rentalPrice, 0, 'COMMA', 0, 'POINT')}">0</span> ₫</h5>
                             </div>
-                            <a th:text="${court.courtName}" class="h5 text-decoration-none" href="">Sân Cầu Lông</a>
                             <div class="border-top mt-4 pt-4">
-                                <div class="d-flex justify-content-between">
-                                    <h6 class="m-0"><i class="fa fa-star text-primary mr-2"></i>4.5 <small>(250)</small></h6>
-                                    <h5 class="m-0">70.000 ₫</h5>
+                                <!-- Booking Button -->
+                                <div class="mt-3">
+                                    <a th:href="@{/courts/bookCourt/{courtId}(courtId=${court.id})}">
+                                        <button type="button" class="btn btn-primary btn-block">Book Court</button>
+                                    </a>
                                 </div>
                             </div>
                         </div>
@@ -187,6 +187,51 @@
 
     <!-- Template Javascript -->
     <script src="/user/js/main.js"></script>
+
+    <script>
+        function updateReturnTime() {
+            var bookingTime = document.getElementById('timePicker').value;
+            if (bookingTime) {
+                var bookingDate = new Date();
+                bookingDate.setHours(bookingTime.split(':')[0], bookingTime.split(':')[1]);
+                bookingDate.setHours(bookingDate.getHours() + 1); // Thêm 1 giờ
+
+                var hours = bookingDate.getHours();
+                var minutes = bookingDate.getMinutes();
+                var formattedHours = hours < 10 ? '0' + hours : hours;
+                var formattedMinutes = minutes < 10 ? '0' + minutes : minutes;
+
+                document.getElementById('returnTimePicker').value = formattedHours + ':' + formattedMinutes;
+            }
+        }
+    </script>
+    <script>
+        function updateTimeOptions() {
+    const date = document.getElementById('datePicker').value;
+    if (!date) return;  // Kiểm tra xem ngày đã được chọn hay chưa
+
+    // Gọi API để lấy danh sách các khoảng thời gian đã đặt cho ngày đã chọn
+    fetch(`/booked-times/${date}`)
+        .then(response => response.json())
+        .then(bookedTimes => {
+            const timePicker = document.getElementById('timePicker');
+            timePicker.innerHTML = '';  // Xóa các tùy chọn hiện có
+
+            // Tạo các tùy chọn thời gian mới, vô hiệu hóa các thời gian đã đặt
+            for (let hour = 9; hour <= 21; hour++) {  // Giả sử giờ mở cửa từ 9 giờ sáng đến 9 giờ tối
+                for (let minute = 0; minute < 60; minute += 30) {  // Các khung giờ cách nhau 30 phút
+                    const time = `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`;
+                    const option = document.createElement('option');
+                    option.value = time;
+                    option.textContent = time;
+                    option.disabled = bookedTimes.includes(time);  // Vô hiệu hóa nếu thời gian đã được đặt
+                    timePicker.appendChild(option);
+                }
+            }
+        })
+        .catch(error => console.error('Error fetching booked times:', error));
+}
+    </script>
 </body>
 
 </html>
