@@ -38,7 +38,7 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http.csrf().disable()
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers( "/admin/**","/user/**","/", "/register", "/error")
+                        .requestMatchers( "/admin/**","/user/**","/", "/register", "/error","/oauth/**", "/signingoogle")
                         .permitAll()
                         .requestMatchers( "**")
                         .hasAnyAuthority("Admin","Super Admin")
@@ -60,6 +60,11 @@ public class SecurityConfig {
                         .defaultSuccessUrl("/")
                         .permitAll()
                 )
+                .oauth2Login(oauth2 -> oauth2
+                        .loginPage("/login")
+                        .defaultSuccessUrl("/signingoogle")
+                        .permitAll()
+                )
                 .rememberMe(rememberMe -> rememberMe.key("uniqueAndSecret")
                         .tokenValiditySeconds(86400)
                         .userDetailsService(userDetailsService())
@@ -67,5 +72,7 @@ public class SecurityConfig {
                 .exceptionHandling(exceptionHandling ->
                         exceptionHandling.accessDeniedPage("/403"))
                 .build();
-    }
+    };
+
+
 }
