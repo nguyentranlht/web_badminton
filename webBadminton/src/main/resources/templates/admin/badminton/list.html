@@ -71,7 +71,10 @@
             <tr th:each="badminton : ${badmintons}">
                 <td th:text="${badminton.id}"></td>
                 <td th:text="${badminton.badmintonName}"></td>
-                <td th:text="${badminton.address}"></td>
+                <td th:text="${badminton.location.address}
+                    + (${badminton.location.wardName} != null ? ', ' + ${badminton.location.wardName}: '')
+                    + (${badminton.location.districtName} != null ? ', ' + ${badminton.location.districtName}: '')
+                    + (${badminton.location.provinceName} != null ? ', ' + ${badminton.location.provinceName}: '')"></td>
                 <td th:text="${badminton.courtQuantity}"></td>
                 <td th:text="${badminton.openingTime}"></td>
                 <td th:text="${badminton.closingTime}"></td>
