@@ -17,12 +17,10 @@ import java.util.*;
 public class PaymentController {
 
         @GetMapping("/create")
-        public RedirectView createPayment(Long orderId) throws UnsupportedEncodingException {
+        public RedirectView createPayment(Long amount) throws UnsupportedEncodingException {
         String vnp_Version = "2.1.0";
         String vnp_Command = "pay";
         String orderType = "other";
-
-        long amount = 10000000;
 
         String vnp_TxnRef = PaymentConfig.getRandomNumber(8);
         String vnp_IpAddr = "127.0.0.1";

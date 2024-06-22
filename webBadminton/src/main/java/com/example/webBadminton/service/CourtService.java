@@ -8,6 +8,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import javax.validation.constraints.NotNull;
 import java.util.List;
@@ -46,12 +47,8 @@ public class CourtService {
         courtRepository.deleteById(id);
     }
 
-    public Court getCourtById(Long badmintonId, Long courtId) {
+    public Optional<Court> getCourtById(Long badmintonId, Long courtId) {
         CourtId id = new CourtId(badmintonId, courtId);
-        return courtRepository.findById(id).orElse(null);
-    }
-
-    public Optional<Court> getCourtById(CourtId id) {
         return courtRepository.findById(id);
     }
 
