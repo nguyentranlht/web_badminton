@@ -10,6 +10,7 @@ import javax.validation.constraints.NotNull;
 import lombok.*;
 import org.hibernate.validator.constraints.Length;
 
+import java.time.LocalTime;
 import java.util.List;
 
 @Setter
@@ -45,13 +46,10 @@ public class Badminton {
     private String amenities; // Tiện nghi có sẵn tại sân
 
     @NotBlank(message = "Thời gian mở cửa không được để trống")
-    private String openingTime;
+    private LocalTime openingTime;
 
     @NotBlank(message = "Thời gian đóng cửa không được để trống")
-    private String closingTime;
-
-    @OneToMany(mappedBy = "badminton", cascade = CascadeType.ALL)
-    private List<Court> courts;
+    private LocalTime closingTime;
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "location_id")

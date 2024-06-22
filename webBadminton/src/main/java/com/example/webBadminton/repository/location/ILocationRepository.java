@@ -1,7 +1,6 @@
 package com.example.webBadminton.repository;
 
-import com.example.webBadminton.model.Badminton;
-import com.example.webBadminton.model.Location;
+import com.example.webBadminton.model.court.Location;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
