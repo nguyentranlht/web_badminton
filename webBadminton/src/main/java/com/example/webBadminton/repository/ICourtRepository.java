@@ -10,6 +10,6 @@ import java.util.List;
 @Repository
 public interface ICourtRepository extends JpaRepository<Court, CourtId> {
 
-    @Query("SELECT c FROM Court c WHERE c.badminton_id = ?1")
+    @Query("SELECT c FROM Court c WHERE c.badmintonId = ?1")
     List<Court> findByBadmintonId(Long id);
 }
