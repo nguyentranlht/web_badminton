@@ -1,5 +1,6 @@
 package com.example.webBadminton.service;
 
+import com.example.webBadminton.model.BookingCourt;
 import com.example.webBadminton.model.booking.Booking;
 import com.example.webBadminton.model.court.Court;
 import com.example.webBadminton.repository.IBookingRepository;
@@ -34,8 +35,8 @@ public class TimeSlotService {
         }
 
         // Fetch existing bookings from the database
-        List<Booking> bookings = bookingRepository.findBookingsByCourtAndDate(court.getBadmintonId(), court.getCourtId(), date);
-        for (Booking booking : bookings) {
+        List<BookingCourt> bookings = bookingRepository.findBookingsByCourtAndDate(court.getBadmintonId(), court.getCourtId(), date);
+        for (BookingCourt booking : bookings) {
             if (startTime.isBefore(booking.getEndTime()) && endTime.isAfter(booking.getStartTime())) {
                 return false; // Slot overlaps with an existing booking
             }

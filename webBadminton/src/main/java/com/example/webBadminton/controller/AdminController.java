@@ -125,8 +125,7 @@ public class AdminController {
 
     @GetMapping("/courts/edit/{badmintonId}/{courtId}")
     public String showEditForm(@PathVariable Long badmintonId, @PathVariable Long courtId, Model model) {
-        CourtId id = new CourtId(badmintonId, courtId);
-        Court court = courtService.getCourtById(id)
+        Court court = courtService.getCourtById(badmintonId, courtId)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid court Ids: BadmintonId=" + badmintonId + ", CourtId=" + courtId));
         model.addAttribute("court", court);
         model.addAttribute("badmintons", badmintonService.getAllBadmintons());

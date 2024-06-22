@@ -38,7 +38,10 @@ public class BookingCourt {
     @NotBlank(message = "Status cannot be blank")
     private String phoneNumber ;
 
-    @ManyToOne
-    @JoinColumn(name = "court_id", referencedColumnName = "id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumns({
+            @JoinColumn(name = "badmintonId", referencedColumnName = "badmintonId"),
+            @JoinColumn(name = "courtId", referencedColumnName = "courtId")
+    })
     private Court court;
 }
