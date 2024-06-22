@@ -1,5 +1,6 @@
 package com.example.webBadminton.service;
 
+import com.example.webBadminton.model.court.Badminton;
 import com.example.webBadminton.model.court.Court;
 import com.example.webBadminton.model.court.CourtId;
 import com.example.webBadminton.repository.ICourtRepository;
@@ -22,12 +23,12 @@ public class CourtService {
         return courtRepository.findById(courtId).orElse(null);
     }
 
-    public void addCourt(int quantity, Long badmintonId) {
-        for (long i = 1; i <= quantity; i++) {
+    public void addCourt(Badminton badminton) {
+        for (long i = 1; i <= badminton.getCourtQuantity(); i++) {
             Court court = new Court();
-            court.setBadmintonId(badmintonId); // Set badmintonId directly
+            court.setBadmintonId(badminton.getId()); // Set badmintonId directly
             court.setCourtId(i); // Set courtId directly as part of the composite key
-            court.setDetails("Details about mini court " + i);
+            court.setDetails("Mini court #" + i + " of " + badminton.getBadmintonName());
             courtRepository.save(court);
         }
     }

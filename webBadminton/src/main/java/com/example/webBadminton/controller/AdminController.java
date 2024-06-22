@@ -61,7 +61,7 @@ public class AdminController {
         badminton.getLocation().setWardName
                 (locationService.getWardName(badminton.getLocation().getWardId()));
         badmintonService.addBadminton(badminton);
-        courtService.addCourt(badminton.getCourtQuantity(), badminton.getId());
+        courtService.addCourt(badminton);
         return "redirect:/admin/badmintons";
     }
 
