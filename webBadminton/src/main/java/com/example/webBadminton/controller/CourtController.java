@@ -1,17 +1,14 @@
 package com.example.webBadminton.controller;
 
-import com.example.webBadminton.model.Badminton;
-import com.example.webBadminton.model.Court;
+import com.example.webBadminton.model.court.Court;
 import com.example.webBadminton.service.BadmintonService;
 
 import com.example.webBadminton.service.CourtService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.List;
 
 @Controller
@@ -35,7 +32,7 @@ public class CourtController {
 
 //    @GetMapping("/add")
 //    public String showAddForm(Model model) {
-//        model.addAttribute("court", new Court());
+//        model.addAttribute("court", new court());
 //        model.addAttribute("badmintons", badmintonService.getAllBadmintons());
 //        return "/admin/court/add";
 //    }

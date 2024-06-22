@@ -1,10 +1,10 @@
 package com.example.webBadminton.service;
 
-import com.example.webBadminton.model.Location;
+import com.example.webBadminton.model.court.Location;
 import com.example.webBadminton.model.location.District;
 import com.example.webBadminton.model.location.Province;
 import com.example.webBadminton.model.location.Ward;
-import com.example.webBadminton.repository.ILocationRepository;
+import com.example.webBadminton.repository.location.ILocationRepository;
 import com.example.webBadminton.repository.location.IDistrictRepository;
 import com.example.webBadminton.repository.location.IProvinceRepository;
 import com.example.webBadminton.repository.location.IWardRepository;

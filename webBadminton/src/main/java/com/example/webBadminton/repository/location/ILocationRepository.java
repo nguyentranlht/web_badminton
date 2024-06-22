@@ -1,4 +1,4 @@
-package com.example.webBadminton.repository;
+package com.example.webBadminton.repository.location;
 
 import com.example.webBadminton.model.court.Location;
 

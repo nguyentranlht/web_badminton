@@ -1,13 +1,10 @@
-package com.example.webBadminton.model;
-
-import lombok.*;
-
+package com.example.webBadminton.model.court;
 import jakarta.persistence.*;
-import javax.validation.constraints.NotBlank;
-import java.io.Serializable;
+import lombok.*;
 
 @Data
 @Entity
+@IdClass(CourtId.class)
 @Table(name = "court")
 public class Court {
 
@@ -18,11 +15,12 @@ public class Court {
     private Long courtId;
 
     private String details;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumns({
+            @JoinColumn(name = "badmintonId", referencedColumnName = "id", insertable = false, updatable = false)
+    })
+    private Badminton badminton;
 }
 
-public class CourtId implements Serializable {
-    private Long badmintonId;
-    private Long courtId;
 
-    // constructors, getters, setters, equals, and hashCode
-}

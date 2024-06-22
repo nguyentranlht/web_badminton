@@ -1,2 +1,7 @@
-package com.example.webBadminton.controller;public class BookingController {
+package com.example.webBadminton.controller;
+
+
+public class BookingController {
+
+
 }

@@ -76,7 +76,7 @@ function sendMessage() {
     if (message !== '') {
         // Display user message immediately
         displayMessage(message, 'user');
-
+        scrollChat();
         // Save message to session
         saveMessageToSession({text: message, sender: 'user'});
 
@@ -97,6 +97,7 @@ function sendMessage() {
             if (data && data.length > 0) {
                 data.forEach((message) => {
                     displayMessage(message.text, 'bot');
+                    scrollChat();
                     saveMessageToSession({text: message.text, sender: 'bot'});
                 });
             }
@@ -105,7 +106,6 @@ function sendMessage() {
 
         // Clear input field
         input.value = '';
-        scrollChat();
     }
 }
 

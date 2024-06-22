@@ -1,5 +1,6 @@
 package com.example.webBadminton.model;
 
+import com.example.webBadminton.model.court.Badminton;
 import com.example.webBadminton.validator.annotation.ValidUsername;
 import jakarta.persistence.*;
 import javax.validation.constraints.*;

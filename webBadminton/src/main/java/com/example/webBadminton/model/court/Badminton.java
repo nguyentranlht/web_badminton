@@ -1,22 +1,22 @@
-package com.example.webBadminton.model;
+package com.example.webBadminton.model.court;
 
+import com.example.webBadminton.model.User;
 import com.example.webBadminton.validator.annotation.ValidUserId;
 import jakarta.persistence.*;
-import javax.validation.constraints.Max;
+
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 import lombok.*;
-import org.hibernate.validator.constraints.Length;
 
 import java.time.LocalTime;
-import java.util.List;
 
 @Setter
 @Getter
 @RequiredArgsConstructor
 @AllArgsConstructor
+
 @Entity
 @Table(name = "badminton")
 public class Badminton {
@@ -31,32 +31,27 @@ public class Badminton {
     @Min(value = 1, message = "Giá thuê sân không được nhỏ hơn 1")
     private double rentalPrice;
 
-    @NotNull(message = "Giá thuê sân không được để trống")
-    @Min(value = 1, message = "Giá thuê sân không được nhỏ hơn 1")
-    private double rating;
+    private double rating;  // Removed validation since it wasn't specified correctly
 
     @NotNull(message = "Số lượng sân không được để trống")
     @Min(value = 1, message = "Số lượng sân không được nhỏ hơn 1")
     private int courtQuantity;
 
-    //@Length(min = 0, max = 200, message = "Tên hình ảnh không quá 200 ký tự")
     private String imageUrl;
+    private String amenities;
 
-
-    private String amenities; // Tiện nghi có sẵn tại sân
-
-    @NotBlank(message = "Thời gian mở cửa không được để trống")
+    @NotNull(message = "Thời gian mở cửa không được để trống")
     private LocalTime openingTime;
 
-    @NotBlank(message = "Thời gian đóng cửa không được để trống")
+    @NotNull(message = "Thời gian đóng cửa không được để trống")
     private LocalTime closingTime;
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "location_id")
-    private Location location;
+    private Location location;  // Assuming Location is an entity
 
-    @ManyToOne
-    @JoinColumn(name = "user", referencedColumnName = "id")
-    @ValidUserId
-    private User user;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    private User user;  // Assuming User is an entity
 }
+

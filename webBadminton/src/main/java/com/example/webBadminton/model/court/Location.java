@@ -1,8 +1,5 @@
-package com.example.webBadminton.model;
+package com.example.webBadminton.model.court;
 
-import com.example.webBadminton.model.location.District;
-import com.example.webBadminton.model.location.Province;
-import com.example.webBadminton.model.location.Ward;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;

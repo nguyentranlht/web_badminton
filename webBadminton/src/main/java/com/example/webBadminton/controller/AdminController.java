@@ -1,7 +1,8 @@
 package com.example.webBadminton.controller;
 
-import com.example.webBadminton.model.Badminton;
-import com.example.webBadminton.model.Court;
+import com.example.webBadminton.model.court.Badminton;
+import com.example.webBadminton.model.court.Court;
+import com.example.webBadminton.model.court.CourtId;
 import com.example.webBadminton.service.BadmintonService;
 import com.example.webBadminton.service.CourtService;
 import com.example.webBadminton.service.LocationService;
@@ -60,6 +61,7 @@ public class AdminController {
         badminton.getLocation().setWardName
                 (locationService.getWardName(badminton.getLocation().getWardId()));
         badmintonService.addBadminton(badminton);
+        courtService.addCourt(badminton.getCourtQuantity(), badminton.getId());
         return "redirect:/admin/badmintons";
     }
 
@@ -76,18 +78,11 @@ public class AdminController {
         return "/admin/court/add";
     }
 
-    @PostMapping("/courts/add")
-    public String addCourt(@Valid Court court, BindingResult result){
-        if(result.hasErrors()){
-            return "/admin/court/add";
-        }
-        courtService.addCourt(court);
-        return "redirect:/admin/courts";
-    }
 
-    @GetMapping("/courts/delete/{id}")
-    public String deleteCourt(@PathVariable("id") Long id) {
-        courtService.deleteCourt(id);
+    @GetMapping("/courts/delete/{badmintonId}/{courtId}")
+    public String deleteCourt(@PathVariable("badmintonId") Long badmintonId, @PathVariable("courtId") Long courtId) {
+        CourtId courtIdObject = new CourtId(badmintonId, courtId);
+        courtService.deleteCourt(courtIdObject);
         return "redirect:/admin/courts";
     }
 }

@@ -1,7 +1,7 @@
 package com.example.webBadminton.validator;
 
 
-import com.example.webBadminton.model.Badminton;
+import com.example.webBadminton.model.court.Badminton;
 import com.example.webBadminton.validator.annotation.ValidatorBadmintonId;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;

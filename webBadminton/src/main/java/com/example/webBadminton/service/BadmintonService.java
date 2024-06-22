@@ -1,9 +1,12 @@
 package com.example.webBadminton.service;
 
-import com.example.webBadminton.model.Badminton;
+import com.example.webBadminton.model.court.Badminton;
+import com.example.webBadminton.model.court.Court;
 import com.example.webBadminton.repository.IBadmintonRepository;
+import com.example.webBadminton.repository.ICourtRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -11,6 +14,9 @@ import java.util.List;
 public class BadmintonService {
     @Autowired
     private IBadmintonRepository badmintonRepository;
+
+    @Autowired
+    private ICourtRepository courtRepository;
 
     public List<Badminton> getAllBadmintons() {
         return badmintonRepository.findAll();
@@ -28,7 +34,4 @@ public class BadmintonService {
         badmintonRepository.deleteById(id);
     }
 
-    public void saveBadminton(Badminton badminton) {
-        badmintonRepository.save(badminton);
-    }
 }

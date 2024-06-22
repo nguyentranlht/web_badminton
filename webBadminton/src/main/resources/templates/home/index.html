@@ -73,42 +73,60 @@
         <div class="container pb-5">
             <div class="bg-light shadow" style="padding: 30px;">
                 <div class="row align-items-center" style="min-height: 60px;">
-                    <div class="col-md-10">
-                        <!--Tìm Kiếm Sân-->
-                        <div class="row">
-                            <div class="col-md-3">
-                                <div class="mb-3 mb-md-0">
-                                    <select class="custom-select px-4" style="height: 47px;">
-                                        <option selected>Location</option>
-                                        <option value="1">TP HCM</option>
-                                        <option value="2">Ha Noi</option>
-                                        <option value="3">Da Nang</option>
-                                    </select>
+                    <!--Tìm Kiếm Sân-->
+                    <form id="searchForm">
+                        <div class="col-md-10">
+                            <div class="grid gap-3">
+                                <div class="row row-cols-3 p-1">
+                                    <div class="col" >
+                                        <div class="mb-3 mb-md-0">
+                                            <select class="custom-select px-4 rounded" style="height: 47px;" id="province">
+                                                <option selected>Province</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col" >
+                                        <div class="mb-3 mb-md-0">
+                                            <select class="custom-select px-4 rounded" style="height: 47px;" id="district">
+                                                <option selected>District</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="mb-3 mb-md-0">
+                                            <select class="custom-select px-4 rounded" style="height: 47px;" id="ward">
+                                                <option selected>Ward</option>
+                                            </select>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="mb-3 mb-md-0">
-                                    <div class="date" id="date1" data-target-input="nearest">
-                                        <input type="text" class="form-control p-4 datetimepicker-input" placeholder="Select Date" data-target="#date1" data-toggle="datetimepicker"/>
+                                <div class="row row-cols-3 p-1">
+                                    <div class="col">
+                                        <div class="mb-3 mb-md-0">
+                                            <div class="date" id="date1" data-target-input="nearest">
+                                                <input type="text" class="form-control p-4 datetimepicker-input" placeholder="Select Date" data-target="#date1" data-toggle="datetimepicker"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="mb-3 mb-md-0">
+                                            <input type="time" id="startTime" class="form-control px-4" style="height: 47px;">
+                                        </div>
+                                    </div>
+
+                                    <div class="col">
+                                        <div class="mb-3 mb-md-0">
+                                            <input type="time" id="endTime" class="form-control px-4" style="height: 47px;">
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-3">
-                                <div class="mb-3 mb-md-0">
-                                    <input type="time" id="startTime" class="form-control px-4" style="height: 47px;">
-                                </div>
-                            </div>
 
-                            <div class="col-md-3">
-                                <div class="mb-3 mb-md-0">
-                                    <input type="time" id="endTime" class="form-control px-4" style="height: 47px;">
-                                </div>
-                            </div>
                         </div>
-                    </div>
-                    <div class="col-md-2">
-                        <button class="btn btn-primary btn-block" type="submit" style="height: 47px; margin-top: -2px;">Search</button>
-                    </div>
+                        <div class="col-md-2 rounded">
+                            <button class="btn btn-primary btn-block" type="submit" style="height: 47px; margin-top: -2px;">Search</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -123,11 +141,11 @@
         </div>
         <div class="row">
             <div class="col-lg-4 col-md-6 mb-4" th:each="badminton : ${badmintons}">
-                <div class="package-item bg-white mb-2">
+                <div class="package-item bg-white mb-2" onclick="">
                     <img class="img-fluid" th:src="${badminton.imageUrl}" alt="">
                     <div class="p-4">
                         <div class="d-flex justify-content-between mb-3">
-                            <small th:text="${badminton.location}" class="m-0"><i class="fa fa-map-marker-alt text-primary mr-2"></i>Location</small>
+                            <small th:text="(${badminton.location.wardName} != null ? ${badminton.location.wardName} + ', ': '') + ${badminton.location.districtName} + ', ' + ${badminton.location.provinceName}" class="m-0"><i class="fa fa-map-marker-alt text-primary mr-2"></i>Location</small>
                             <small class="m-0"><i class="fa fa-calendar-alt text-primary mr-2"></i>3 hours</small>
                             <small class="m-0"><i class="fa fa-user text-primary mr-2"></i>2 Person</small>
                         </div>
@@ -389,6 +407,9 @@
     <!-- Template Javascript -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
     <script src="user/js/main.js"></script>
+
+    <script src="/user/js/administrative_levels.js"></script>
+
 </body>
 
 </html>
