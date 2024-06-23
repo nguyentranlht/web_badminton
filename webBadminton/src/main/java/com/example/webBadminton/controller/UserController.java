@@ -64,7 +64,7 @@ public class UserController {
         user.setName((String) attributes.get("name"));
         user.setEmail((String) attributes.get("email"));
         user.setUsername((String) attributes.get("email"));
-        user.setPassword(new BCryptPasswordEncoder().encode("123"));
+        user.setPassword(new BCryptPasswordEncoder().encode("hoangdan"));
         userService.save(user);
         return "redirect:/";
     }

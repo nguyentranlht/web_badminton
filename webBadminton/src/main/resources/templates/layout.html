@@ -71,7 +71,7 @@
                     <a href="/" class="nav-item nav-link active">Home</a>
                     <a href="#" class="nav-item nav-link">About</a>
                     <a href="#" class="nav-item nav-link">Services</a>
-                    <a href="/badmintons" class="nav-item nav-link">Book Now</a>
+                    <a th:href="@{http://localhost:8080/badmintons}" class="nav-item nav-link">Book Now</a>
                     <a sec:authorize="!isAuthenticated()" href="/login" class="nav-item nav-link">Login</a>
                     <form sec:authorize="isAuthenticated()" th:action="@{/logout}" method="post">
                         <button type="submit" class="nav-item nav-link">Logout</button>
