@@ -7,6 +7,7 @@ import com.example.webBadminton.service.BadmintonService;
 
 import com.example.webBadminton.service.BookingService;
 import com.example.webBadminton.service.CourtService;
+import com.example.webBadminton.service.TimeSlotService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -14,6 +15,10 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -28,6 +33,9 @@ public class CourtController {
 
     @Autowired
     private BookingService bookingService;
+
+    @Autowired
+    private TimeSlotService timeSlotService;
 
     // Đường dẫn thư mục để lưu trữ hình ảnh
     private final String uploadDir = "src/main/resources/static/img/";
@@ -66,16 +74,35 @@ public class CourtController {
                 .orElseThrow(() -> new IllegalArgumentException("Invalid court Id: " + courtId));
         BookingCourt bookingCourt = new BookingCourt();  // Giả sử Booking có thuộc tính phoneNumber
         bookingCourt.setCourt(court);
+//        model.addAttribute("timeSlots", timeSlotService.generateTimeSlots(court));
         model.addAttribute("bookingCourt", bookingCourt);
         return "user/court/booking";  // Trả về trang Thymeleaf với form đã được điền
     }
 
     @PostMapping("/bookCourt")
-    public String bookingCourt(@ModelAttribute("bookingCourt") BookingCourt bookingCourt, BindingResult result){
+    public String bookingCourt(@ModelAttribute("bookingCourt") BookingCourt bookingCourt, @RequestParam String timeSlot, BindingResult result){
         if(result.hasErrors()){
-            return "/user/home";
+            return "/user/court/booking";
         }
+        String[] times = timeSlot.split(" to ");
+        LocalTime startTime = LocalTime.parse(times[0], DateTimeFormatter.ofPattern("HH:mm:ss"));
+        LocalTime endTime = LocalTime.parse(times[1], DateTimeFormatter.ofPattern("HH:mm:ss"));
+        // Thêm logic để lưu khung giờ vào database
+        bookingCourt.setStatus("false");
+        bookingCourt.setStartTime(startTime);
+        bookingCourt.setEndTime(endTime);
         bookingService.addBooking(bookingCourt);
         return "redirect:/";
     }
+
+    @GetMapping("/availableTimeSlots")
+    @ResponseBody
+    public List<LocalTime[]> getAvailableTimeSlots(@RequestParam LocalDate date, @RequestParam Long courtId, @RequestParam Long badmintonId) {
+        Court court = courtService.getCourtById(badmintonId, courtId)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid court Id: " + courtId));
+        List<LocalTime[]> allTimeSlots = timeSlotService.generateTimeSlots(court);
+        List<LocalTime[]> availableTimeSlots = timeSlotService.filterAvailableTimeSlots(allTimeSlots, date, court);
+        return availableTimeSlots;
+    }
+
 }

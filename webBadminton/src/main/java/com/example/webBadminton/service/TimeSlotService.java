@@ -1,16 +1,17 @@
 package com.example.webBadminton.service;
 
 import com.example.webBadminton.model.BookingCourt;
-import com.example.webBadminton.model.booking.Booking;
 import com.example.webBadminton.model.court.Court;
 import com.example.webBadminton.repository.IBookingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
+@Service
 public class TimeSlotService {
 
     @Autowired
@@ -44,4 +45,23 @@ public class TimeSlotService {
 
         return true;
     }
+
+    public List<LocalTime[]> filterAvailableTimeSlots(List<LocalTime[]> allTimeSlots, LocalDate date, Court court) {
+        List<BookingCourt> bookings = bookingRepository.findBookingsByCourtAndDate(court.getBadmintonId(), court.getCourtId(), date);
+        List<LocalTime[]> availableSlots = new ArrayList<>(allTimeSlots);
+        for (LocalTime[] timeSlot : allTimeSlots){
+            for (BookingCourt booking : bookings) {
+                LocalTime startTime = booking.getStartTime();
+                LocalTime endTime = booking.getEndTime();
+
+                if ((timeSlot[0] == startTime && timeSlot[1] == endTime))
+                {
+                    availableSlots.remove(timeSlot);
+                }
+            }
+        }
+
+        return availableSlots;
+    }
+
 }

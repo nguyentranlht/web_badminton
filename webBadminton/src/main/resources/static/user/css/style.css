@@ -9632,6 +9632,8 @@ h6,
 
 .package-item {
   transition: .5s;
+  margin-bottom: 30px;  /* Increase bottom margin */
+      padding: 10px;
 }
 
 .package-item:hover {
