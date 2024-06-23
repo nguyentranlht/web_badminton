@@ -5,7 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c984b387-a9f0-45c8-a660-0ba822a0a584" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/webBadminton/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/webBadminton/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/webBadminton/src/main/resources/templates/account/confirm.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/webBadminton/src/main/java/com/example/webBadminton/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/webBadminton/src/main/java/com/example/webBadminton/controller/UserController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/webBadminton/src/main/java/com/example/webBadminton/service/CustomOAuth2UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/webBadminton/src/main/java/com/example/webBadminton/service/CustomOAuth2UserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/webBadminton/src/main/java/com/example/webBadminton/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/webBadminton/src/main/java/com/example/webBadminton/service/UserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/webBadminton/src/main/java/com/example/webBadminton/utils/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/webBadminton/src/main/java/com/example/webBadminton/utils/SecurityConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/webBadminton/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/webBadminton/src/main/resources/application.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -36,7 +41,7 @@
     "Application.main.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "Dev__Nguyen",
+    "git-widget-placeholder": "Dev__Nguyen__Test",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "C:/Dian/DA_Java/webBadminton",
     "project.structure.last.edited": "Project",

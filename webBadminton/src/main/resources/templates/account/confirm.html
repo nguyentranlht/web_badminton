@@ -41,21 +41,29 @@
             <h1 class="text-white m-0">Sign Up Now</h1>
           </div>
           <div class="card-body rounded-bottom bg-white p-5">
-            <form th:action="@{/register}" method="post" th:object="${user}" class="card-body">
+            <form th:action="@{/confirm}" method="post" th:object="${user}" class="card-body">
+              <input type="text" th:field="*{id}" id="id" name="id"
+              th:value="*{id}" hidden="hidden">
               <div class="form-group">
-                <input type="text" placeholder="Your name" class="form-control p-4" th:field="*{name}" id="name" name="name">
+                <label for="name" class="form-label">Name:</label>
+                <input type="text" placeholder="Your name" class="form-control p-4" th:field="*{name}" id="name" name="name"
+                       th:value="*{name}">
                 <span class="text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
               </div>
               <div class="form-group">
-                <input type="email" placeholder="Email" class="form-control p-4" th:field="*{email}" id="email" name="email">
+                <label for="email" class="form-label">Email:</label>
+                <input type="email" placeholder="Email" class="form-control p-4" th:field="*{email}" id="email"
+                       name="email" th:value="*{email}" readonly>
                 <span class="text-danger" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
               </div>
               <div class="form-group">
-                <input type="text" placeholder="Username" class="form-control p-4" th:field="*{username}" id="username" name="username">
+                <label for="username" class="form-label">Username:</label>
+                <input th:for="username"type="text" placeholder="Username" class="form-control p-4" id="username" name="username">
                 <span class="text-danger" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></span>
               </div>
               <div class="form-group">
-                <input type="text" placeholder="Password" class="form-control p-4" th:field="*{password}" id="password" name="password">
+                <label for="password" class="form-label">Password:</label>
+                <input th:for="password" type="text" placeholder="Password" class="form-control p-4" id="password" name="password">
                 <span class="text-danger" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
               </div>
               <div class="form-group">

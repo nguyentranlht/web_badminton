@@ -4,7 +4,11 @@ import com.example.webBadminton.model.User;
 import com.example.webBadminton.repository.IRoleRepository;
 import com.example.webBadminton.repository.IUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import javax.validation.constraints.NotNull;
+import java.util.Optional;
 
 @Service
 public class UserService {
@@ -26,4 +30,18 @@ public class UserService {
             throw e;
         }
     }
+
+    public Optional<User> getUserByEmail(String email)
+    {
+        return userRepository.findByEmail(email);
+    }
+
+    public void updateUser(@NotNull User user){
+        User existedUser = userRepository.findById(user.getId())
+                .orElseThrow(() -> new IllegalStateException("User with ID " + user.getId() + " does not exist."));
+        existedUser.setName(user.getName());
+        existedUser.setUsername(user.getUsername());
+        existedUser.setPassword(user.getPassword());
+    }
+
 }

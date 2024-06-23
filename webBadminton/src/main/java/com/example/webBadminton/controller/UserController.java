@@ -49,7 +49,7 @@ public class UserController {
         return "redirect:/login";
     }
 
-    @GetMapping("/signingoogle")
+    @GetMapping("/confirm")
     public String currentUser(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         OAuth2User oauth2User = (OAuth2User) authentication.getPrincipal();
@@ -60,12 +60,22 @@ public class UserController {
         }
 
         Map<String, Object> attributes = oauth2User.getAttributes();
-        User user = new User();
-        user.setName((String) attributes.get("name"));
-        user.setEmail((String) attributes.get("email"));
-        user.setUsername((String) attributes.get("email"));
-        user.setPassword(new BCryptPasswordEncoder().encode("hoangdan"));
-        userService.save(user);
+        User savedUser =  userService.getUserByEmail((String) attributes.get("email")).orElseThrow(
+                () -> new IllegalArgumentException("Invalid user with email:" + attributes.get("email")));
+        model.addAttribute("user", savedUser);
+        return "account/confirm";
+    }
+
+    @PostMapping("/confirm")
+    public String updateUser(@Valid @ModelAttribute("user") User user, BindingResult bindingResult, Model model) {
+        if (bindingResult.hasErrors()) {
+            bindingResult.getFieldErrors().forEach(error -> model.addAttribute(error.getField()+"_error", error.getDefaultMessage()));
+            return "account/register";
+        }
+        user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
+        // Save the user
+        userService.updateUser(user);
+
         return "redirect:/";
     }
 

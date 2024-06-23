@@ -8,9 +8,11 @@ import com.example.webBadminton.repository.IUserRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
+import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
@@ -26,20 +28,25 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     private IRoleRepository roleRepository;
 
     @Override
-    @Transactional
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
         OAuth2User user = super.loadUser(userRequest);
-        Map<String, Object> attributes = user.getAttributes();
-        String email = (String) attributes.get("email");  // Correctly fetch the email
-
-        // Fetch additional details like roles from the database
-        Long id = userRepository.getUserIdByEmail(email);
-        User appUser = userRepository.findByEmail(email).orElseThrow(
-                () -> new UsernameNotFoundException("Email not found: " + email)
-        );
-        appUser.setRole(roleRepository.getReferenceById(userRepository.getRoleId(id)));
-
-        System.out.println(appUser.getUsername() + " " + appUser.getPassword() + " " + appUser.getRole().getName());
-        return new UserPrincipal(appUser, attributes);
+        return processUser(user);
     }
+
+    private OAuth2User processUser(OAuth2User oAuth2User) {
+        String email = oAuth2User.getAttribute("email");
+        User user = userRepository.findByEmail(email).orElseGet(() -> {
+            User newUser = new User();
+            newUser.setEmail(email);
+            newUser.setName(oAuth2User.getAttribute("name"));
+            newUser.setPassword(new BCryptPasswordEncoder().encode(email));
+            newUser.setUsername(email);
+            newUser.setRole(roleRepository.getReferenceById(roleRepository.getRoleIdByName("User")));
+            // Set additional necessary attributes, perhaps fetch them from oAuth2User
+            userRepository.save(newUser);
+            return newUser;
+        });
+        return new DefaultOAuth2User(oAuth2User.getAuthorities(), oAuth2User.getAttributes(), "email");
+    }
+
 }

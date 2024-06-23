@@ -43,7 +43,7 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http.csrf().disable()
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers( "/admin/**","/user/**","/", "/register", "/error","/oauth/**", "/signingoogle").permitAll()
+                        .requestMatchers( "/admin/**","/user/**","/", "/register", "/error","/oauth/**", "/confirm").permitAll()
                         .requestMatchers("/api/**").hasAnyAuthority("Admin", "User","Super Admin")
                         .requestMatchers("/badmintons", "/books/add").hasAnyAuthority("Admin", "User", "Super Admin")
                         .anyRequest().authenticated()
@@ -68,9 +68,10 @@ public class SecurityConfig {
                                 .userService(customOAuth2UserService))// Correct placement of userService
                         .successHandler((request, response, authentication) -> {
                             SecurityContextHolder.getContext().setAuthentication(authentication);
-                            response.sendRedirect("/"); // Ensure the redirect is correct
+                            response.sendRedirect("/confirm"); // Ensure the redirect is correct
                         })
                         .permitAll()
+
                 )
 
                 .rememberMe(rememberMe -> rememberMe
@@ -82,4 +83,5 @@ public class SecurityConfig {
                         exceptionHandling.accessDeniedPage("/403"))
                 .build();
     };
+
 }
