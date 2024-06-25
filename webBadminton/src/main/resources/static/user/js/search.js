@@ -1,12 +1,13 @@
 $(document).ready(function() {
     $('#searchForm').on('submit', function(e) {
         e.preventDefault(); // Prevent the default form submission
-        startTime = $('#startTime').val() ? $('#startTime').val() : null,
-        endTime = $('#endTime').val() ? $('#endTime').val() : null
+        var startTime = $('#startTime').val();
+        var endTime = $('#endTime').val();
+        startTime = isValidTime(startTime) ? startTime : "03:00";
+        endTime = isValidTime(endTime) ? endTime : "03:00";
         var startHour = parseInt(startTime.split(':')[0], 10);
         var endHour = parseInt(endTime.split(':')[0], 10);
-
-        if (endHour - startHour < 1) {
+        if ((startTime !== '03:00') && (endHour - startHour < 1 || endTime !== '03:00')) {
             $('#errorMessage').hidden = false;
             endHour = startHour + 1;
             if (endHour >= 24) endHour = 23; // Prevent endHour from exceeding 23
@@ -14,6 +15,7 @@ $(document).ready(function() {
         } else {
             $('#errorMessage').hidden = true;
         }
+        console.log(startTime + " " + endTime)
         var formData = {
             province: $('#province').val() != "Province"? $('#province').val() : null,
             district: $('#district').val() != "District"? $('#district').val() : null,
@@ -37,7 +39,9 @@ $(document).ready(function() {
         });
     });
 });
-
+function isValidTime(time) {
+    return time && time.match(/^\d{2}:\d{2}$/);
+}
 function updateBadmintonCards(badmintons) {
     var listContainer = $('#listBadminton');
     var header = $('#header');

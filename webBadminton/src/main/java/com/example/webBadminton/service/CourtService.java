@@ -94,32 +94,37 @@ public class CourtService {
     public boolean getAvailableCourt(LocalDate date, Long courtId, Long badmintonId, LocalTime startTime, LocalTime endTime) {
         List<LocalTime[]> availableTimeSlots = getAvailableTimeSlots(date, courtId, badmintonId);
 
+        // Define the sentinel value
+        LocalTime sentinelTime = LocalTime.of(3, 0);
+
         if (availableTimeSlots.isEmpty()) {
             System.out.println("No available time slots on this day.");
             return false;
         }
 
-        // Check if any slot is available if both start and end times are null
-        if (startTime == null && endTime == null) {
-            return true;
+        // Check if both times are the sentinel value, assuming no times provided
+        if (isSentinel(startTime, sentinelTime) && isSentinel(endTime, sentinelTime)) {
+            return true;  // Assume availability if no specific time is required
         }
 
-        // Only calculate slotsNeeded if both startTime and endTime are provided
-        long slotsNeeded = (startTime != null && endTime != null) ? (endTime.getHour() - startTime.getHour()) : 0;
+        // Process only if both startTime and endTime are not sentinel values
+        if (!isSentinel(startTime, sentinelTime) && !isSentinel(endTime, sentinelTime)) {
+            long slotsNeeded = (endTime.getHour() - startTime.getHour());
 
-        // Filter slots based on available times if startTime and endTime are provided
-        List<LocalTime[]> filteredSlots = (startTime != null && endTime != null) ?
-                availableTimeSlots.stream()
-                        .filter(slot -> !slot[0].isBefore(startTime) && !slot[1].isAfter(endTime))
-                        .collect(Collectors.toList()) : availableTimeSlots;
+            List<LocalTime[]> filteredSlots = availableTimeSlots.stream()
+                    .filter(slot -> !slot[0].isBefore(startTime) && !slot[1].isAfter(endTime))
+                    .collect(Collectors.toList());
 
-        // If only one of startTime or endTime is provided, consider any available slot as valid
-        if (startTime == null || endTime == null) {
-            return true;
+            return hasConsecutiveSlots(filteredSlots, startTime, slotsNeeded);
         }
 
-        // Check if there are enough consecutive slots available
-        return hasConsecutiveSlots(filteredSlots, startTime, slotsNeeded);
+        // If only one of the times is the sentinel, consider any available slot as valid
+        return true;
+    }
+
+    // Helper method to check if the time is the sentinel value
+    private boolean isSentinel(LocalTime time, LocalTime sentinel) {
+        return time.equals(sentinel);
     }
 
     // Method to check if there are enough consecutive slots
