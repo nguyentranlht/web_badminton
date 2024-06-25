@@ -9772,20 +9772,48 @@ h6,
 }
 
 /* Chat box */
-.custom-card{
+
+.chat-closed {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%; /* Fully rounded corners for closed state */
+    background-color: #005B41; /* Adjust the color as needed */
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.3s ease;
+}
+.chat-closed #chat-header {
+    display: none !important; /* Hide the chat header in closed state */
+}
+.chat-open .ellipsis {
+    display: none; /* Hide the ellipsis icon box in open state */
+}
+
+.chat-closed .ellipsis {
+    color: white;
+}
+
+.chat-closed .chat-box {
+    display: none; /* Hide the chat box in closed state */
+}
+.chat-open{
     position: relative;
     display: flex;
     flex-direction: column;
     min-width: 0;
     word-wrap: break-word;
-    background-color: #fff;
+    background-color: #005B41;
     background-clip: border-box;
-    border: 1px solid rgba(0, 0, 0, 0.125);
 	width: 300px;
 	border-radius: 15px;
 	margin-right: 20px; /* Space from the right edge of the screen */
     margin-bottom: 20px; /* Space from the bottom edge of the screen */
     box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
 }
 .chat-container{
     position: fixed;
@@ -9796,7 +9824,7 @@ h6,
     z-index: 1000;
 }
 .adiv{
-	background: #04CB28;
+	background: #005B41;
 	border-radius: 15px;
 	border-bottom-right-radius: 0;
 	border-bottom-left-radius: 0;
@@ -9810,7 +9838,7 @@ h6,
 	border-radius: 20px;
 }
 .chat-box{
-    display: none;
+    display: block;
 }
 .bg-white{
 	border: 1px solid #E7E7E9;
@@ -9885,4 +9913,8 @@ h6,
 .bot {
     background-color: #f8d7da; /* Light red for bot messages */
     text-align: left;
+}
+
+.no-result{
+
 }

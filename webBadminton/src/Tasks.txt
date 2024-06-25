@@ -1,0 +1,3 @@
+ADMIN:
+Add Badminton: Sửa lại đồng hồ, rang buộc thời gian mở và đóng (chỉ cho giờ chẵn, mở và đóng phải cách nhau ít nhất 1 tiếng), sửa lỗi edit badminton, thêm ảnh
+Giao diện: xóa nút add court, fix nút court list

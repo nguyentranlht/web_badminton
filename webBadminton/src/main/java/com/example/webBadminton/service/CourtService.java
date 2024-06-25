@@ -99,13 +99,24 @@ public class CourtService {
             return false;
         }
 
-        // Calculate the number of slots needed
-        long slotsNeeded = endTime.getHour() - startTime.getHour();
+        // Check if any slot is available if both start and end times are null
+        if (startTime == null && endTime == null) {
+            return true;
+        }
 
-        // Filter slots that start at or after startTime and end at or before endTime
-        List<LocalTime[]> filteredSlots = availableTimeSlots.stream()
-                .filter(slot -> !slot[0].isBefore(startTime) && !slot[1].isAfter(endTime))
-                .collect(Collectors.toList());
+        // Only calculate slotsNeeded if both startTime and endTime are provided
+        long slotsNeeded = (startTime != null && endTime != null) ? (endTime.getHour() - startTime.getHour()) : 0;
+
+        // Filter slots based on available times if startTime and endTime are provided
+        List<LocalTime[]> filteredSlots = (startTime != null && endTime != null) ?
+                availableTimeSlots.stream()
+                        .filter(slot -> !slot[0].isBefore(startTime) && !slot[1].isAfter(endTime))
+                        .collect(Collectors.toList()) : availableTimeSlots;
+
+        // If only one of startTime or endTime is provided, consider any available slot as valid
+        if (startTime == null || endTime == null) {
+            return true;
+        }
 
         // Check if there are enough consecutive slots available
         return hasConsecutiveSlots(filteredSlots, startTime, slotsNeeded);

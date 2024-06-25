@@ -179,18 +179,19 @@ function scrollChat(){
 }
 
 function toggleChat() {
-    var chatBox = document.querySelector('.chat-box');
-    if (chatBox.style.display === 'none') {
-        chatBox.style.display = 'block';
-        scrollChat();
-    } else {
-        chatBox.style.display = 'none';
-    }
+    var chatWrapper = document.getElementById('chatWrapper');
+    if (chatWrapper.classList.contains('chat-closed')) {
+            chatWrapper.classList.remove('chat-closed');
+            chatWrapper.classList.add('chat-open');
+        } else {
+            chatWrapper.classList.remove('chat-open');
+            chatWrapper.classList.add('chat-closed');
+        }
 }
 
 function closeChat(event) {
     event.stopPropagation(); // Stop the event from bubbling up to parent elements
-    const chatContainer = document.querySelector('.card');
+    const chatContainer = document.querySelector('#chatWrapper');
     if (chatContainer.style.display === 'none') {
         chatContainer.style.display = 'block'; // Shows the chat container
     } else {

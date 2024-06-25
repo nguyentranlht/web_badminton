@@ -2,12 +2,12 @@ $(document).ready(function() {
     $('#searchForm').on('submit', function(e) {
         e.preventDefault(); // Prevent the default form submission
         var formData = {
-            province: $('#province').val(),
-            district: $('#district').val(),
-            ward: $('#ward').val(),
-            day: $('#date1').val(),
-            startTime: $('#startTime').val(),
-            endTime: $('#endTime').val()
+            province: $('#province').val() != "Province"? $('#province').val() : null,
+            district: $('#district').val() != "District"? $('#district').val() : null,
+            ward: $('#ward').val() != "Ward"? $('#ward').val() : null,
+            day: $('#date1').val() ? $('#date1').val() : new Date().toISOString().split('T')[0],
+            startTime: $('#startTime').val() ? $('#startTime').val() : null,
+            endTime: $('#endTime').val() ? $('#endTime').val() : null
         };
 
         $.ajax({
@@ -27,9 +27,14 @@ $(document).ready(function() {
 
 function updateBadmintonCards(badmintons) {
     var listContainer = $('#listBadminton');
+    var header = $('#header');
     listContainer.empty(); // Clear previous results
     if (badmintons.length === 0) {
-        listContainer.append("<div class='col-12'><p>No results found.</p></div>"); // Use listContainer here
+        header.append("<div class='text-center mb-3 pb-3'>" +
+                            "<h1 style='font-size: 4rem'>Ouch!</h1>" +
+                            "<h6 class='text-primary text-uppercase' style='letter-spacing: 2px; color: rgb(100, 100, 100);'>Look like there is no court match with your search</h6>" +
+                            "<h6 class='text-primary text-uppercase' style='letter-spacing: 2px; color: rgb(100, 100, 100);'>Try another one?</h6>" +
+                       "</div> ");
     } else {
         badmintons.forEach(function(badminton) {
             var cardHtml =
