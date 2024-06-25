@@ -1,4 +1,4 @@
-var cities = document.getElementById("province");
+    var cities = document.getElementById("province");
 var districts = document.getElementById("district");
 var wards = document.getElementById("ward");
 var Parameter = {
