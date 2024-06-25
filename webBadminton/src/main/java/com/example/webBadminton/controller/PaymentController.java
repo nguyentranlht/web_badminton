@@ -1,5 +1,6 @@
 package com.example.webBadminton.controller;
 
+import com.example.webBadminton.model.BookingCourt;
 import com.example.webBadminton.model.court.Badminton;
 import com.example.webBadminton.service.BadmintonService;
 import com.example.webBadminton.service.BookingService;
@@ -24,14 +25,18 @@ public class PaymentController {
     @Autowired
     private BadmintonService badmintonService;
 
+    @Autowired
+    private BookingService bookingService;
+
     @GetMapping("/create_payment")
-    public RedirectView createPayment(@RequestParam Long badmintonId) throws UnsupportedEncodingException {
+    public RedirectView createPayment(@RequestParam BookingCourt bookingCourt) throws UnsupportedEncodingException {
         String vnp_Version = "2.1.0";
         String vnp_Command = "pay";
         String orderType = "other";
 
 //        BigDecimal totalPrice = orderService.calculateTotalPrice(orderId);
 //        long amount = totalPrice.multiply(new BigDecimal(100)).longValue();
+        Long badmintonId = bookingCourt.getCourt().getBadmintonId();
         Badminton badminton  = badmintonService.getBadmintonById(badmintonId)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid badminton Id:" + badmintonId));
         long amount = (long) (badminton.getRentalPrice()*100);
@@ -53,7 +58,7 @@ public class PaymentController {
         vnp_Params.put("vnp_OrderType", orderType);
         vnp_Params.put("vnp_Locale", "vn");
 
-        vnp_Params.put("vnp_ReturnUrl", PaymentConfig.vnp_ReturnUrl);
+        vnp_Params.put("vnp_ReturnUrl", PaymentConfig.vnp_ReturnUrl + "?bookingId=" + bookingCourt.getId());
         vnp_Params.put("vnp_IpAddr", vnp_IpAddr);
 
         Calendar cld = Calendar.getInstance(TimeZone.getTimeZone("Etc/GMT+7"));
@@ -98,8 +103,11 @@ public class PaymentController {
     }
 
     @GetMapping("/success")
-    public String paymentSuccess(Model model) {
+    public String paymentSuccess(@RequestParam("bookingId") Long bookingId, Model model) {
         // Thêm bất kỳ thông tin nào cần thiết để hiển thị trên view
+        BookingCourt bookingCourt = bookingService.getBookingById(bookingId).orElseThrow(() -> new IllegalArgumentException("Invalid badminton Id:" + bookingId));
+        bookingCourt.setStatus("true");
+        bookingService.updateBooking(bookingCourt);
         model.addAttribute("message", "Thanh toán của bạn đã được xử lý thành công!");
         return "redirect:/"; // Trả về tên của view (thymeleaf or JSP file)
     }

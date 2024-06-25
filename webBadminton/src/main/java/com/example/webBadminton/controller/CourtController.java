@@ -93,7 +93,7 @@ public class CourtController {
         bookingCourt.setEndTime(endTime);
         Long badmintonId =bookingCourt.getCourt().getBadmintonId();
         bookingService.addBooking(bookingCourt);
-        redirectAttributes.addAttribute("badmintonId", badmintonId);
+        redirectAttributes.addAttribute("bookingCourt", bookingCourt);
         return "redirect:/payment/create_payment";
     }
 
