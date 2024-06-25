@@ -69,7 +69,10 @@ public class BadmintonService {
     }
 
     public List<Badminton> getAvailableBadminton(String provinceId, String districtId, String wardId, LocalDate date, LocalTime startTime, LocalTime endTime) {
-        List<Location> locations = locationService.getAllByLocation(provinceId, districtId, wardId);
+        List<Location> locations = !provinceId.isEmpty() && !districtId.isEmpty() && !wardId.isEmpty()
+                ? locationService.getAllByLocation(provinceId, districtId, wardId)
+                : locationService.getAll();
+
         if (locations.isEmpty()) {
             return Collections.emptyList(); // No locations found
         }
