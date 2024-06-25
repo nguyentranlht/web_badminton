@@ -68,11 +68,116 @@
     </div>
     <!-- Carousel End -->
 
-<!-- Booking Start -->
-    <th:block th:replace="~{layout :: search-bar}"></th:block>
+    <!-- Booking Start -->
+    <div class="container-fluid booking mt-5 pb-5">
+        <div class="container pb-5">
+            <div class="bg-light shadow" style="padding: 30px;">
+                <div class="row align-items-center" style="min-height: 60px;">
+                    <!--Tìm Kiếm Sân-->
+                    <form style="display: contents" id="searchForm">
+                        <div class="col-md-10">
+                            <div class="grid gap-3">
+                                <div class="row row-cols-3 p-1">
+                                    <div class="col" >
+                                        <div class="mb-3 mb-md-0">
+                                            <select class="custom-select px-4 rounded" style="height: 47px;" id="province">
+                                                <option selected>Province</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col" >
+                                        <div class="mb-3 mb-md-0">
+                                            <select class="custom-select px-4 rounded" style="height: 47px;" id="district">
+                                                <option selected>District</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="mb-3 mb-md-0">
+                                            <select class="custom-select px-4 rounded" style="height: 47px;" id="ward">
+                                                <option selected>Ward</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row row-cols-3 p-1">
+                                    <div class="col">
+                                        <div class="mb-3 mb-md-0">
+                                            <div class="date" id="date1" data-target-input="nearest">
+                                                <input type="text" class="form-control p-4 datetimepicker-input" placeholder="Select Date" data-target="#date1" data-toggle="datetimepicker"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="mb-3 mb-md-0">
+                                            <input type="time" id="startTime" class="form-control px-4" style="height: 47px;">
+                                        </div>
+                                    </div>
+
+                                    <div class="col">
+                                        <div class="mb-3 mb-md-0">
+                                            <input type="time" id="endTime" class="form-control px-4" style="height: 47px;">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col-md-2 rounded">
+                            <button class="btn btn-primary btn-block" type="submit" style="height: 47px; margin-top: -2px;">Search</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Booking End -->
-    <th:block th:replace="~{layout :: court-list}"></th:block>
-    <!-- About Start -->
+    <!-- Packages Start -->
+    <div class="container-fluid py-5">
+        <div class="container pt-5 pb-3" id="header">
+            <div class="text-center mb-3 pb-3">
+            </div>
+            <div class="row" id="listBadminton">
+                <div class="col-lg-4 col-md-6 mb-4" th:each="badminton, iterStat : ${badmintons}" th:if="${iterStat.count <= 6}">
+                    <a th:href="@{/courts/{id}(id=${badminton.id})}" class="text-decoration-none text-dark">
+                        <div class="package-item bg-white mb-2">
+                            <img class="img-fluid" src="/user/img/san1.jpg" style="border-radius: 20px 20px 0 0;" alt="Image">
+                            <div class="p-4">
+                                <div class="d-flex justify-content-between mb-3">
+                                    <small class="m-0">
+                                        <i class="fa fa-map-marker-alt text-primary mr-2"></i>
+                                        <span th:text="(${badminton.location.wardName} != null ? ${badminton.location.wardName} + ', ': '') + ${badminton.location.districtName} + ', ' + ${badminton.location.provinceName}">Location</span>
+                                    </small>
+                                </div>
+                                <div class="d-flex justify-content-between mb-3">
+                                    <small class="m-0">
+                                        <i class="fa fa-clock text-primary mr-2"></i>
+                                        <span th:text="${badminton.openingTime} + ' - ' + ${badminton.closingTime}">Time</span>
+                                    </small>
+                                    <small class="m-0">
+                                        <i class="fas fa-layer-group text-primary mr-2"></i>
+                                        <span th:text="${badminton.courtQuantity}">Court Quantity</span>
+                                        court
+                                    </small>
+                                </div>
+                                <a th:text="${badminton.badmintonName}" class="h5 text-decoration-none" th:href="@{/courts/{id}(id=${badminton.id})}">Sân Cầu Lông</a>
+                                <div class="border-top mt-4 pt-4">
+                                    <div class="d-flex justify-content-between">
+                                        <h6 class="m-0"><i class="fa fa-star text-primary mr-2"></i><span th:text="${badminton.rating}">Rating</span></h6>
+                                        <h5 class="m-0"><span th:text="${#numbers.formatDecimal(badminton.rentalPrice, 0, 'COMMA', 0, 'POINT')}">0</span> ₫</h5>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Packages End -->
+
+<!-- About Start -->
     <div class="container-fluid py-5">
         <div class="container pt-5">
             <div class="row">
