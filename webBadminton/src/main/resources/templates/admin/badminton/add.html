@@ -59,6 +59,7 @@
                                 <input type="text" th:field="*{badmintonName}" class="form-control" id="badmintonName" required>
                                 <div class="text-danger" th:if="${#fields.hasErrors('badmintonName')}" th:errors="*{badmintonName}"></div>
                             </div>
+                            <th:block th:replace="admin/layoutadmin :: administrative-select"></th:block>
                             <div>
                                 <select th:field="*{location.provinceId}" class="form-select form-select-sm mb-3" id="city" aria-label=".form-select-sm">
                                     <option value="" selected>Chọn tỉnh thành</option>

@@ -36,26 +36,30 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        return http.csrf().disable()
+        return http
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers( "/admin/**","/user/**","/", "/register", "/error", "/badmintons/search")
+                        .requestMatchers( "/admin/**","/user/**","/", "/register", "/error", "/owner/**","/login/**","/register/**", "/badmintons/search")
                         .permitAll()
                         .requestMatchers( "**")
-                        .hasAnyAuthority("Admin","Super Admin")
+                        .hasAnyAuthority("Admin","Super Admin", "Owner")
                         .requestMatchers("/badmintons", "/books/add")
                         .hasAnyAuthority("Admin", "User")
                         .requestMatchers("/api/**")
-                        .hasAnyAuthority("Admin", "User","Super Admin")
+                        /*.hasAnyAuthority("ADMIN", "USER")*/
+                        .permitAll()
                         .anyRequest().authenticated()
                 )
-                .logout(logout -> logout.logoutUrl("/logout")
+                //Here
+                //End Here
+                .logout(logout -> logout
+                        .logoutUrl("/logout")
                         .logoutSuccessUrl("/login")
                         .deleteCookies("JSESSIONID")
                         .invalidateHttpSession(true)
                         .clearAuthentication(true)
                         .permitAll()
                 )
-                .formLogin(formLogin -> formLogin.loginPage("/login")
+                .formLogin(formLogin -> formLogin.loginPage("/account/login")
                         .loginProcessingUrl("/login")
                         .defaultSuccessUrl("/")
                         .permitAll()

@@ -7,10 +7,13 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 public interface IUserRepository extends JpaRepository<User, Long> {
-    @Query("SELECT u FROM User u WHERE u.username= ?1")
-    User findByUsername(String username);
+    //@Query("SELECT u FROM User u WHERE u.username= ?1")
+    /*User findByUsername(String username);*/
+
 
     @Modifying
     @Transactional
@@ -22,4 +25,7 @@ public interface IUserRepository extends JpaRepository<User, Long> {
 
     @Query(value = "SELECT r.name FROM role r INNER JOIN user_role ur ON r.id = ur.role_id WHERE ur.user_id = ?1", nativeQuery = true)
     String[] getRolesOfUser(Long userId);
+
+    Optional<User> findByUsername(String username);
+    Optional<User> findByEmail(String email);
 }

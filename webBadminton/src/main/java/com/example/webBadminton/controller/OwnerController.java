@@ -1,13 +1,12 @@
 package com.example.webBadminton.controller;
 
-import com.example.webBadminton.model.CustomUserDetail;
 import com.example.webBadminton.model.court.Badminton;
 import com.example.webBadminton.model.court.Court;
-import com.example.webBadminton.model.court.CourtId;
-import com.example.webBadminton.modelView.SearchCriteria;
-import com.example.webBadminton.service.*;
+import com.example.webBadminton.model.CustomUserDetail;
+import com.example.webBadminton.model.User;
+import com.example.webBadminton.service.BadmintonService;
+import com.example.webBadminton.service.CourtService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -17,42 +16,35 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
-import javax.xml.transform.Result;
 import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Controller
-@RequestMapping("/admin")
-public class AdminController {
+@RequestMapping("/owner")
+public class OwnerController {
     @Autowired
     private CourtService courtService;
     @Autowired
     private BadmintonService badmintonService;
-    @Autowired
-    private LocationService locationService;
-    @Autowired
-    private SearchService searchService;
-    @Autowired
-    private UserService userService;
 
     @GetMapping
-    public String adminhome(Model model) {
+    public String ownerhome(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         CustomUserDetail customUserDetail = (CustomUserDetail) authentication.getPrincipal();
         model.addAttribute("username", customUserDetail.getUsername());
         model.addAttribute("roles", customUserDetail.getAuthorities().stream()
                 .map(authority -> authority.getAuthority())
                 .collect(Collectors.joining(", ")));
-        return "admin/home/index";
+        List<Badminton> badmintons = badmintonService.getAllBadmintons();
+        model.addAttribute("badmintons", badmintons);
+        return "admin/badminton/action";
     }
 
     @GetMapping("/badmintons")
     public String getAllBadmintonsAdmin(Model model){
         List<Badminton> badmintons = badmintonService.getAllBadmintons();
-
         model.addAttribute("badmintons", badmintons);
-        model.addAttribute("location", locationService.getAll());
         return "/admin/badminton/list";
     }
 
@@ -68,14 +60,7 @@ public class AdminController {
         if(result.hasErrors()){
             return "/admin/badminton/add";
         }
-        badminton.getLocation().setProvinceName
-                (locationService.getProvinceName(badminton.getLocation().getProvinceId()));
-        badminton.getLocation().setDistrictName
-                (locationService.getDistrictName(badminton.getLocation().getDistrictId()));
-        badminton.getLocation().setWardName
-                (locationService.getWardName(badminton.getLocation().getWardId()));
         badmintonService.addBadminton(badminton);
-        courtService.addCourt(badminton);
         return "redirect:/admin/badmintons";
     }
 
@@ -93,8 +78,7 @@ public class AdminController {
             return "/admin/badminton/update";
         }
         badmintonService.updateBadminton(badminton);
-
-        model.addAttribute("badmintons", badmintonService.getAllBadmintons()); //Dòng này để làm gì?
+        model.addAttribute("badmintons", badmintonService.getAllBadmintons());
         return "redirect:/admin/badmintons";
     }
 
@@ -128,84 +112,49 @@ public class AdminController {
         return "/admin/court/list";
     }
 
-//    @PostMapping("/courts/add")
-//    public String addCourt(@Valid Court court, BindingResult result){
-//        if(result.hasErrors()){
-//            return "/admin/court/add";
-//        }
-//        courtService.addCourt(court);
-//        return "redirect:/admin/courts";
-//    }
+    @PostMapping("/courts/add")
+    public String addCourt(@Valid Court court, BindingResult result){
+        if(result.hasErrors()){
+            return "/admin/court/add";
+        }
+        courtService.addCourt(court);
+        return "redirect:/admin/courts";
+    }
 
-    @GetMapping("/courts/edit/{badmintonId}/{courtId}")
-    public String showEditForm(@PathVariable Long badmintonId, @PathVariable Long courtId, Model model) {
-        Court court = courtService.getCourtById(badmintonId, courtId)
-                .orElseThrow(() -> new IllegalArgumentException("Invalid court Ids: BadmintonId=" + badmintonId + ", CourtId=" + courtId));
+    @GetMapping("/courts/edit/{id}")
+    public String showEditForm(@PathVariable Long id, Model model) {
+        Court court = courtService.getCourtById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid court Id:" + id));
         model.addAttribute("court", court);
         model.addAttribute("badmintons", badmintonService.getAllBadmintons());
         return "/admin/court/update";
     }
 
     @PostMapping("/courts/edit/{id}")
-    public String updateCourt(@PathVariable Long badmintonId, @PathVariable Long courtId, @Valid Court court,
-                                BindingResult result, Model model) {
+    public String updateCourt(@PathVariable Long id, @Valid Court court,
+                              BindingResult result, Model model) {
         if (result.hasErrors()) {
-            court.setCourtId(courtId);
-            court.setBadmintonId(badmintonId);
+            court.setId(id);
             return "/admin/court/update";
         }
         courtService.updateCourt(court);
         model.addAttribute("courts", courtService.getAllCourts());
         return "redirect:/admin/courts";
     }
-    
-    @GetMapping("/courts/delete/{badmintonId}/{courtId}")
-    public String deleteCourt(@PathVariable("badmintonId") Long badmintonId, @PathVariable("courtId") Long courtId) {
-        courtService.deleteCourt(badmintonId, courtId);
-        badmintonService.updateQuantity(badmintonId);
+
+    @GetMapping("/courts/delete/{id}")
+    public String deleteCourt(@PathVariable("id") Long id) {
+        courtService.deleteCourt(id);
         return "redirect:/admin/courts";
     }
 
-    @PostMapping("/search")
-    public ResponseEntity<?> performSearch(@RequestBody SearchCriteria criteria) {
-        // Process the search criteria
-        List<Badminton> results = searchService.search(criteria);
-
-        // Convert results to HTML or JSON, depending on your needs
-        String resultsHtml = generateResultsHtml(results);
-        return ResponseEntity.ok(resultsHtml);
-    }
-
-    public String generateResultsHtml(List<Badminton> results) {
-        if (results == null || results.isEmpty()) {
-            return "<p>No results found.</p>";
-        }
-
-        StringBuilder htmlBuilder = new StringBuilder();
-        htmlBuilder.append("<table style='width:100%; border: 1px solid black;'>");
-        htmlBuilder.append("<tr>")
-                .append("<th>Name</th>")
-                .append("<th>Rental Price</th>")
-                .append("<th>Rating</th>")
-                .append("<th>Court Quantity</th>")
-                .append("<th>Opening Time</th>")
-                .append("<th>Closing Time</th>")
-                .append("<th>Image</th>")
-                .append("</tr>");
-
-        for (Badminton badminton : results) {
-            htmlBuilder.append("<tr>")
-                    .append("<td>").append(badminton.getBadmintonName()).append("</td>")
-                    .append("<td>").append(badminton.getRentalPrice()).append("</td>")
-                    .append("<td>").append(badminton.getRating()).append("</td>")
-                    .append("<td>").append(badminton.getCourtQuantity()).append("</td>")
-                    .append("<td>").append(badminton.getOpeningTime()).append("</td>")
-                    .append("<td>").append(badminton.getClosingTime()).append("</td>")
-                    .append("<td><img src='").append(badminton.getImageUrl()).append("' alt='Badminton Image' style='height: 50px;'></td>")
-                    .append("</tr>");
-        }
-
-        htmlBuilder.append("</table>");
-        return htmlBuilder.toString();
+    @GetMapping("/courts/search")
+    public String searchByNameCourt(@RequestParam("keyword") String keyword, Model model){
+        List<Court> courts = courtService.getAllCourts()
+                .stream()
+                .filter(p-> p.getCourtName().toLowerCase().contains(keyword.toLowerCase())).collect(Collectors.toList());
+        model.addAttribute("courts", courts);
+        model.addAttribute("keyword", keyword);
+        return "/admin/court/list";
     }
 }
