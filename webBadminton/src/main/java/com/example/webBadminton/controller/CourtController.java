@@ -14,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -80,19 +81,20 @@ public class CourtController {
     }
 
     @PostMapping("/bookCourt")
-    public String bookingCourt(@ModelAttribute("bookingCourt") BookingCourt bookingCourt, @RequestParam String timeSlot, BindingResult result){
+    public String bookingCourt(@ModelAttribute("bookingCourt") BookingCourt bookingCourt, @RequestParam String timeSlot, BindingResult result, RedirectAttributes redirectAttributes){
         if(result.hasErrors()){
             return "/user/court/booking";
         }
         String[] times = timeSlot.split(" to ");
         LocalTime startTime = LocalTime.parse(times[0], DateTimeFormatter.ofPattern("HH:mm:ss"));
         LocalTime endTime = LocalTime.parse(times[1], DateTimeFormatter.ofPattern("HH:mm:ss"));
-        // Thêm logic để lưu khung giờ vào database
         bookingCourt.setStatus("false");
         bookingCourt.setStartTime(startTime);
         bookingCourt.setEndTime(endTime);
+        Long badmintonId =bookingCourt.getCourt().getBadmintonId();
         bookingService.addBooking(bookingCourt);
-        return "redirect:/";
+        redirectAttributes.addAttribute("badmintonId", badmintonId);
+        return "redirect:/payment/create_payment";
     }
 
     @GetMapping("/availableTimeSlots")

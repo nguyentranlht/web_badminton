@@ -1,9 +1,15 @@
 package com.example.webBadminton.controller;
 
+import com.example.webBadminton.model.court.Badminton;
+import com.example.webBadminton.service.BadmintonService;
+import com.example.webBadminton.service.BookingService;
 import com.example.webBadminton.utils.PaymentConfig;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.view.RedirectView;
 
 import java.io.UnsupportedEncodingException;
@@ -13,14 +19,22 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Controller
-@RequestMapping("/api/payment")
+@RequestMapping("/payment")
 public class PaymentController {
+    @Autowired
+    private BadmintonService badmintonService;
 
-        @GetMapping("/create")
-        public RedirectView createPayment(Long amount) throws UnsupportedEncodingException {
+    @GetMapping("/create_payment")
+    public RedirectView createPayment(@RequestParam Long badmintonId) throws UnsupportedEncodingException {
         String vnp_Version = "2.1.0";
         String vnp_Command = "pay";
         String orderType = "other";
+
+//        BigDecimal totalPrice = orderService.calculateTotalPrice(orderId);
+//        long amount = totalPrice.multiply(new BigDecimal(100)).longValue();
+        Badminton badminton  = badmintonService.getBadmintonById(badmintonId)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid badminton Id:" + badmintonId));
+        long amount = (long) (badminton.getRentalPrice()*100);
 
         String vnp_TxnRef = PaymentConfig.getRandomNumber(8);
         String vnp_IpAddr = "127.0.0.1";
@@ -81,6 +95,13 @@ public class PaymentController {
 
         return new RedirectView(paymentUrl);
 
+    }
+
+    @GetMapping("/success")
+    public String paymentSuccess(Model model) {
+        // Thêm bất kỳ thông tin nào cần thiết để hiển thị trên view
+        model.addAttribute("message", "Thanh toán của bạn đã được xử lý thành công!");
+        return "redirect:/"; // Trả về tên của view (thymeleaf or JSP file)
     }
 }
 
