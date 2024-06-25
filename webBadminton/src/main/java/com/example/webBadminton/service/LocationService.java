@@ -25,11 +25,18 @@ public class LocationService {
 
     public List<Location> getAll(){return locationRepository.findAll();}
 
-    public List<Location> getAllByProvince(String province){return locationRepository.findLocations(province, null,null);}
+    public List<Location> getAllByProvince(String province){
+        return locationRepository.findLocations(province, null,null);}
 
-    public List<Location> getAllByDistrict(String district){return locationRepository.findLocations(null, district, null);}
+    public List<Location> getAllByDistrict(String district){
+        return locationRepository.findLocations(null, district, null);}
 
-    public List<Location> getAllByWard(String ward){return locationRepository.findLocations(null, null, ward);}
+    public List<Location> getAllByWard(String ward){
+        return locationRepository.findLocations(null, null, ward);}
+
+    public List<Location> getAllByLocation(String province, String district, String ward){
+        return locationRepository.findLocations(province, district, ward);
+    }
 
     public List<Province> getAllProvince(){return provinceRepository.findAll();}
 
@@ -37,7 +44,9 @@ public class LocationService {
 
     public List<Ward> getAllWard(){return wardRepository.findAll();}
 
-    public String getProvinceName(String provinceId){return provinceRepository.getReferenceById(provinceId).getName();}
-    public String getDistrictName(String districtId){return districtRepository.getReferenceById(districtId).getName();}
+    public String getProvinceName(String provinceId){
+        return provinceRepository.getReferenceById(provinceId).getName();}
+    public String getDistrictName(String districtId){
+        return districtRepository.getReferenceById(districtId).getName();}
     public String getWardName(String wardId){return wardRepository.getReferenceById(wardId).getName();}
 }

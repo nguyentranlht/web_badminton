@@ -38,7 +38,7 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http.csrf().disable()
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers( "/admin/**","/user/**","/", "/register", "/error")
+                        .requestMatchers( "/admin/**","/user/**","/", "/register", "/error", "/badmintons/search")
                         .permitAll()
                         .requestMatchers( "**")
                         .hasAnyAuthority("Admin","Super Admin")

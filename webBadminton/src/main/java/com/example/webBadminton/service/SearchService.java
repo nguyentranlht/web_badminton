@@ -11,18 +11,17 @@ import java.util.List;
 @Service
 public class SearchService {
     @Autowired
-    private IBadmintonRepository badmintonRepository;
+    private BadmintonService badmintonService;
 
     public List<Badminton> search(SearchCriteria criteria) {
         // Implement search logic based on criteria
         // For example, a basic search might look like this:
-        return null;
-//                badmintonRepository.findByLocationAndTime(
-//                criteria.getProvince(),
-//                criteria.getDistrict(),
-//                criteria.getWard(),
-//                criteria.getDay(),
-//                criteria.getStartTime(),
-//                criteria.getEndTime());
+        return badmintonService.getAvailableBadminton(
+                criteria.getProvince(),
+                criteria.getDistrict(),
+                criteria.getWard(),
+                criteria.getDay(),
+                criteria.getStartTime(),
+                criteria.getEndTime());
     }
 }

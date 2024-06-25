@@ -74,7 +74,7 @@
             <div class="bg-light shadow" style="padding: 30px;">
                 <div class="row align-items-center" style="min-height: 60px;">
                     <!--Tìm Kiếm Sân-->
-                    <form id="searchForm">
+                    <form style="display: contents" id="searchForm">
                         <div class="col-md-10">
                             <div class="grid gap-3">
                                 <div class="row row-cols-3 p-1">
@@ -134,12 +134,10 @@
     <!-- Booking End -->
 <!-- Packages Start -->
 <div class="container-fluid py-5">
-    <div class="container pt-5 pb-3">
+    <div class="container pt-5 pb-3" id="header">
         <div class="text-center mb-3 pb-3">
-            <h6 class="text-primary text-uppercase" style="letter-spacing: 5px;">Packages</h6>
-            <h1>Pefect Tour Packages</h1>
         </div>
-        <div class="row">
+        <div class="row" id="listBadminton">
             <div class="col-lg-4 col-md-6 mb-4" th:each="badminton, iterStat : ${badmintons}" th:if="${iterStat.count <= 6}">
                 <a th:href="@{/courts/{id}(id=${badminton.id})}" class="text-decoration-none text-dark">
                     <div class="package-item bg-white mb-2">
@@ -421,7 +419,7 @@
     <!-- Template Javascript -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
     <script src="user/js/main.js"></script>
-
+    <script src="user/js/search.js"></script>
     <script src="/user/js/administrative_levels.js"></script>
 
 </body>
