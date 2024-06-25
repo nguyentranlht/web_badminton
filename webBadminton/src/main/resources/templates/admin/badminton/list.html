@@ -113,24 +113,6 @@
 <!-- Template Javascript -->
 <script src="/admin/js/main.js"></script>
 <!--Kiểm tra EndDate > StartDate 1 tiếng -->
-<script>
-    function validateTimes() {
-        var openingTime = document.getElementById("openingTime").value;
-        var closingTime = document.getElementById("closingTime").value;
-        var startTime = openingTime ? new Date("1970-01-01T" + openingTime + "Z") : null;
-        var endTime = closingTime ? new Date("1970-01-01T" + closingTime + "Z") : null;
-        if (startTime && endTime) {
-            var diff = (endTime - startTime) / 3600000; // convert milliseconds to hours
-            if (diff < 1) {
-                document.getElementById("timeError").style.display = 'block';
-                document.getElementById("closingTime").setCustomValidity('Invalid');
-            } else {
-                document.getElementById("timeError").style.display = 'none';
-                document.getElementById("closingTime").setCustomValidity('');
-            }
-        }
-    }
-</script>
 </body>
 </html>
 

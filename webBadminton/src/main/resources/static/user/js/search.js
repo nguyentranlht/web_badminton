@@ -1,13 +1,26 @@
 $(document).ready(function() {
     $('#searchForm').on('submit', function(e) {
         e.preventDefault(); // Prevent the default form submission
+        startTime = $('#startTime').val() ? $('#startTime').val() : null,
+        endTime = $('#endTime').val() ? $('#endTime').val() : null
+        var startHour = parseInt(startTime.split(':')[0], 10);
+        var endHour = parseInt(endTime.split(':')[0], 10);
+
+        if (endHour - startHour < 1) {
+            $('#errorMessage').hidden = false;
+            endHour = startHour + 1;
+            if (endHour >= 24) endHour = 23; // Prevent endHour from exceeding 23
+            endTime = (endHour < 10 ? '0' : '') + endHour + ':00';
+        } else {
+            $('#errorMessage').hidden = true;
+        }
         var formData = {
             province: $('#province').val() != "Province"? $('#province').val() : null,
             district: $('#district').val() != "District"? $('#district').val() : null,
             ward: $('#ward').val() != "Ward"? $('#ward').val() : null,
             day: $('#date1').val() ? $('#date1').val() : new Date().toISOString().split('T')[0],
-            startTime: $('#startTime').val() ? $('#startTime').val() : null,
-            endTime: $('#endTime').val() ? $('#endTime').val() : null
+            startTime: startTime,
+            endTime: endTime
         };
 
         $.ajax({
@@ -73,3 +86,58 @@ function updateBadmintonCards(badmintons) {
         });
     }
 }
+function generateTimeOptions() {
+    var startTime = document.getElementById('startTime');
+    var endTime = document.getElementById('endTime');
+    var startOptionZ = document.createElement('option');
+    startOptionZ.value = null;
+    startOptionZ.text = '--:--';
+    startTime.appendChild(startOptionZ);
+    var endOptionZ = document.createElement('option');
+    endOptionZ.value = null;
+    endOptionZ.text = '--:--';
+    endTime.appendChild(endOptionZ);
+    for (var hour = 0; hour < 24; hour++) {
+        var hourStr = hour < 10 ? '0' + hour : hour; // Format hour with leading zero
+
+        // Create start time option
+        var startOption = document.createElement('option');
+        startOption.value = hourStr + ':00';
+        startOption.text = hourStr + ':00';
+        startTime.appendChild(startOption);
+
+        // Create end time option
+        var endOption = document.createElement('option');
+        endOption.value = hourStr + ':00';
+        endOption.text = hourStr + ':00';
+        endTime.appendChild(endOption);
+    }
+}
+function validateTime() {
+    var startTime = document.getElementById('startTime').value;
+    var endTime = document.getElementById('endTime').value;
+    var errorMessage = document.getElementById('error-message');
+
+    if (startTime && endTime) {
+        var startHour = parseInt(startTime.split(':')[0], 10);
+        var endHour = parseInt(endTime.split(':')[0], 10);
+
+        if (endHour - startHour < 1) {
+            errorMessage.hidden = false;
+        } else {
+            errorMessage.hidden = true;
+        }
+    } else {
+        errorMessage.hidden = true; // Hide error if either time is not selected
+    }
+}
+
+document.addEventListener('DOMContentLoaded', (event) => {
+    generateTimeOptions();
+
+    var startTime = document.getElementById('startTime');
+    var endTime = document.getElementById('endTime');
+
+    startTime.addEventListener('change', validateTime);
+    endTime.addEventListener('change', validateTime);
+});
