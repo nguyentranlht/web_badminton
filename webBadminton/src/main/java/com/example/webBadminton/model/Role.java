@@ -1,5 +1,6 @@
 package com.example.webBadminton.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -28,7 +29,8 @@ public class Role {
     @Column(name = "description", length = 250)
     private String description;
 
-    @ManyToMany(mappedBy = "roles")
+    @OneToMany(mappedBy = "role")
+    @JsonIgnore
     private Set<User> users = new HashSet<>();
 
     public Role(String name) {

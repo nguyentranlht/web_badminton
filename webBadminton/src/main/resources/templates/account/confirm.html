@@ -11,12 +11,11 @@
   <!-- Font Awesome -->
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
 
-
   <!-- Customized Bootstrap Stylesheet -->
   <link href="user/css/style.css" rel="stylesheet">
 </head>
 <body>
-<th:block th:replace="~{layout :: header}"></th:block>
+<th:block th:replace="layout :: header"></th:block>
 
 <!-- Registration Start -->
 <div class="container-fluid bg-registration py-5" style="margin: 90px 0;">
@@ -39,38 +38,40 @@
       <div class="col-lg-5">
         <div class="card border-0">
           <div class="card-header bg-primary text-center p-4">
-            <h1 class="text-white m-0">Login</h1>
+            <h1 class="text-white m-0">Sign Up Now</h1>
           </div>
           <div class="card-body rounded-bottom bg-white p-5">
-            <form th:action="@{/login}" method="post" class="card-body">
-              <div th:if="${param.error}" class="alert alert-danger">
-                Invalid username and password.
-              </div>
-              <div th:if="${param.logout}" class="alert alert-success">
-                You have been logged out.
+            <form th:action="@{/confirm}" method="post" th:object="${user}" class="card-body">
+              <input type="text" th:field="*{id}" id="id" name="id"
+              th:value="*{id}" hidden="hidden">
+              <div class="form-group">
+                <label for="name" class="form-label">Name:</label>
+                <input type="text" placeholder="Your name" class="form-control p-4" th:field="*{name}" id="name" name="name"
+                       th:value="*{name}">
+                <span class="text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
               </div>
               <div class="form-group">
-                <input type="text" placeholder="Username" class="form-control p-4" id="username" name="username" value="superadmin">
+                <label for="email" class="form-label">Email:</label>
+                <input type="email" placeholder="Email" class="form-control p-4" th:field="*{email}" id="email"
+                       name="email" th:value="*{email}" readonly>
+                <span class="text-danger" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
               </div>
               <div class="form-group">
-                <input type="password" placeholder="Password" class="form-control p-4" id="password" name="password" value="superadmin">
-              </div>
-              <div class="form-group form-check">
-                <input type="checkbox" class="form-check-input" id="remember-me">
-                <label class="form-check-label" for="remember-me">Remember me</label>
+                <label for="username" class="form-label">Username:</label>
+                <input th:for="username"type="text" placeholder="Username" class="form-control p-4" id="username" name="username">
+                <span class="text-danger" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></span>
               </div>
               <div class="form-group">
-                <button class="btn btn-primary btn-block py-3" type="submit">Login</button>
+                <label for="password" class="form-label">Password:</label>
+                <input th:for="password" type="text" placeholder="Password" class="form-control p-4" id="password" name="password">
+                <span class="text-danger" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
               </div>
               <div class="form-group">
-                <a class="text-primary text-center" href="/register">Don't have account. Sign up?</a>
+                <button class="btn btn-primary btn-block py-3" type="submit">Sign Up</button>
               </div>
-              <div class="d-grid gap-2 mb-3">
-                <a th:href="@{/oauth2/authorization/google}" class="btn btn-google btn-lg btn-block">
-                  <i class="fab fa-google me-2"></i> Login with Google
-                </a>
+              <div class="form-group">
+                <a class="text-primary text-center" href="/login">Already have an account. Login?</a>
               </div>
-
             </form>
           </div>
         </div>
@@ -83,6 +84,8 @@
 <th:block th:replace="~{layout :: footer}"></th:block>
 
 
+
+<!-- Template Javascript -->
 <script src="user/js/main.js"></script>
 </body>
 
