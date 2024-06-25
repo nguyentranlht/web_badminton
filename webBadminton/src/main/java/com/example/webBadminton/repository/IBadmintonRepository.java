@@ -1,7 +1,10 @@
 package com.example.webBadminton.repository;
 
 import com.example.webBadminton.model.court.Badminton;
+import com.example.webBadminton.model.court.Location;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
@@ -11,5 +14,6 @@ import java.util.List;
 @Repository
 public interface IBadmintonRepository extends JpaRepository<Badminton, Long> {
 
-//    List<Badminton> findByLocationAndTime(String province, String district, String ward, LocalDate day, LocalTime startTime, LocalTime endTime);
+    @Query("SELECT b FROM Badminton b WHERE b.location IN :locations")
+    List<Badminton> findByLocations(@Param("locations") List<Location> locations);
 }

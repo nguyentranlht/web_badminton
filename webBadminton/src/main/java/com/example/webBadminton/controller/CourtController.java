@@ -98,11 +98,7 @@ public class CourtController {
     @GetMapping("/availableTimeSlots")
     @ResponseBody
     public List<LocalTime[]> getAvailableTimeSlots(@RequestParam LocalDate date, @RequestParam Long courtId, @RequestParam Long badmintonId) {
-        Court court = courtService.getCourtById(badmintonId, courtId)
-                .orElseThrow(() -> new IllegalArgumentException("Invalid court Id: " + courtId));
-        List<LocalTime[]> allTimeSlots = timeSlotService.generateTimeSlots(court);
-        List<LocalTime[]> availableTimeSlots = timeSlotService.filterAvailableTimeSlots(allTimeSlots, date, court);
-        return availableTimeSlots;
+        return courtService.getAvailableTimeSlots(date, courtId, badmintonId);
     }
 
 }

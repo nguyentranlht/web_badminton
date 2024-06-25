@@ -9,11 +9,15 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.validation.constraints.NotNull;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -22,6 +26,8 @@ import java.util.Optional;
 public class CourtService {
     @Autowired
     private final ICourtRepository courtRepository;
+    @Autowired
+    private final TimeSlotService timeSlotService;
 
     public List<Court> getAllCourts() {
         return courtRepository.findAll();
@@ -74,5 +80,52 @@ public class CourtService {
         existingCourt.setDescription(court.getDescription());
         existingCourt.setCategory(court.getCategory());*/
         courtRepository.save(existingCourt);
+    }
+
+    public List<LocalTime[]> getAvailableTimeSlots(@RequestParam LocalDate date, @RequestParam Long courtId, @RequestParam Long badmintonId)
+    {
+        Court court = getCourtById(badmintonId, courtId)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid court Id: " + courtId));
+        List<LocalTime[]> allTimeSlots = timeSlotService.generateTimeSlots(court);
+        return timeSlotService.filterAvailableTimeSlots(allTimeSlots, date, court);
+    }
+
+
+    public boolean getAvailableCourt(LocalDate date, Long courtId, Long badmintonId, LocalTime startTime, LocalTime endTime) {
+        List<LocalTime[]> availableTimeSlots = getAvailableTimeSlots(date, courtId, badmintonId);
+
+        if (availableTimeSlots.isEmpty()) {
+            System.out.println("No available time slots on this day.");
+            return false;
+        }
+
+        // Calculate the number of slots needed
+        long slotsNeeded = endTime.getHour() - startTime.getHour();
+
+        // Filter slots that start at or after startTime and end at or before endTime
+        List<LocalTime[]> filteredSlots = availableTimeSlots.stream()
+                .filter(slot -> !slot[0].isBefore(startTime) && !slot[1].isAfter(endTime))
+                .collect(Collectors.toList());
+
+        // Check if there are enough consecutive slots available
+        return hasConsecutiveSlots(filteredSlots, startTime, slotsNeeded);
+    }
+
+    // Method to check if there are enough consecutive slots
+    private boolean hasConsecutiveSlots(List<LocalTime[]> slots, LocalTime startTime, long slotsNeeded) {
+        int consecutiveCount = 0;
+
+        for (LocalTime[] slot : slots) {
+            if (slot[0].equals(startTime.plusHours(consecutiveCount))) {
+                consecutiveCount++;
+                if (consecutiveCount == slotsNeeded) {
+                    return true;
+                }
+            } else {
+                consecutiveCount = 0; // reset if any slot is not consecutive
+            }
+        }
+
+        return false;
     }
 }
