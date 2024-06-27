@@ -93,6 +93,9 @@ public class CourtService {
 
     public boolean getAvailableCourt(LocalDate date, Long courtId, Long badmintonId, LocalTime startTime, LocalTime endTime) {
         List<LocalTime[]> availableTimeSlots = getAvailableTimeSlots(date, courtId, badmintonId);
+        availableTimeSlots.forEach(p -> {
+            System.out.println("BadId: " + badmintonId + ", CourtId: " + courtId + ", Date: " + date + ", Start: " + p[0] + ", End: " + p[1]);
+        });
 
         // Define the sentinel value
         LocalTime sentinelTime = LocalTime.of(3, 0);

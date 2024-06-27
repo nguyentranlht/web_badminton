@@ -3,7 +3,7 @@ Add Badminton: sửa lỗi edit badminton, thêm ảnh/giá/... ,thiếu validat
 Giao diện: xóa nút add court, fix nút court list
 
 USER:
-search Hà Nội có kết quả trả về tất cả nhưng lại hiện thông báo không tìm thấy, lịch đã kín nhưng vẫn tìm thấy, chưa xóa thông báo không tìm thấy
+search: 
 Chat: khi bấm Type your message thì bị tắt khung chat 
 
 Sign up: mật khẩu bị hiển thị, chưa đồng nhất form confirm và Sign up
@@ -17,3 +17,6 @@ Thiếu checkout
 
 DATABASE:
 Có hai bang booking: Bookingcourt và booking
+
+Solved:
+lịch đã kín nhưng vẫn tìm thấy, Hà Nội có kết quả trả về tất cả nhưng lại hiện thông báo không tìm thấy, chưa xóa thông báo không tìm thấy

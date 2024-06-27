@@ -15,12 +15,11 @@ $(document).ready(function() {
         } else {
             $('#errorMessage').hidden = true;
         }
-        console.log(startTime + " " + endTime)
         var formData = {
             province: $('#province').val() != "Province"? $('#province').val() : null,
             district: $('#district').val() != "District"? $('#district').val() : null,
             ward: $('#ward').val() != "Ward"? $('#ward').val() : null,
-            day: $('#date1').val() ? $('#date1').val() : new Date().toISOString().split('T')[0],
+            day: $('#date1').find('input').val() ? moment($('#date1').find('input').val(), 'MM/DD/YYYY').format('YYYY-MM-DD') : new Date().toISOString().split('T')[0],
             startTime: startTime,
             endTime: endTime
         };
@@ -46,6 +45,7 @@ function updateBadmintonCards(badmintons) {
     var listContainer = $('#listBadminton');
     var header = $('#header');
     listContainer.empty(); // Clear previous results
+    header.empty();
     if (badmintons.length === 0) {
         header.append("<div class='text-center mb-3 pb-3'>" +
                             "<h1 style='font-size: 4rem'>Ouch!</h1>" +
