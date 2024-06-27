@@ -188,6 +188,9 @@ function toggleChat() {
             chatWrapper.classList.add('chat-closed');
         }
 }
+function stopPropagation(event) {
+    event.stopPropagation();
+}
 
 function closeChat(event) {
     event.stopPropagation(); // Stop the event from bubbling up to parent elements
