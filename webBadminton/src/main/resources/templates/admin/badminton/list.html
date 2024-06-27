@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 
 <head>
     <meta charset="utf-8">
@@ -60,7 +60,6 @@
             <tr>
                 <th>ID</th>
                 <th>Badminton Name</th>
-                <th>Address</th>
                 <th>Court Quantity</th>
                 <th>Opening Time</th>
                 <th>Closing Time</th>
@@ -71,22 +70,30 @@
             <tr th:each="badminton : ${badmintons}">
                 <td th:text="${badminton.id}"></td>
                 <td th:text="${badminton.badmintonName}"></td>
-                <td th:text="${badminton.location.address}
-                    + (${badminton.location.wardName} != null ? ', ' + ${badminton.location.wardName}: '')
-                    + (${badminton.location.districtName} != null ? ', ' + ${badminton.location.districtName}: '')
-                    + (${badminton.location.provinceName} != null ? ', ' + ${badminton.location.provinceName}: '')"></td>
                 <td th:text="${badminton.courtQuantity}"></td>
                 <td th:text="${badminton.openingTime}"></td>
                 <td th:text="${badminton.closingTime}"></td>
                 <td>
-                    <a th:href="@{/admin/badmintons/edit/{id}(id=${badminton.id})}" class="btn btn-success btn-sm">
-                        <i class="fa-solid fa-pen-to-square"></i>
-                    </a>
-                    <a th:href="@{/admin/badmintons/delete/{id}(id=${badminton.id})}" class="btn btn-danger btn-sm"
-                       onclick="return confirm('Are you sure?')">
-                        <i class="fa-solid fa-trash"></i>
-                    </a>
+                    <div sec:authorize="hasAnyAuthority('Admin', 'Super Admin')">
+                        <a th:href="@{/admin/badmintons/edit/{id}(id=${badminton.id})}" class="btn btn-success btn-sm">
+                            <i class="fa-solid fa-pen-to-square"></i>
+                        </a>
+                        <a th:href="@{/admin/badmintons/delete/{id}(id=${badminton.id})}" class="btn btn-danger btn-sm"
+                           onclick="return confirm('Are you sure?')">
+                            <i class="fa-solid fa-trash"></i>
+                        </a>
+                    </div>
+                    <div sec:authorize="hasAuthority('Owner')">
+                        <a th:href="@{/owner/badmintons/edit/{id}(id=${badminton.id})}" class="btn btn-success btn-sm">
+                            <i class="fa-solid fa-pen-to-square"></i>
+                        </a>
+                        <a th:href="@{/owner/badmintons/delete/{id}(id=${badminton.id})}" class="btn btn-danger btn-sm"
+                           onclick="return confirm('Are you sure?')">
+                            <i class="fa-solid fa-trash"></i>
+                        </a>
+                    </div>
                 </td>
+
             </tr>
             </tbody>
         </table>
@@ -113,6 +120,23 @@
 <!-- Template Javascript -->
 <script src="/admin/js/main.js"></script>
 <!--Kiểm tra EndDate > StartDate 1 tiếng -->
+<script>
+    function validateTimes() {
+        var openingTime = document.getElementById("openingTime").value;
+        var closingTime = document.getElementById("closingTime").value;
+        var startTime = openingTime ? new Date("1970-01-01T" + openingTime + "Z") : null;
+        var endTime = closingTime ? new Date("1970-01-01T" + closingTime + "Z") : null;
+        if (startTime && endTime) {
+            var diff = (endTime - startTime) / 3600000; // convert milliseconds to hours
+            if (diff < 1) {
+                document.getElementById("timeError").style.display = 'block';
+                document.getElementById("closingTime").setCustomValidity('Invalid');
+            } else {
+                document.getElementById("timeError").style.display = 'none';
+                document.getElementById("closingTime").setCustomValidity('');
+            }
+        }
+    }
+</script>
 </body>
 </html>
-

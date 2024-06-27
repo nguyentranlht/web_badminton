@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <title>Admin Badminton</title>
+
+    <!-- Favicon -->
+    <link href="/admin/img/favicon.ico" rel="icon">
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Icon Font Stylesheet -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Libraries Stylesheet -->
+    <link href="/admin/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+    <link href="/admin/lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="/admin/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Template Stylesheet -->
+    <link href="/admin/css/style.css" rel="stylesheet">
+
+    <!-- Custom Styles -->
+    <style>
+        .status-buttons {
+            display: flex;
+            gap: 5px;
+        }
+
+        .status-buttons .btn {
+            padding: 5px 10px;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+            color: white;
+            border-radius: 3px;
+            transition: background-color 0.3s ease;
+        }
+
+        .status-buttons .status-on {
+            background-color: #1a1a1a;
+        }
+
+        .status-buttons .status-hover {
+            background-color: #4a90e2;
+        }
+
+        .status-buttons .status-off {
+            background-color: #5a6e9b;
+        }
+
+        .status-buttons .status-on:hover {
+            background-color: #000;
+        }
+
+        .status-buttons .status-hover:hover {
+            background-color: #357abd;
+        }
+
+        .status-buttons .status-off:hover {
+            background-color: #3e517a;
+        }
+    </style>
+</head>
+
+<body>
+<div class="container-fluid position-relative bg-white d-flex p-0">
+    <!-- Spinner Start -->
+    <th:block th:replace="admin/layoutadmin :: admin-spinner"></th:block>
+    <!-- Spinner End -->
+
+    <!-- Sidebar Start -->
+    <th:block th:replace="admin/layoutadmin :: admin-sidebar"></th:block>
+    <!-- Sidebar End -->
+
+
+    <!-- Content Start -->
+    <div class="content">
+        <!-- Navbar Start -->
+        <th:block th:replace="admin/layoutadmin :: admin-header"></th:block>
+        <!-- Navbar End -->
+        <!-- Search Form Start -->
+        <div class="container-fluid pt-4 px-4">
+            <div class="bg-light rounded p-4">
+                <!--Search theo ngày, tên sân, tên khách hàng. Chưa làm được-->
+                <form th:action="@{/admin/badmintons/search}" method="get" class="d-flex">
+                    <input type="text" name="keyword" th:value="${keyword}" class="form-control me-2" placeholder="Search">
+                    <button type="submit" class="btn btn-primary"><i class="fas fa-search"></i></button>
+                </form>
+            </div>
+        </div>
+        <!-- Search Form End -->
+        <!-- Recent Sales Start -->
+        <div class="container-fluid pt-4 px-4">
+            <div class="bg-light text-center rounded p-4">
+                <div class="d-flex align-items-center justify-content-between mb-4">
+                    <h6 class="mb-0">Recent Salse</h6>
+                    <a href="">Show All</a>
+                </div>
+                <div class="table-responsive">
+                    <table class="table text-start align-middle table-bordered table-hover mb-0">
+                        <thead>
+                        <tr class="text-dark">
+                            <th><input class="form-check-input" type="checkbox"></th>
+                            <th>Date</th>
+                            <th>Court</th>
+                            <th>Customer</th>
+                            <th>Amount</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td><input class="form-check-input" type="checkbox"></td>
+                            <td>Date</td>
+                            <td>Tên Sân</td>
+                            <td>Tên Khách Hàng</td>
+                            <td>Giá Thuê</td>
+                            <td>
+                                <div class="status-buttons">
+                                    <button class="btn status-on">On</button>
+                                    <button class="btn status-hover">Hover</button>
+                                    <button class="btn status-off">Off</button>
+                                </div>
+                            </td>
+                            <td>
+                                <a class="btn btn-sm btn-primary" href="">
+                                    <i class="fa-solid fa-file"></i>
+                                </a>
+                            </td>
+                            <!--Trạng thái thanh toán-->
+                            <!--<td>
+                                <span th:text="${badminton.isPaid ? 'Đã thanh toán' : 'Chưa thanh toán'}"></span>
+                            </td>-->
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <!-- Recent Sales End -->
+
+    </div>
+    <!-- Content End -->
+
+
+    <!-- Back to Top -->
+    <a  href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
+</div>
+
+<!-- JavaScript Libraries -->
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="/admin/lib/chart/chart.min.js"></script>
+<script src="/admin/lib/easing/easing.min.js"></script>
+<script src="/admin/lib/waypoints/waypoints.min.js"></script>
+<script src="/admin/lib/owlcarousel/owl.carousel.min.js"></script>
+<script src="/admin/lib/tempusdominus/js/moment.min.js"></script>
+<script src="/admin/lib/tempusdominus/js/moment-timezone.min.js"></script>
+<script src="/admin/lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
+
+<!-- Template Javascript -->
+<script src="/admin/js/main.js"></script>
+</body>
+</html>

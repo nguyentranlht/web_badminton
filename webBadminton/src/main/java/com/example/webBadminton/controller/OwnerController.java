@@ -26,8 +26,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Controller
-@RequestMapping("/admin")
-public class AdminController {
+@RequestMapping("/owner")
+public class OwnerController {
     @Autowired
     private CourtService courtService;
     @Autowired
@@ -38,14 +38,16 @@ public class AdminController {
     private SearchService searchService;
 
     @GetMapping
-    public String index(Model model) {
+    public String ownerhome(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         CustomUserDetail customUserDetail = (CustomUserDetail) authentication.getPrincipal();
         model.addAttribute("username", customUserDetail.getUsername());
         model.addAttribute("roles", customUserDetail.getAuthorities().stream()
                 .map(authority -> authority.getAuthority())
                 .collect(Collectors.joining(", ")));
-        return "admin/home/index";
+        List<Badminton> badmintons = badmintonService.getAllBadmintons();
+        model.addAttribute("badmintons", badmintons);
+        return "admin/badminton/action";
     }
 
     @GetMapping("/badmintons")
@@ -149,7 +151,7 @@ public class AdminController {
 
     @PostMapping("/courts/edit/{id}")
     public String updateCourt(@PathVariable Long badmintonId, @PathVariable Long courtId, @Valid Court court,
-                                BindingResult result, Model model) {
+                              BindingResult result, Model model) {
         if (result.hasErrors()) {
             court.setCourtId(courtId);
             court.setBadmintonId(badmintonId);
@@ -159,7 +161,7 @@ public class AdminController {
         model.addAttribute("courts", courtService.getAllCourts());
         return "redirect:/admin/courts";
     }
-    
+
     @GetMapping("/courts/delete/{badmintonId}/{courtId}")
     public String deleteCourt(@PathVariable("badmintonId") Long badmintonId, @PathVariable("courtId") Long courtId) {
         courtService.deleteCourt(badmintonId, courtId);

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 
 <head>
     <meta charset="utf-8">
@@ -69,16 +69,27 @@
             <tr th:each="court : ${courts}">
                 <td th:text="${court.id}"></td>
                 <td th:text="${court.courtName}"></td>
-<!--                <td th:text="${court.rentalPrice}"></td>-->
+                <!--                <td th:text="${court.rentalPrice}"></td>-->
                 <td th:text="${court.badminton.badmintonName}"></td>
                 <td>
-                    <a th:href="@{/admin/courts/edit/{id}(id=${court.id})}" class="btn btn-success btn-sm">
-                        <i class="fa-solid fa-pen-to-square"></i>
-                    </a>
-                    <a th:href="@{/admin/courts/delete/{id}(id=${court.id})}" class="btn btn-danger btn-sm"
-                       onclick="return confirm('Are you sure?')">
-                        <i class="fa-solid fa-trash"></i>
-                    </a>
+                    <div sec:authorize="hasAnyAuthority('Admin', 'Super Admin')">
+                        <a th:href="@{/admin/courts/edit/{id}(id=${court.id})}" class="btn btn-success btn-sm">
+                            <i class="fa-solid fa-pen-to-square"></i>
+                        </a>
+                        <a th:href="@{/admin/courts/delete/{id}(id=${court.id})}" class="btn btn-danger btn-sm"
+                           onclick="return confirm('Are you sure?')">
+                            <i class="fa-solid fa-trash"></i>
+                        </a>
+                    </div>
+                    <div sec:authorize="hasAuthority('Owner')">
+                        <a th:href="@{/owner/courts/edit/{id}(id=${court.id})}" class="btn btn-success btn-sm">
+                            <i class="fa-solid fa-pen-to-square"></i>
+                        </a>
+                        <a th:href="@{/owner/courts/delete/{id}(id=${court.id})}" class="btn btn-danger btn-sm"
+                           onclick="return confirm('Are you sure?')">
+                            <i class="fa-solid fa-trash"></i>
+                        </a>
+                    </div>
                 </td>
             </tr>
             </tbody>
