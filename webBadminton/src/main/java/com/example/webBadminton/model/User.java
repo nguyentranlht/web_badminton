@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
+
 @Data
 @Entity
 @Table(name = "user")
@@ -53,5 +55,11 @@ public class User {
     }
 
     public User() {}
+
+    /*public String getRoleNames() {
+        return roles.stream()
+                .map(Role::getName)
+                .collect(Collectors.joining(", "));
+    }*/
 
 }

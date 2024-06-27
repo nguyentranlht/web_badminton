@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 
 <head>
     <meta charset="utf-8">
@@ -79,14 +79,26 @@
                 <td th:text="${badminton.openingTime}"></td>
                 <td th:text="${badminton.closingTime}"></td>
                 <td>
-                    <a th:href="@{/admin/badmintons/edit/{id}(id=${badminton.id})}" class="btn btn-success btn-sm">
-                        <i class="fa-solid fa-pen-to-square"></i>
-                    </a>
-                    <a th:href="@{/admin/badmintons/delete/{id}(id=${badminton.id})}" class="btn btn-danger btn-sm"
-                       onclick="return confirm('Are you sure?')">
-                        <i class="fa-solid fa-trash"></i>
-                    </a>
+                    <div sec:authorize="hasAnyAuthority('Admin', 'Super Admin')">
+                        <a th:href="@{/admin/badmintons/edit/{id}(id=${badminton.id})}" class="btn btn-success btn-sm">
+                            <i class="fa-solid fa-pen-to-square"></i>
+                        </a>
+                        <a th:href="@{/admin/badmintons/delete/{id}(id=${badminton.id})}" class="btn btn-danger btn-sm"
+                           onclick="return confirm('Are you sure?')">
+                            <i class="fa-solid fa-trash"></i>
+                        </a>
+                    </div>
+                    <div sec:authorize="hasAuthority('Owner')">
+                        <a th:href="@{/owner/badmintons/edit/{id}(id=${badminton.id})}" class="btn btn-success btn-sm">
+                            <i class="fa-solid fa-pen-to-square"></i>
+                        </a>
+                        <a th:href="@{/owner/badmintons/delete/{id}(id=${badminton.id})}" class="btn btn-danger btn-sm"
+                           onclick="return confirm('Are you sure?')">
+                            <i class="fa-solid fa-trash"></i>
+                        </a>
+                    </div>
                 </td>
+
             </tr>
             </tbody>
         </table>
