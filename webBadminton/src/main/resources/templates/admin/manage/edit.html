@@ -30,7 +30,7 @@
 </head>
 
 <body>
-<<div class="container-fluid pt-4 px-4">
+<div class="container-fluid pt-4 px-4">
     <div class="row g-4">
         <div class="col-sm-12 col-xl-6">
             <div class="bg-light rounded h-100 p-4">
@@ -50,23 +50,17 @@
                     </div>
                     <div class="mb-3">
                         <label for="roles" class="form-label">Roles:</label>
-                        <select id="roles" name="roleIds" class="form-control">
-                            <option th:each="role : ${roles}"
-                                    th:value="${role.id}"
-                                    th:text="${role.name}"
-                                    th:selected="${userRoles.contains(role.id)}">
-                            </option>
+                        <select id="roles" name="roleId" class="form-control">
+                            <option th:each="role : ${roles}" th:value="${role.id}" th:text="${role.name}" th:selected="${role.id} == ${userRoles}"></option>
                         </select>
                     </div>
                     <button type="submit" class="btn btn-primary">Update User</button>
-                    <a th:href="@{/admin}" class="btn btn-link">Cancel</a>
+                    <a th:href="@{/admin/manage}" class="btn btn-link">Cancel</a>
                 </form>
             </div>
         </div>
     </div>
 </div>
-
-
 
 <!--JavaScript Libraries-->
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
@@ -81,7 +75,6 @@
 
 <!--Template Javascript-->
 <script src="/admin/js/main.js"></script>
-
 
 </body>
 

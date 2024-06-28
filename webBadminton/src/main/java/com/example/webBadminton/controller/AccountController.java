@@ -1,17 +1,17 @@
 package com.example.webBadminton.controller;
 
-import com.example.webBadminton.model.court.Badminton;
 import com.example.webBadminton.model.CustomUserDetail;
 import com.example.webBadminton.model.User;
+import com.example.webBadminton.model.court.Badminton;
+import com.example.webBadminton.service.BadmintonService;
 import com.example.webBadminton.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import com.example.webBadminton.model.Role;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -21,6 +21,9 @@ public class AccountController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private BadmintonService badmintonService;
 
     @GetMapping("/manage")
     public String getAllAccountsUser(Model model) {
@@ -33,7 +36,6 @@ public class AccountController {
 
         List<User> users = userService.getAllUsers();
         model.addAttribute("users", users);
-        users.forEach(user -> System.out.println(user.getRole().getName())); // Đã thay đổi để gọi role.getName()
         return "admin/manage/account";
     }
 
@@ -42,13 +44,13 @@ public class AccountController {
         User user = userService.getUserById(id);
         model.addAttribute("user", user);
         model.addAttribute("roles", userService.getAllRoles());
-        model.addAttribute("userRoles", List.of(user.getRole().getId())); // Đã thay đổi để lấy role ID
+        model.addAttribute("userRoles", user.getRole().getId());
         return "admin/manage/edit";
     }
 
     @PostMapping("/manage/edit/{id}")
-    public String updateAccountUser(@PathVariable("id") Long id, @ModelAttribute("user") User user, @RequestParam Long roleId) {
-        userService.updateUserRole(id, roleId); // Đã thay đổi để cập nhật role
+    public String updateAccountUser(@PathVariable("id") Long id, @RequestParam Long roleId) {
+        userService.updateUserRole(id, roleId);
         return "redirect:/admin/manage";
     }
 

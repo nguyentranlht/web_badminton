@@ -20,6 +20,7 @@ public class UserService {
     private IRoleRepository roleRepository;
     @Autowired
     private PasswordEncoder passwordEncoder;
+
     public void save(User user) {
         try {
             user.passwordEncryption(user.getPassword());
@@ -27,21 +28,18 @@ public class UserService {
             Long userId = userRepository.getUserIdByUsername(user.getUsername());
             Long role = roleRepository.getRoleIdByName("Super Admin");
             if (role != 0 && userId != 0)
-                userRepository.addRoleToUser(userId,role);
+                userRepository.addRoleToUser(userId, role);
         } catch (Exception e) {
-            // Log the exception details (you can use any logging framework)
             System.err.println("An error occurred while saving the user: " + e.getMessage());
-            // Re-throw if necessary or handle accordingly
             throw e;
         }
     }
 
-    public Optional<User> getUserByEmail(String email)
-    {
+    public Optional<User> getUserByEmail(String email) {
         return userRepository.findByEmail(email);
     }
 
-    public void updateUser(@NotNull User user){
+    public void updateUser(@NotNull User user) {
         User existedUser = userRepository.findById(user.getId())
                 .orElseThrow(() -> new IllegalStateException("User with ID " + user.getId() + " does not exist."));
         existedUser.setName(user.getName());

@@ -68,7 +68,7 @@
                             <td th:text="${user.name}"></td>
                             <td th:text="${user.email}"></td>
                             <td th:text="${user.username}"></td>
-                            <td th:text="${user.getRoleNames()}"></td>
+                            <td th:text="${user.role.name}"></td>
                             <td sec:authorize="hasAuthority('Super Admin')">
                                 <a th:href="@{/admin/manage/edit/{id}(id=${user.id})}" class="btn btn-success btn-sm">
                                     <i class="fa-solid fa-pen-to-square"></i>

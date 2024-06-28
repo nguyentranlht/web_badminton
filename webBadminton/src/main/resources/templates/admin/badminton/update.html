@@ -60,11 +60,6 @@
                                 <div class="text-danger" th:if="${#fields.hasErrors('badmintonName')}" th:errors="*{badmintonName}"></div>
                             </div>
                             <div class="mb-3">
-                                <label for="address" class="form-label">Address:</label>
-                                <input type="text" th:field="*{address}" class="form-control" id="address" required>
-                                <div class="text-danger" th:if="${#fields.hasErrors('address')}" th:errors="*{address}"></div>
-                            </div>
-                            <div class="mb-3">
                                 <label for="courtQuantity" class="form-label">Court Quantity:</label>
                                 <input type="number" th:field="*{courtQuantity}" class="form-control" id="courtQuantity" required>
                                 <div class="text-danger" th:if="${#fields.hasErrors('courtQuantity')}" th:errors="*{courtQuantity}"></div>

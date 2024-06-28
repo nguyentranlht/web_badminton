@@ -11,6 +11,8 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
+
 @Data
 @Entity
 @Table(name = "user")
@@ -60,4 +62,7 @@ public class User {
         this.password = new BCryptPasswordEncoder().encode(rawPassword);
     }
 
+    public String getRoleName() {
+        return role != null ? role.getName() : null;
+    }
 }
