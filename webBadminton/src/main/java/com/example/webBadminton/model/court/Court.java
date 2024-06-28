@@ -1,6 +1,7 @@
 package com.example.webBadminton.model.court;
+
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.Data;
 
 @Data
 @Entity

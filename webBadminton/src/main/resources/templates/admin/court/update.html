@@ -9,8 +9,8 @@
     <link href="/admin/img/favicon.ico" rel="icon">
 
     <!-- Google Web Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com" rel="preconnect">
+    <link crossorigin href="https://fonts.gstatic.com" rel="preconnect">
     <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     <!-- Icon Font Stylesheet -->
@@ -19,7 +19,7 @@
 
     <!-- Libraries Stylesheet -->
     <link href="/admin/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
-    <link href="/admin/lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
+    <link href="/admin/lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet"/>
 
     <!-- Customized Bootstrap Stylesheet -->
     <link href="/admin/css/bootstrap.min.css" rel="stylesheet">
@@ -52,22 +52,25 @@
                 <div class="col-sm-12 col-xl-6">
                     <div class="bg-light rounded h-100 p-4">
                         <h1>Update Court</h1>
-                        <form th:action="@{/admin/courts/edit/{id}(id=${court.id})}" th:object="${court}" method="post"
-                              enctype="multipart/form-data" class="needs-validation" novalidate>
+                        <form class="needs-validation" enctype="multipart/form-data" method="post"
+                              novalidate th:action="@{/admin/courts/edit/{id}(id=${court.id})}" th:object="${court}">
                             <div class="mb-3">
-                                <label for="courtName" class="form-label">Court Name:</label>
-                                <input type="text" th:field="*{courtName}" class="form-control" id="courtName" required>
-                                <div class="text-danger" th:if="${#fields.hasErrors('courtName')}" th:errors="*{courtName}"></div>
+                                <label class="form-label" for="courtName">Court Name:</label>
+                                <input class="form-control" id="courtName" required th:field="*{courtName}" type="text">
+                                <div class="text-danger" th:errors="*{courtName}"
+                                     th:if="${#fields.hasErrors('courtName')}"></div>
                             </div>
                             <div class="mb-3">
-                                <label for="badminton" class="form-label">Badminton:</label>
-                                <select th:field="*{badminton}" class="form-control" id="badminton" required>
-                                    <option th:each="badminton : ${badmintons}" th:value="${badminton.id}" th:text="${badminton.badmintonName}"></option>
+                                <label class="form-label" for="badminton">Badminton:</label>
+                                <select class="form-control" id="badminton" required th:field="*{badminton}">
+                                    <option th:each="badminton : ${badmintons}" th:text="${badminton.badmintonName}"
+                                            th:value="${badminton.id}"></option>
                                 </select>
-                                <div class="text-danger" th:if="${#fields.hasErrors('badminton')}" th:errors="*{badminton}"></div>
+                                <div class="text-danger" th:errors="*{badminton}"
+                                     th:if="${#fields.hasErrors('badminton')}"></div>
                             </div>
-                            <button type="submit" class="btn btn-primary">Update Court</button>
-                            <a th:href="@{/admin}" class="btn btn-link">Cancel</a>
+                            <button class="btn btn-primary" type="submit">Update Court</button>
+                            <a class="btn btn-link" th:href="@{/admin}">Cancel</a>
                         </form>
                     </div>
                 </div>
@@ -79,7 +82,7 @@
 
 
     <!-- Back to Top -->
-    <a  href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
+    <a class="btn btn-lg btn-primary btn-lg-square back-to-top" href="#"><i class="bi bi-arrow-up"></i></a>
 </div>
 
 <!-- JavaScript Libraries -->

@@ -4,8 +4,8 @@ import com.example.webBadminton.model.court.Badminton;
 import com.example.webBadminton.model.court.Court;
 import com.example.webBadminton.model.court.Location;
 import com.example.webBadminton.repository.IBadmintonRepository;
-import lombok.RequiredArgsConstructor;
 import com.example.webBadminton.repository.ICourtRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,7 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -47,8 +46,7 @@ public class BadmintonService {
         badmintonRepository.save(badminton);
     }
 
-    public void updateQuantity(Long badmintonId)
-    {
+    public void updateQuantity(Long badmintonId) {
         Badminton badminton = badmintonRepository.getReferenceById(badmintonId);
         badminton.setCourtQuantity(badminton.getCourtQuantity() - 1);
     }

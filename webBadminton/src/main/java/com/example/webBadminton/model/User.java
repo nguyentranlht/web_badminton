@@ -3,13 +3,13 @@ package com.example.webBadminton.model;
 import com.example.webBadminton.model.court.Badminton;
 import com.example.webBadminton.validator.annotation.ValidUsername;
 import jakarta.persistence.*;
-import javax.validation.constraints.*;
 import lombok.Data;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
+
 @Data
 @Entity
 @Table(name = "user")
@@ -52,6 +52,7 @@ public class User {
         this.name = name;
     }
 
-    public User() {}
+    public User() {
+    }
 
 }

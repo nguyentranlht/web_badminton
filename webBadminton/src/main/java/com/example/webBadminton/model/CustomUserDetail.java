@@ -6,13 +6,13 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
 public class CustomUserDetail implements UserDetails {
     private final User user;
     private final IUserRepository userRepository;
+
     public CustomUserDetail(User user, IUserRepository userRepository) {
         this.user = user;
         this.userRepository = userRepository;
@@ -27,6 +27,7 @@ public class CustomUserDetail implements UserDetails {
         }
         return authorities;
     }
+
     @Override
     public String getPassword() {
         return user.getPassword();

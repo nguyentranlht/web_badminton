@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <title>BMT WEB - Book a Court</title>
     <!-- Google Web Fonts -->
-    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.gstatic.com" rel="preconnect">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     <!-- Font Awesome -->
@@ -30,34 +30,36 @@
                     <h1 class="text-white m-0">Book Your Court</h1>
                 </div>
                 <div class="card-body">
-                    <form th:action="@{/courts/bookCourt}" th:object="${bookingCourt}" method="post">
+                    <form method="post" th:action="@{/courts/bookCourt}" th:object="${bookingCourt}">
                         <!-- Hidden field for court ID -->
-                        <input type="hidden" id="courtId" value="${court.courtId}" th:field="*{court.courtId}" />
-                        <input type="hidden" id="badmintonId" value="${court.badmintonId}" th:field="*{court.badmintonId}" />
+                        <input id="courtId" th:field="*{court.courtId}" type="hidden" value="${court.courtId}"/>
+                        <input id="badmintonId" th:field="*{court.badmintonId}" type="hidden"
+                               value="${court.badmintonId}"/>
 
                         <!-- Display the court name -->
                         <div class="mt-3">
                             <label class="form-label">Court Name:</label>
-                            <input type="text" th:value="${bookingCourt.court.details}" class="form-control" disabled>
+                            <input class="form-control" disabled th:value="${bookingCourt.court.details}" type="text">
                         </div>
 
                         <!-- Input for Phone Number -->
                         <div class="mt-3">
                             <label class="form-label" for="phoneNumber">Phone Number:</label>
-                            <input class="form-control" type="text" th:field="*{phoneNumber}" id="phoneNumber" required>
+                            <input class="form-control" id="phoneNumber" required th:field="*{phoneNumber}" type="text">
                         </div>
                         <!-- Date Picker Input -->
                         <div class="mt-3">
-                            <label for="bookingDate" class="form-label"><i class="fa fa-calendar-alt text-primary mr-2"></i>Choose your date:</label>
-                            <input type="date" id="bookingDate" name="bookingDate" class="form-control" required>
+                            <label class="form-label" for="bookingDate"><i
+                                    class="fa fa-calendar-alt text-primary mr-2"></i>Choose your date:</label>
+                            <input class="form-control" id="bookingDate" name="bookingDate" required type="date">
                         </div>
                         <div class="mb-3">
-                            <label for="timeSlot" class="form-label">Chọn khung giờ:</label>
-                            <select id="timeSlot" name="timeSlot" class="form-control" required>
+                            <label class="form-label" for="timeSlot">Chọn khung giờ:</label>
+                            <select class="form-control" id="timeSlot" name="timeSlot" required>
                                 <option value="">-- Chọn khung giờ --</option>
                                 <th:block th:each="timeSlot : ${timeSlots}">
-                                    <option th:value="${#temporals.format(timeSlot[0], 'HH:mm')} + ' to ' + ${#temporals.format(timeSlot[1], 'HH:mm')}"
-                                            th:text="${#temporals.format(timeSlot[0], 'HH:mm')} + ' - ' + ${#temporals.format(timeSlot[1], 'HH:mm')}">
+                                    <option th:text="${#temporals.format(timeSlot[0], 'HH:mm')} + ' - ' + ${#temporals.format(timeSlot[1], 'HH:mm')}"
+                                            th:value="${#temporals.format(timeSlot[0], 'HH:mm')} + ' to ' + ${#temporals.format(timeSlot[1], 'HH:mm')}">
                                     </option>
                                 </th:block>
                             </select>
@@ -65,7 +67,7 @@
                         </div>
                         <!-- Booking Button -->
                         <div class="mt-3">
-                            <button type="submit" class="btn btn-primary btn-block">Book Now</button>
+                            <button class="btn btn-primary btn-block" type="submit">Book Now</button>
                         </div>
                     </form>
                 </div>

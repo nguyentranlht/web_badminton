@@ -2,84 +2,91 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
-  <meta charset="utf-8">
-  <title>BMT WEB</title>
-  <!-- Google Web Fonts -->
-  <link rel="preconnect" href="https://fonts.gstatic.com">
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <meta charset="utf-8">
+    <title>BMT WEB</title>
+    <!-- Google Web Fonts -->
+    <link href="https://fonts.gstatic.com" rel="preconnect">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-  <!-- Font Awesome -->
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
 
-  <!-- Customized Bootstrap Stylesheet -->
-  <link href="user/css/style.css" rel="stylesheet">
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="user/css/style.css" rel="stylesheet">
 </head>
 <body>
 <th:block th:replace="layout :: header"></th:block>
 
 <!-- Registration Start -->
 <div class="container-fluid bg-registration py-5" style="margin: 90px 0;">
-  <div class="container py-5">
-    <div class="row align-items-center">
-      <div class="col-lg-7 mb-5 mb-lg-0">
-        <div class="mb-4">
-          <h6 class="text-primary text-uppercase" style="letter-spacing: 5px;">Mega Offer</h6>
-          <h1 class="text-white"><span class="text-primary">30% OFF</span> For Honeymoon</h1>
+    <div class="container py-5">
+        <div class="row align-items-center">
+            <div class="col-lg-7 mb-5 mb-lg-0">
+                <div class="mb-4">
+                    <h6 class="text-primary text-uppercase" style="letter-spacing: 5px;">Mega Offer</h6>
+                    <h1 class="text-white"><span class="text-primary">30% OFF</span> For Honeymoon</h1>
+                </div>
+                <p class="text-white">Invidunt lorem justo sanctus clita. Erat lorem labore ea, justo dolor lorem ipsum
+                    ut sed eos,
+                    ipsum et dolor kasd sit ea justo. Erat justo sed sed diam. Ea et erat ut sed diam sea ipsum est
+                    dolor</p>
+                <ul class="list-inline text-white m-0">
+                    <li class="py-2"><i class="fa fa-check text-primary mr-3"></i>Labore eos amet dolor amet diam</li>
+                    <li class="py-2"><i class="fa fa-check text-primary mr-3"></i>Etsea et sit dolor amet ipsum</li>
+                    <li class="py-2"><i class="fa fa-check text-primary mr-3"></i>Diam dolor diam elitripsum vero.</li>
+                </ul>
+            </div>
+            <div class="col-lg-5">
+                <div class="card border-0">
+                    <div class="card-header bg-primary text-center p-4">
+                        <h1 class="text-white m-0">Sign Up Now</h1>
+                    </div>
+                    <div class="card-body rounded-bottom bg-white p-3">
+                        <form class="card-body" method="post" th:action="@{/confirm}" th:object="${user}">
+                            <input hidden="hidden" id="id" name="id" th:field="*{id}"
+                                   th:value="*{id}" type="text">
+                            <div class="form-group" style="display: block;">
+                                <label class="form-label" for="name">Name:</label>
+                                <input class="form-control p-4" id="name" name="name" placeholder="Your name"
+                                       th:field="*{name}" th:value="*{name}"
+                                       type="text">
+                                <span class="text-danger" th:errors="*{name}"
+                                      th:if="${#fields.hasErrors('name')}"></span>
+                            </div>
+                            <div class="form-group" style="display: block;">
+                                <label class="form-label" for="email">Email:</label>
+                                <input class="form-control p-4" id="email" name="email" placeholder="Email"
+                                       readonly
+                                       th:field="*{email}" th:value="*{email}" type="email">
+                                <span class="text-danger" th:errors="*{email}"
+                                      th:if="${#fields.hasErrors('email')}"></span>
+                            </div>
+                            <div class="form-group" style="display: block;">
+                                <label class="form-label" for="username">Username:</label>
+                                <input class="form-control p-4" id="username" name="username" placeholder="Username"
+                                       th:for="username" type="text">
+                                <span class="text-danger" th:if="${username_error}" th:text="${username_error}"></span>
+                            </div>
+                            <div class="form-group" style="display: block;">
+                                <label class="form-label" for="password">Password:</label>
+                                <input class="form-control p-4" id="password" name="password" placeholder="Password"
+                                       th:for="password" type="password">
+                                <span class="text-danger" th:errors="*{password}"
+                                      th:if="${#fields.hasErrors('password')}"></span>
+                            </div>
+                            <div class="form-group">
+                                <button class="btn btn-primary btn-block py-3" type="submit">Sign Up</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
         </div>
-        <p class="text-white">Invidunt lorem justo sanctus clita. Erat lorem labore ea, justo dolor lorem ipsum ut sed eos,
-          ipsum et dolor kasd sit ea justo. Erat justo sed sed diam. Ea et erat ut sed diam sea ipsum est
-          dolor</p>
-        <ul class="list-inline text-white m-0">
-          <li class="py-2"><i class="fa fa-check text-primary mr-3"></i>Labore eos amet dolor amet diam</li>
-          <li class="py-2"><i class="fa fa-check text-primary mr-3"></i>Etsea et sit dolor amet ipsum</li>
-          <li class="py-2"><i class="fa fa-check text-primary mr-3"></i>Diam dolor diam elitripsum vero.</li>
-        </ul>
-      </div>
-      <div class="col-lg-5">
-        <div class="card border-0">
-          <div class="card-header bg-primary text-center p-4">
-            <h1 class="text-white m-0">Sign Up Now</h1>
-          </div>
-          <div class="card-body rounded-bottom bg-white p-5">
-            <form th:action="@{/confirm}" method="post" th:object="${user}" class="card-body">
-              <input type="text" th:field="*{id}" id="id" name="id"
-              th:value="*{id}" hidden="hidden">
-              <div class="form-group" style="display: block;">
-                <label for="name" class="form-label">Name:</label>
-                <input type="text" placeholder="Your name" class="form-control p-4" th:field="*{name}" id="name" name="name"
-                       th:value="*{name}">
-                <span class="text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
-              </div>
-              <div class="form-group" style="display: block;">
-                <label for="email" class="form-label">Email:</label>
-                <input type="email" placeholder="Email" class="form-control p-4" th:field="*{email}" id="email"
-                       name="email" th:value="*{email}" readonly>
-                <span class="text-danger" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
-              </div>
-              <div class="form-group" style="display: block;">
-                <label for="username" class="form-label">Username:</label>
-                <input th:for="username"type="text" placeholder="Username" class="form-control p-4" id="username" name="username">
-                <span class="text-danger" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></span>
-              </div>
-              <div class="form-group" style="display: block;">
-                <label for="password" class="form-label">Password:</label>
-                <input th:for="password" type="text" placeholder="Password" class="form-control p-4" id="password" name="password">
-                <span class="text-danger" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
-              </div>
-              <div class="form-group">
-                <button class="btn btn-primary btn-block py-3" type="submit">Sign Up</button>
-              </div>
-            </form>
-          </div>
-        </div>
-      </div>
     </div>
-  </div>
 </div>
 <!-- Registration End -->
 
 <th:block th:replace="~{layout :: footer}"></th:block>
-
 
 
 <!-- Template Javascript -->

@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<html xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6"
+      xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>BMT WEB</title>
     <!-- Google Web Fonts -->
-    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.gstatic.com" rel="preconnect">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     <!-- Font Awesome -->
@@ -13,14 +13,14 @@
 
     <!-- Libraries Stylesheet -->
     <link href="user/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
-    <link href="user/lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
+    <link href="user/lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet"/>
 
     <!-- Customized Bootstrap Stylesheet -->
     <link href="user/css/style.css" rel="stylesheet">
 </head>
 <body>
 <!-- Topbar Start -->
-<div th:fragment="header" class="container-fluid bg-light pt-3 d-none d-lg-block">
+<div class="container-fluid bg-light pt-3 d-none d-lg-block" th:fragment="header">
     <div class="container">
         <div class="row">
             <div class="col-lg-6 text-center text-lg-left mb-2 mb-lg-0">
@@ -56,25 +56,25 @@
 
 
 <!-- Navbar Start -->
-<div th:fragment="header" class="container-fluid position-relative nav-bar p-0">
+<div class="container-fluid position-relative nav-bar p-0" th:fragment="header">
     <div class="container-lg position-relative p-0 px-lg-3" style="z-index: 9;">
         <nav class="navbar navbar-expand-lg bg-light navbar-light shadow-lg py-3 py-lg-0 pl-3 pl-lg-5">
-            <a href="/" class="navbar-brand">
+            <a class="navbar-brand" href="/">
                 <h1 class="m-0 text-primary"><span class="text-dark">BADMIN</span>TON</h1>
             </a>
-            <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
+            <button class="navbar-toggler" data-target="#navbarCollapse" data-toggle="collapse" type="button">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse justify-content-between px-3" id="navbarCollapse">
                 <div class="navbar-nav ml-auto py-0">
-                    <a href="/admin" class="nav-item nav-link" sec:authorize="hasAnyAuthority('Admin', 'Super Admin')">Admin</a>
-                    <a href="/" class="nav-item nav-link active">Home</a>
-                    <a href="#" class="nav-item nav-link">About</a>
-                    <a href="#" class="nav-item nav-link">Services</a>
-                    <a th:href="@{http://localhost:8080/badmintons}" class="nav-item nav-link">Book Now</a>
-                    <a sec:authorize="!isAuthenticated()" href="/login" class="nav-item nav-link">Login</a>
-                    <form sec:authorize="isAuthenticated()" th:action="@{/logout}" method="post">
-                        <button type="submit" class="nav-item nav-link">Logout</button>
+                    <a class="nav-item nav-link" href="/admin" sec:authorize="hasAnyAuthority('Admin', 'Super Admin')">Admin</a>
+                    <a class="nav-item nav-link active" href="/">Home</a>
+                    <a class="nav-item nav-link" href="#">About</a>
+                    <a class="nav-item nav-link" href="#">Services</a>
+                    <a class="nav-item nav-link" th:href="@{http://localhost:8080/badmintons}">Book Now</a>
+                    <a class="nav-item nav-link" href="/login" sec:authorize="!isAuthenticated()">Login</a>
+                    <form method="post" sec:authorize="isAuthenticated()" th:action="@{/logout}">
+                        <button class="nav-item nav-link" type="submit">Logout</button>
                     </form>
                 </div>
             </div>
@@ -92,27 +92,29 @@
             <div class="bg-light shadow" style="padding: 30px;">
                 <div class="row align-items-center" style="min-height: 60px;">
                     <!--Tìm Kiếm Sân-->
-                    <form style="display: contents" id="searchForm">
+                    <form id="searchForm" style="display: contents">
                         <div class="col-md-10">
                             <div class="grid gap-3">
                                 <div class="row row-cols-3 p-1">
-                                    <div class="col" >
+                                    <div class="col">
                                         <div class="mb-3 mb-md-0">
-                                            <select class="custom-select px-4 rounded" style="height: 47px;" id="province">
+                                            <select class="custom-select px-4 rounded" id="province"
+                                                    style="height: 47px;">
                                                 <option selected>Province</option>
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col" >
+                                    <div class="col">
                                         <div class="mb-3 mb-md-0">
-                                            <select class="custom-select px-4 rounded" style="height: 47px;" id="district">
+                                            <select class="custom-select px-4 rounded" id="district"
+                                                    style="height: 47px;">
                                                 <option selected>District</option>
                                             </select>
                                         </div>
                                     </div>
                                     <div class="col">
                                         <div class="mb-3 mb-md-0">
-                                            <select class="custom-select px-4 rounded" style="height: 47px;" id="ward">
+                                            <select class="custom-select px-4 rounded" id="ward" style="height: 47px;">
                                                 <option selected>Ward</option>
                                             </select>
                                         </div>
@@ -121,14 +123,16 @@
                                 <div class="row row-cols-3 p-1">
                                     <div class="col">
                                         <div class="mb-3 mb-md-0">
-                                            <div class="date" id="date1" data-target-input="nearest">
-                                                <input type="text" class="form-control p-4 datetimepicker-input" placeholder="Select Date" data-target="#date1" data-toggle="datetimepicker"/>
+                                            <div class="date" data-target-input="nearest" id="date1">
+                                                <input class="form-control p-4 datetimepicker-input" data-target="#date1"
+                                                       data-toggle="datetimepicker" placeholder="Select Date"
+                                                       type="text"/>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col">
                                         <div class="mb-3 mb-md-0">
-                                            <select id="startTime" class="form-control px-4" style="height: 47px;">
+                                            <select class="form-control px-4" id="startTime" style="height: 47px;">
                                                 <!-- Options will be generated by JavaScript -->
                                             </select>
                                         </div>
@@ -136,13 +140,13 @@
 
                                     <div class="col">
                                         <div class="mb-3 mb-md-0">
-                                            <select id="endTime" class="form-control px-4" style="height: 47px;">
+                                            <select class="form-control px-4" id="endTime" style="height: 47px;">
                                                 <!-- Options will be generated by JavaScript -->
                                             </select>
                                         </div>
                                     </div>
                                 </div>
-                                <div id="error-message" class="row row-cols-1 p-1" hidden>
+                                <div class="row row-cols-1 p-1" hidden id="error-message">
                                     <div class="col">
                                         <div class="mb-3 mb-md-0 text-center">
                                             <span class="error-message" style="color: red">End time must be at least one hour after start time.</span>
@@ -153,7 +157,9 @@
 
                         </div>
                         <div class="col-md-2 rounded">
-                            <button class="btn btn-primary btn-block" type="submit" style="height: 47px; margin-top: -2px;">Search</button>
+                            <button class="btn btn-primary btn-block" style="height: 47px; margin-top: -2px;"
+                                    type="submit">Search
+                            </button>
                         </div>
                     </form>
                 </div>
@@ -161,16 +167,18 @@
         </div>
     </div>
 </div>
-    <!-- Booking End -->
+<!-- Booking End -->
 <div th:fragment="court-list">
     <div class="container-fluid py-5">
         <div class="container pt-5 pb-3">
             <div class="text-center mb-3 pb-3" id="header"></div>
             <div class="row" id="listBadminton">
-                <div class="col-lg-4 col-md-6 mb-4" th:each="badminton, iterStat : ${badmintons}" th:if="${iterStat.count <= 6}">
-                    <a th:href="@{/courts/{id}(id=${badminton.id})}" class="text-decoration-none text-dark">
+                <div class="col-lg-4 col-md-6 mb-4" th:each="badminton, iterStat : ${badmintons}"
+                     th:if="${iterStat.count <= 6}">
+                    <a class="text-decoration-none text-dark" th:href="@{/courts/{id}(id=${badminton.id})}">
                         <div class="package-item bg-white mb-2">
-                            <img class="img-fluid" src="/user/img/san1.jpg" style="border-radius: 20px 20px 0 0;" alt="Image">
+                            <img alt="Image" class="img-fluid" src="/user/img/san1.jpg"
+                                 style="border-radius: 20px 20px 0 0;">
                             <div class="p-4">
                                 <div class="d-flex justify-content-between mb-3">
                                     <small class="m-0">
@@ -189,11 +197,15 @@
                                         court
                                     </small>
                                 </div>
-                                <a th:text="${badminton.badmintonName}" class="h5 text-decoration-none" th:href="@{/courts/{id}(id=${badminton.id})}">Sân Cầu Lông</a>
+                                <a class="h5 text-decoration-none" th:href="@{/courts/{id}(id=${badminton.id})}"
+                                   th:text="${badminton.badmintonName}">Sân Cầu Lông</a>
                                 <div class="border-top mt-4 pt-4">
                                     <div class="d-flex justify-content-between">
-                                        <h6 class="m-0"><i class="fa fa-star text-primary mr-2"></i><span th:text="${badminton.rating}">Rating</span></h6>
-                                        <h5 class="m-0"><span th:text="${#numbers.formatDecimal(badminton.rentalPrice, 0, 'COMMA', 0, 'POINT')}">0</span> ₫</h5>
+                                        <h6 class="m-0"><i class="fa fa-star text-primary mr-2"></i><span
+                                                th:text="${badminton.rating}">Rating</span></h6>
+                                        <h5 class="m-0"><span
+                                                th:text="${#numbers.formatDecimal(badminton.rentalPrice, 0, 'COMMA', 0, 'POINT')}">0</span>
+                                            ₫</h5>
                                     </div>
                                 </div>
                             </div>
@@ -205,39 +217,40 @@
     </div>
 </div>
 <!-- Chat Frame Start -->
-<div th:fragment="chat-box" >
-        <div class="chat-container d-flex justify-content-center" style="display: block">
-            <div id="chatWrapper" class="mt-5 chat-closed" onclick="toggleChat()">
-                <i class='ellipsis fas fa-ellipsis-h'></i>
-                <div id="chat-header" class="d-flex flex-row justify-content-between p-3 adiv text-white">
-                    <i class="fas fa-chevron-left" ></i>
-                    <span class="pb-3" >Live chat</span>
-                    <i class="fas fa-times" id="closeChatIcon" onclick="closeChat(event)"></i>
-                </div>
-                <div class="chat-box" onclick="stopPropagation(event)">
-                    <div class="messages"></div>
-                    <div class="form-group px-3">
-                        <textarea class="chat-input form-control" rows="5" placeholder="Type your message"></textarea>
-                        <div class="send-btn rounded" onclick="sendMessage()">
-                            <img src="/user/img/badminton.svg" alt="Send" style="width: 24px; height: 24px;">
-                        </div>
+<div th:fragment="chat-box">
+    <div class="chat-container d-flex justify-content-center" style="display: block">
+        <div class="mt-5 chat-closed" id="chatWrapper" onclick="toggleChat()">
+            <i class='ellipsis fas fa-ellipsis-h'></i>
+            <div class="d-flex flex-row justify-content-between p-3 adiv text-white" id="chat-header">
+                <i class="fas fa-chevron-left"></i>
+                <span class="pb-3">Live chat</span>
+                <i class="fas fa-times" id="closeChatIcon" onclick="closeChat(event)"></i>
+            </div>
+            <div class="chat-box" onclick="stopPropagation(event)">
+                <div class="messages"></div>
+                <div class="form-group px-3">
+                    <textarea class="chat-input form-control" placeholder="Type your message" rows="5"></textarea>
+                    <div class="send-btn rounded" onclick="sendMessage()">
+                        <img alt="Send" src="/user/img/badminton.svg" style="width: 24px; height: 24px;">
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+</div>
 
 
 <!-- Chat Frame End -->
 <!-- Footer Start -->
-<div th:fragment="footer" class="container-fluid bg-dark text-white-50 py-5 px-sm-3 px-lg-5" style="margin-top: 90px;">
+<div class="container-fluid bg-dark text-white-50 py-5 px-sm-3 px-lg-5" style="margin-top: 90px;" th:fragment="footer">
     <div class="row pt-5">
         <div class="col-lg-3 col-md-6 mb-5">
-            <a href="" class="navbar-brand">
+            <a class="navbar-brand" href="">
                 <h1 class="text-primary"><span class="text-white">BADMIN</span>TON</h1>
             </a>
-            <p>Sed ipsum clita tempor ipsum ipsum amet sit ipsum lorem amet labore rebum lorem ipsum dolor. No sed vero lorem dolor dolor</p>
+            <p>Sed ipsum clita tempor ipsum ipsum amet sit ipsum lorem amet labore rebum lorem ipsum dolor. No sed vero
+                lorem dolor dolor</p>
             <h6 class="text-white text-uppercase mt-4 mb-3" style="letter-spacing: 5px;">Follow Us</h6>
             <div class="d-flex justify-content-start">
                 <a class="btn btn-outline-primary btn-square mr-2" href="#"><i class="fab fa-twitter"></i></a>
@@ -278,7 +291,8 @@
             <h6 class="text-white text-uppercase mt-4 mb-3" style="letter-spacing: 5px;">Newsletter</h6>
             <div class="w-100">
                 <div class="input-group">
-                    <input type="text" class="form-control border-light" style="padding: 25px;" placeholder="Your Email">
+                    <input class="form-control border-light" placeholder="Your Email" style="padding: 25px;"
+                           type="text">
                     <div class="input-group-append">
                         <button class="btn btn-primary px-3">Sign Up</button>
                     </div>
@@ -287,7 +301,8 @@
         </div>
     </div>
 </div>
-<div class="container-fluid bg-dark text-white border-top py-4 px-sm-3 px-md-5" style="border-color: rgba(256, 256, 256, .1) !important;">
+<div class="container-fluid bg-dark text-white border-top py-4 px-sm-3 px-md-5"
+     style="border-color: rgba(256, 256, 256, .1) !important;">
     <div class="row">
         <div class="col-lg-6 text-center text-md-left mb-3 mb-md-0">
             <p class="m-0 text-white-50">Copyright &copy; <a href="#">Domain</a>. All Rights Reserved.</a>

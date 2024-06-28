@@ -4,11 +4,11 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.RequiredArgsConstructor;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.util.HashSet;
 import java.util.Set;
-import javax.validation.constraints.*;
 
 @Data
 @Entity
@@ -37,5 +37,6 @@ public class Role {
         this.name = name;
     }
 
-    public Role(){}
+    public Role() {
+    }
 }

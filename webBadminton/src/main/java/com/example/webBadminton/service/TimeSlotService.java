@@ -33,13 +33,12 @@ public class TimeSlotService {
     public List<LocalTime[]> filterAvailableTimeSlots(List<LocalTime[]> allTimeSlots, LocalDate date, Court court) {
         List<BookingCourt> bookings = bookingRepository.findBookingsByCourtAndDate(court.getBadmintonId(), court.getCourtId(), date);
         List<LocalTime[]> availableSlots = new ArrayList<>(allTimeSlots);
-        for (LocalTime[] timeSlot : allTimeSlots){
+        for (LocalTime[] timeSlot : allTimeSlots) {
             for (BookingCourt booking : bookings) {
                 LocalTime startTime = booking.getStartTime();
                 LocalTime endTime = booking.getEndTime();
 
-                if ((timeSlot[0] == startTime && timeSlot[1] == endTime))
-                {
+                if ((timeSlot[0] == startTime && timeSlot[1] == endTime)) {
                     availableSlots.remove(timeSlot);
                 }
             }

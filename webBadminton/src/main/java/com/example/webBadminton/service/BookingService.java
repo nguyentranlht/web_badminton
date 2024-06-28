@@ -19,6 +19,7 @@ import java.util.stream.Collectors;
 public class BookingService {
     @Autowired
     IBookingRepository bookingRepository;
+
     public List<BookingCourt> getAllBooking() {
         return bookingRepository.findAll();
     }

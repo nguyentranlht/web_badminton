@@ -36,7 +36,7 @@ public class BookingCourt {
     private String status;
 
     @NotBlank(message = "Status cannot be blank")
-    private String phoneNumber ;
+    private String phoneNumber;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({

@@ -8,14 +8,12 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
-
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -82,8 +80,7 @@ public class CourtService {
         courtRepository.save(existingCourt);
     }
 
-    public List<LocalTime[]> getAvailableTimeSlots(@RequestParam LocalDate date, @RequestParam Long courtId, @RequestParam Long badmintonId)
-    {
+    public List<LocalTime[]> getAvailableTimeSlots(@RequestParam LocalDate date, @RequestParam Long courtId, @RequestParam Long badmintonId) {
         Court court = getCourtById(badmintonId, courtId)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid court Id: " + courtId));
         List<LocalTime[]> allTimeSlots = timeSlotService.generateTimeSlots(court);

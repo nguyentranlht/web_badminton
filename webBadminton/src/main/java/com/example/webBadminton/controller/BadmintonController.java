@@ -1,4 +1,5 @@
 package com.example.webBadminton.controller;
+
 import com.example.webBadminton.model.court.Badminton;
 import com.example.webBadminton.modelView.SearchCriteria;
 import com.example.webBadminton.service.BadmintonService;
@@ -24,7 +25,7 @@ public class BadmintonController {
     private SearchService searchService;
 
     @GetMapping()
-    public String getAllBadmintons(Model model){
+    public String getAllBadmintons(Model model) {
         List<Badminton> badmintons = badmintonService.getAllBadmintons();
         model.addAttribute("badmintons", badmintons);
         return "/user/badminton/list";

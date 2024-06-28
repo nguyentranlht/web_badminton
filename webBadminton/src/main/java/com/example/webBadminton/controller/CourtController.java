@@ -1,15 +1,13 @@
 package com.example.webBadminton.controller;
 
-import com.example.webBadminton.model.court.Court;
-import com.example.webBadminton.model.court.Badminton;
 import com.example.webBadminton.model.BookingCourt;
+import com.example.webBadminton.model.court.Badminton;
+import com.example.webBadminton.model.court.Court;
 import com.example.webBadminton.service.BadmintonService;
-
 import com.example.webBadminton.service.BookingService;
 import com.example.webBadminton.service.CourtService;
 import com.example.webBadminton.service.TimeSlotService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -19,32 +17,28 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.List;
 
 
 @Controller
 @RequestMapping("/courts")
 public class CourtController {
+    // Đường dẫn thư mục để lưu trữ hình ảnh
+    private final String uploadDir = "src/main/resources/static/img/";
     @Autowired
     private CourtService courtService;
-
     @Autowired
     private BadmintonService badmintonService; // Đảm bảo bạn đã inject
-
     @Autowired
     private BookingService bookingService;
-
     @Autowired
     private TimeSlotService timeSlotService;
 
-    // Đường dẫn thư mục để lưu trữ hình ảnh
-    private final String uploadDir = "src/main/resources/static/img/";
     // Display a list of all products
     @GetMapping("/{id}")
     public String showCourtList(@PathVariable Long id, Model model) {
         List<Court> courts = courtService.getAllCourtsByIdBadminton(id);
-        Badminton badminton  = badmintonService.getBadmintonById(id)
+        Badminton badminton = badmintonService.getBadmintonById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid badminton Id:" + id));
         if (courts.isEmpty()) {
             return "/error";
@@ -54,7 +48,7 @@ public class CourtController {
         return "/user/court/list";
     }
 
-//    @GetMapping("/add")
+    //    @GetMapping("/add")
 //    public String showAddForm(Model model) {
 //        model.addAttribute("court", new court());
 //        model.addAttribute("badmintons", badmintonService.getAllBadmintons());
@@ -81,8 +75,8 @@ public class CourtController {
     }
 
     @PostMapping("/bookCourt")
-    public String bookingCourt(@ModelAttribute("bookingCourt") BookingCourt bookingCourt, @RequestParam String timeSlot, BindingResult result, RedirectAttributes redirectAttributes){
-        if(result.hasErrors()){
+    public String bookingCourt(@ModelAttribute("bookingCourt") BookingCourt bookingCourt, @RequestParam String timeSlot, BindingResult result, RedirectAttributes redirectAttributes) {
+        if (result.hasErrors()) {
             return "/user/court/booking";
         }
         String[] times = timeSlot.split(" to ");
@@ -91,7 +85,7 @@ public class CourtController {
         bookingCourt.setStatus("false");
         bookingCourt.setStartTime(startTime);
         bookingCourt.setEndTime(endTime);
-        Long badmintonId =bookingCourt.getCourt().getBadmintonId();
+        Long badmintonId = bookingCourt.getCourt().getBadmintonId();
         bookingService.addBooking(bookingCourt);
         redirectAttributes.addAttribute("bookingCourt", bookingCourt);
         return "redirect:/payment/create_payment";

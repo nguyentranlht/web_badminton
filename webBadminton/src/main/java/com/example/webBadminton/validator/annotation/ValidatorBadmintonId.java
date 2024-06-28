@@ -1,9 +1,9 @@
 package com.example.webBadminton.validator.annotation;
 
 import com.example.webBadminton.validator.ValidBadmintonIdValidator;
+
 import javax.validation.Constraint;
 import javax.validation.Payload;
-
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
@@ -19,6 +19,8 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Documented
 public @interface ValidatorBadmintonId {
     String message() default "Invalid category id";
+
     Class<?>[] groups() default {};
+
     Class<? extends Payload>[] payload() default {};
 }

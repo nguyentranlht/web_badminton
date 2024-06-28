@@ -2,6 +2,7 @@ package com.example.webBadminton.validator;
 
 import com.example.webBadminton.model.User;
 import com.example.webBadminton.validator.annotation.ValidUserId;
+
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 

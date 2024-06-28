@@ -1,9 +1,9 @@
 package com.example.webBadminton.validator.annotation;
 
 import com.example.webBadminton.validator.ValidUserIdValidator;
+
 import javax.validation.Constraint;
 import javax.validation.Payload;
-
 import java.lang.annotation.*;
 
 @Documented

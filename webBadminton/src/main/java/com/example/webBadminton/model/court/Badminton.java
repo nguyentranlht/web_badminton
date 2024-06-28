@@ -1,15 +1,15 @@
 package com.example.webBadminton.model.court;
 
 import com.example.webBadminton.model.User;
-import com.example.webBadminton.validator.annotation.ValidUserId;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-
-import lombok.*;
-
 import java.time.LocalTime;
 
 @Setter

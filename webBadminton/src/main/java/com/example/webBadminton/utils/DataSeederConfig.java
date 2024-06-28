@@ -2,9 +2,7 @@ package com.example.webBadminton.utils;
 
 import com.example.webBadminton.model.Role;
 import com.example.webBadminton.model.User;
-import com.example.webBadminton.model.location.District;
 import com.example.webBadminton.model.location.Province;
-import com.example.webBadminton.model.location.Ward;
 import com.example.webBadminton.repository.IRoleRepository;
 import com.example.webBadminton.repository.IUserRepository;
 import com.example.webBadminton.repository.location.IDistrictRepository;
@@ -21,41 +19,35 @@ import org.springframework.core.io.ResourceLoader;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-import java.io.File;
+
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.List;
 
 @Component
 public class DataSeederConfig implements CommandLineRunner {
+    private static final String FILE_PATH = "classpath:static/data/geographical_administrative_levels.json";
     @Autowired
     private IUserRepository userRepository;
     @Autowired
     private IRoleRepository roleRepository;
     @Autowired
     private PasswordEncoder passwordEncoder;
-
     @Autowired
     private IProvinceRepository provinceRepository;
-
     @Autowired
     private IDistrictRepository districtRepository;
-
     @Autowired
     private IWardRepository wardRepository;
-
     @Autowired
     private ResourceLoader resourceLoader;
-    private static final String FILE_PATH = "classpath:static/data/geographical_administrative_levels.json";
-
 
     public void loadJsonDataFromFile() throws IOException {
         ObjectMapper mapper = new ObjectMapper();
         Resource resource = resourceLoader.getResource(FILE_PATH);
         if (resource.exists()) {
             // Read the resource as an InputStream and convert to List of Provinces
-            List<Province> provinces = mapper.readValue(resource.getInputStream(), new TypeReference<List<Province>>(){});
+            List<Province> provinces = mapper.readValue(resource.getInputStream(), new TypeReference<List<Province>>() {
+            });
 
             for (Province province : provinces) {
                 // Check and set the relationship for districts and wards
@@ -64,12 +56,9 @@ public class DataSeederConfig implements CommandLineRunner {
                     if (district.getWards() != null) {
                         district.getWards().forEach(ward ->
                         {
-                            if (ward.getId() != null)
-                            {
+                            if (ward.getId() != null) {
                                 ward.setDistrict(district);
-                            }
-                            else
-                            {
+                            } else {
                                 System.out.println("\nDistrict " + district.getName() + " have null Ward");
                                 district.setWards(null);
                             }
@@ -102,9 +91,8 @@ public class DataSeederConfig implements CommandLineRunner {
                 Long userId = userRepository.getUserIdByUsername(superAdmin.getUsername());
                 Long role = roleRepository.getRoleIdByName("Super Admin");
                 if (role != 0 && userId != 0)
-                    userRepository.addRoleToUser(userId,role);
-            }
-            catch (Exception e){
+                    userRepository.addRoleToUser(userId, role);
+            } catch (Exception e) {
                 // Log the exception details (you can use any logging framework)
                 System.err.println("An error occurred while saving the user: " + e.getMessage());
                 // Re-throw if necessary or handle accordingly
@@ -112,11 +100,10 @@ public class DataSeederConfig implements CommandLineRunner {
             }
         }
 
-        if(provinceRepository.count() == 0)
-        {
-            try {loadJsonDataFromFile();
-            }
-            catch (Exception e){
+        if (provinceRepository.count() == 0) {
+            try {
+                loadJsonDataFromFile();
+            } catch (Exception e) {
                 // Log the exception details (you can use any logging framework)
                 System.err.println("An error occurred while saving the user: " + e.getMessage());
                 // Re-throw if necessary or handle accordingly

@@ -1,4 +1,5 @@
 package com.example.webBadminton.utils;
+
 import com.example.webBadminton.service.CustomOAuth2UserService;
 import com.example.webBadminton.service.CustomUserDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,7 @@ public class SecurityConfig {
 
     @Autowired
     private CustomOAuth2UserService customOAuth2UserService;
+
     @Bean
     public UserDetailsService userDetailsService() {
         return new CustomUserDetailService();
@@ -43,8 +45,8 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http.csrf().disable()
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers( "/admin/**","/user/**","/", "/register", "/error","/oauth/**", "/confirm", "/badmintons/search").permitAll()
-                        .requestMatchers("/api/**").hasAnyAuthority("Admin", "User","Super Admin")
+                        .requestMatchers("/admin/**", "/user/**", "/", "/register", "/error", "/oauth/**", "/confirm", "/badmintons/search").permitAll()
+                        .requestMatchers("/api/**").hasAnyAuthority("Admin", "User", "Super Admin")
                         .requestMatchers("/badmintons", "/books/add").hasAnyAuthority("Admin", "User", "Super Admin")
                         .anyRequest().authenticated()
                 )
@@ -82,6 +84,8 @@ public class SecurityConfig {
                 .exceptionHandling(exceptionHandling ->
                         exceptionHandling.accessDeniedPage("/403"))
                 .build();
-    };
+    }
+
+    ;
 
 }

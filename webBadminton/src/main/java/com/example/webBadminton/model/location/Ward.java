@@ -1,4 +1,5 @@
 package com.example.webBadminton.model.location;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -20,7 +21,6 @@ public class Ward {
     @ManyToOne
     @JoinColumn(name = "district_id")
     private District district;
-
 
 
     // Getters and setters

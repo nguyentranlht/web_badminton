@@ -1,4 +1,5 @@
 package com.example.webBadminton.service;
+
 import com.example.webBadminton.model.CustomUserDetail;
 import com.example.webBadminton.model.User;
 import com.example.webBadminton.repository.IUserRepository;

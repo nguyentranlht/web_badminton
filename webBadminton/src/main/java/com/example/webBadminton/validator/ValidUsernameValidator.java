@@ -3,10 +3,11 @@ package com.example.webBadminton.validator;
 
 import com.example.webBadminton.repository.IUserRepository;
 import com.example.webBadminton.validator.annotation.ValidUsername;
-import javax.validation.ConstraintValidator;
-import javax.validation.ConstraintValidatorContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import javax.validation.ConstraintValidator;
+import javax.validation.ConstraintValidatorContext;
 
 @Component
 public class ValidUsernameValidator implements ConstraintValidator<ValidUsername, String> {

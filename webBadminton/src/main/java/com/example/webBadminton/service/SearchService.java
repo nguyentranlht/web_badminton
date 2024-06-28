@@ -2,7 +2,6 @@ package com.example.webBadminton.service;
 
 import com.example.webBadminton.model.court.Badminton;
 import com.example.webBadminton.modelView.SearchCriteria;
-import com.example.webBadminton.repository.IBadmintonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

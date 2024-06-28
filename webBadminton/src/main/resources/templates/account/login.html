@@ -2,81 +2,84 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
-  <meta charset="utf-8">
-  <title>BMT WEB</title>
-  <!-- Google Web Fonts -->
-  <link rel="preconnect" href="https://fonts.gstatic.com">
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <meta charset="utf-8">
+    <title>BMT WEB</title>
+    <!-- Google Web Fonts -->
+    <link href="https://fonts.gstatic.com" rel="preconnect">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-  <!-- Font Awesome -->
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
 
 
-  <!-- Customized Bootstrap Stylesheet -->
-  <link href="user/css/style.css" rel="stylesheet">
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="user/css/style.css" rel="stylesheet">
 </head>
 <body>
 <th:block th:replace="~{layout :: header}"></th:block>
 
 <!-- Registration Start -->
 <div class="container-fluid bg-registration py-5" style="margin: 90px 0;">
-  <div class="container py-5">
-    <div class="row align-items-center">
-      <div class="col-lg-7 mb-5 mb-lg-0">
-        <div class="mb-4">
-          <h6 class="text-primary text-uppercase" style="letter-spacing: 5px;">Mega Offer</h6>
-          <h1 class="text-white"><span class="text-primary">30% OFF</span> For Honeymoon</h1>
-        </div>
-        <p class="text-white">Invidunt lorem justo sanctus clita. Erat lorem labore ea, justo dolor lorem ipsum ut sed eos,
-          ipsum et dolor kasd sit ea justo. Erat justo sed sed diam. Ea et erat ut sed diam sea ipsum est
-          dolor</p>
-        <ul class="list-inline text-white m-0">
-          <li class="py-2"><i class="fa fa-check text-primary mr-3"></i>Labore eos amet dolor amet diam</li>
-          <li class="py-2"><i class="fa fa-check text-primary mr-3"></i>Etsea et sit dolor amet ipsum</li>
-          <li class="py-2"><i class="fa fa-check text-primary mr-3"></i>Diam dolor diam elitripsum vero.</li>
-        </ul>
-      </div>
-      <div class="col-lg-5">
-        <div class="card border-0">
-          <div class="card-header bg-primary text-center p-4">
-            <h1 class="text-white m-0">Login</h1>
-          </div>
-          <div class="card-body rounded-bottom bg-white p-5">
-            <form th:action="@{/login}" method="post" class="card-body">
-              <div th:if="${param.error}" class="alert alert-danger">
-                Invalid username and password.
-              </div>
-              <div th:if="${param.logout}" class="alert alert-success">
-                You have been logged out.
-              </div>
-              <div class="form-group">
-                <input type="text" placeholder="Username" class="form-control p-4" id="username" name="username" value="superadmin">
-              </div>
-              <div class="form-group">
-                <input type="password" placeholder="Password" class="form-control p-4" id="password" name="password" value="superadmin">
-              </div>
-              <div class="form-group form-check">
-                <input type="checkbox" class="form-check-input" id="remember-me">
-                <label class="form-check-label" for="remember-me">Remember me</label>
-              </div>
-              <div class="form-group">
-                <button class="btn btn-primary btn-block py-3" type="submit">Login</button>
-              </div>
-              <div class="form-group">
-                <a class="text-primary text-center" href="/register">Don't have account. Sign up?</a>
-              </div>
-              <div class="d-grid gap-2 mb-3">
-                <a th:href="@{/oauth2/authorization/google}" class="btn btn-google btn-lg btn-block">
-                  <i class="fab fa-google me-2"></i> Login with Google
-                </a>
-              </div>
+    <div class="container py-5">
+        <div class="row align-items-center">
+            <div class="col-lg-7 mb-5 mb-lg-0">
+                <div class="mb-4">
+                    <h6 class="text-primary text-uppercase" style="letter-spacing: 5px;">Mega Offer</h6>
+                    <h1 class="text-white"><span class="text-primary">30% OFF</span> For Honeymoon</h1>
+                </div>
+                <p class="text-white">Invidunt lorem justo sanctus clita. Erat lorem labore ea, justo dolor lorem ipsum
+                    ut sed eos,
+                    ipsum et dolor kasd sit ea justo. Erat justo sed sed diam. Ea et erat ut sed diam sea ipsum est
+                    dolor</p>
+                <ul class="list-inline text-white m-0">
+                    <li class="py-2"><i class="fa fa-check text-primary mr-3"></i>Labore eos amet dolor amet diam</li>
+                    <li class="py-2"><i class="fa fa-check text-primary mr-3"></i>Etsea et sit dolor amet ipsum</li>
+                    <li class="py-2"><i class="fa fa-check text-primary mr-3"></i>Diam dolor diam elitripsum vero.</li>
+                </ul>
+            </div>
+            <div class="col-lg-5">
+                <div class="card border-0">
+                    <div class="card-header bg-primary text-center p-4">
+                        <h1 class="text-white m-0">Login</h1>
+                    </div>
+                    <div class="card-body rounded-bottom bg-white p-5">
+                        <form class="card-body" method="post" th:action="@{/login}">
+                            <div class="alert alert-danger" th:if="${param.error}">
+                                Invalid username and password.
+                            </div>
+                            <div class="alert alert-success" th:if="${param.logout}">
+                                You have been logged out.
+                            </div>
+                            <div class="form-group">
+                                <input class="form-control p-4" id="username" name="username" placeholder="Username"
+                                       type="text" value="superadmin">
+                            </div>
+                            <div class="form-group">
+                                <input class="form-control p-4" id="password" name="password" placeholder="Password"
+                                       type="password" value="superadmin">
+                            </div>
+                            <div class="form-group form-check">
+                                <input class="form-check-input" id="remember-me" type="checkbox">
+                                <label class="form-check-label" for="remember-me">Remember me</label>
+                            </div>
+                            <div class="form-group">
+                                <button class="btn btn-primary btn-block py-3" type="submit">Login</button>
+                            </div>
+                            <div class="form-group">
+                                <a class="text-primary text-center" href="/register">Don't have account. Sign up?</a>
+                            </div>
+                            <div class="d-grid gap-2 mb-3">
+                                <a class="btn btn-google btn-lg btn-block" th:href="@{/oauth2/authorization/google}">
+                                    <i class="fab fa-google me-2"></i> Login with Google
+                                </a>
+                            </div>
 
-            </form>
-          </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-  </div>
 </div>
 <!-- Registration End -->
 
