@@ -7,7 +7,7 @@ USER:
 Sign up: mật khẩu bị hiển thị, chưa đồng nhất form confirm và Sign up
 Khi Sign up chưa tự động đăng nhập
 
-booking: Cho phép chọn nhiều slot, Chưa hoàn tất thanh toán mà đã ghi dữ liệu
+booking: Cho phép chọn nhiều slot
 UI: Sửa UI lúc chọn court thành chi tiết sân
 
 Thiếu checkout
@@ -19,4 +19,4 @@ Có hai bang booking: Bookingcourt và booking
 Solved:
 search:  lịch đã kín nhưng vẫn tìm thấy, Hà Nội có kết quả trả về tất cả nhưng lại hiện thông báo không tìm thấy, chưa xóa thông báo không tìm thấy
 
-Chat: khi bấm Type your message thì bị tắt khung chat 
+Chat: khi bấm Type your message thì bị tắt khung chat
