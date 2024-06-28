@@ -42,7 +42,6 @@ public class UserController {
             bindingResult.getFieldErrors().forEach(error -> model.addAttribute(error.getField()+"_error", error.getDefaultMessage()));
             return "account/register";
         }
-        user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
         // Save the user
         userService.save(user);
 
@@ -72,7 +71,6 @@ public class UserController {
             bindingResult.getFieldErrors().forEach(error -> model.addAttribute(error.getField()+"_error", error.getDefaultMessage()));
             return "account/register";
         }
-        user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
         // Save the user
         userService.updateUser(user);
 

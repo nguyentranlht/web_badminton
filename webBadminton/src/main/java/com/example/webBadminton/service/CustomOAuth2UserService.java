@@ -39,7 +39,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
             User newUser = new User();
             newUser.setEmail(email);
             newUser.setName(oAuth2User.getAttribute("name"));
-            newUser.setPassword(new BCryptPasswordEncoder().encode(email));
+            newUser.passwordEncryption(email);
             newUser.setUsername(email);
             newUser.setRole(roleRepository.getReferenceById(roleRepository.getRoleIdByName("User")));
             // Set additional necessary attributes, perhaps fetch them from oAuth2User

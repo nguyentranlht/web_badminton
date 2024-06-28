@@ -22,7 +22,7 @@ public class UserService {
     private PasswordEncoder passwordEncoder;
     public void save(User user) {
         try {
-            user.setPassword(passwordEncoder.encode(user.getPassword()));
+            user.passwordEncryption(user.getPassword());
             userRepository.save(user);
             Long userId = userRepository.getUserIdByUsername(user.getUsername());
             Long role = roleRepository.getRoleIdByName("Super Admin");
@@ -46,6 +46,7 @@ public class UserService {
                 .orElseThrow(() -> new IllegalStateException("User with ID " + user.getId() + " does not exist."));
         existedUser.setName(user.getName());
         existedUser.setUsername(user.getUsername());
+        existedUser.passwordEncryption(user.getPassword());
         if (user.getPassword() != null && !user.getPassword().isEmpty()) {
             existedUser.setPassword(passwordEncoder.encode(user.getPassword()));
         }

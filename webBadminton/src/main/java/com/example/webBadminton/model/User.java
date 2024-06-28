@@ -5,6 +5,7 @@ import com.example.webBadminton.validator.annotation.ValidUsername;
 import jakarta.persistence.*;
 import javax.validation.constraints.*;
 import lombok.Data;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -53,5 +54,10 @@ public class User {
     }
 
     public User() {}
+
+    public void passwordEncryption(String rawPassword)
+    {
+        this.password = new BCryptPasswordEncoder().encode(rawPassword);
+    }
 
 }
