@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Success</title>
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="/user/css/style.css" rel="stylesheet">
+</head>
+<body>
+<th:block th:replace="~{layout :: header}"></th:block>
+
+<div class="d-flex align-items-center justify-content-center vh-100">
+    <div class="text-center">
+        <h1 class="display-1 fw-bold">Thank you!</h1>
+        <p class="fs-3"><span class="text-success">Congratulations!</span> Your payment has been processed successfully.</p>
+        <p class="lead">Thank you for booking. You will receive an email confirmation shortly.</p>
+        <a href="/" class="btn btn-primary">Back to homepage</a>
+        <a href="#" class="btn btn-secondary">View Booking</a>
+    </div>
+</div>
+
+<th:block th:replace="~{layout :: footer}"></th:block>
+</body>
+</html>
