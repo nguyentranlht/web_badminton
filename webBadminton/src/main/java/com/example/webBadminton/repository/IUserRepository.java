@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -36,4 +37,7 @@ public interface IUserRepository extends JpaRepository<User, Long> {
 
     @Query(value = "SELECT ur.role_id FROM user_role ur JOIN user u ON ur.user_id = u.id WHERE u.id = :userId", nativeQuery = true)
     Long getRoleId(@Param("userId") Long userId);
+
+    @Query("SELECT u FROM User u JOIN u.role r WHERE r.name = :roleName")
+    List<User> findByRolesName(String roleName);
 }

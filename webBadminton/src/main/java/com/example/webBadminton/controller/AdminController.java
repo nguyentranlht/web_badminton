@@ -1,13 +1,11 @@
 package com.example.webBadminton.controller;
 
+import com.example.webBadminton.model.User;
 import com.example.webBadminton.model.court.Badminton;
 import com.example.webBadminton.model.court.Court;
 import com.example.webBadminton.model.court.CourtId;
 import com.example.webBadminton.modelView.SearchCriteria;
-import com.example.webBadminton.service.BadmintonService;
-import com.example.webBadminton.service.CourtService;
-import com.example.webBadminton.service.LocationService;
-import com.example.webBadminton.service.SearchService;
+import com.example.webBadminton.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -34,11 +32,22 @@ public class AdminController {
     @Autowired
     private SearchService searchService;
 
+    @Autowired
+    private UserService userService;
+
     @GetMapping
     public String index() {
 
         return "admin/home/index";
     }
+
+    @GetMapping("/owners")
+    public String showOwners(Model model) {
+        List<User> owners = userService.findOwners();
+        model.addAttribute("owners", owners);
+        return "/admin/account/list"; // Name of the Thymeleaf template
+    }
+
 
     @GetMapping("/badmintons")
     public String getAllBadmintonsAdmin(Model model){

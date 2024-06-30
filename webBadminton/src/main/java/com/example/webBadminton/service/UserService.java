@@ -11,6 +11,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.validation.constraints.NotNull;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -49,6 +50,10 @@ public class UserService {
 
     public Optional<User> getUserById(){
         return userRepository.findById(getCurrentUserId());
+    }
+
+    public List<User> findOwners() {
+        return userRepository.findByRolesName("Owner");
     }
 
 
