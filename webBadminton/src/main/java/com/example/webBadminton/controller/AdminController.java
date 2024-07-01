@@ -133,9 +133,9 @@ public class AdminController {
         return "/admin/court/add";
     }
 
-    @GetMapping("/courts")
-    public String showCourtListAdmin(Model model) {
-        List<Court> courts = courtService.getAllCourts();
+    @GetMapping("/courts/{badmintonId}")
+    public String showCourtListAdmin(@PathVariable Long badmintonId, Model model) {
+        List<Court> courts = courtService.getAllCourtsByIdBadminton(badmintonId);
         model.addAttribute("courts", courts);
         return "/admin/court/list";
     }

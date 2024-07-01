@@ -78,7 +78,7 @@
                         <i class="fa-solid fa-trash"></i>
                     </a>
                     <!-- Button to view courts -->
-                    <a th:href="@{/admin/badmintons/{id}/courts(id=${badminton.id})}" class="btn btn-info btn-sm">
+                    <a th:href="@{/admin/courts/{badmintonId}(badmintonId=${badminton.id})}" class="btn btn-info btn-sm">
                         <i class="fa-solid fa-eye"></i>
                     </a>
                 </td>
