@@ -86,8 +86,8 @@ public class CourtController {
         if(result.hasErrors()){
             return "/user/court/booking";
         }
-        User user =  userService.getUserById().orElseThrow(
-                () -> new IllegalArgumentException("Invalid user with id:" + userService.getUserById()));
+        User user =  userService.getUserByCurentId().orElseThrow(
+                () -> new IllegalArgumentException("Invalid user with id:" + userService.getUserByCurentId()));
         String[] times = timeSlot.split(" to ");
         LocalTime startTime = LocalTime.parse(times[0], DateTimeFormatter.ofPattern("HH:mm:ss"));
         LocalTime endTime = LocalTime.parse(times[1], DateTimeFormatter.ofPattern("HH:mm:ss"));

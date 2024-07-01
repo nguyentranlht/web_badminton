@@ -45,24 +45,42 @@
         <!-- Navbar Start -->
         <th:block th:replace="admin/layoutadmin :: admin-header"></th:block>
         <!-- Navbar End -->
+        <h1 th:text="'Courts Owned by ' + ${owner.name}"></h1>
         <table class="table table-bordered table-hover">
             <thead class="table-dark">
             <tr>
                 <th>ID</th>
-                <th>Name</th>
-                <th>Email</th>
+                <th>Badminton Name</th>
+                <th>Address</th>
+                <th>Court Quantity</th>
+                <th>Opening Time</th>
+                <th>Closing Time</th>
                 <th>Actions</th>
             </tr>
             </thead>
             <tbody>
-            <tr th:each="owner : ${owners}">
-                <td th:text="${owner.id}"></td>
-                <td th:text="${owner.name}"></td>
-                <td th:text="${owner.email}"></td>
+            <tr th:each="badminton : ${badmintons}">
+                <td th:text="${badminton.id}"></td>
+                <td th:text="${badminton.badmintonName}"></td>
+                <td th:text="${badminton.location.address}
+                    + (${badminton.location.wardName} != null ? ', ' + ${badminton.location.wardName}: '')
+                    + (${badminton.location.districtName} != null ? ', ' + ${badminton.location.districtName}: '')
+                    + (${badminton.location.provinceName} != null ? ', ' + ${badminton.location.provinceName}: '')"></td>
+                <td th:text="${badminton.courtQuantity}"></td>
+                <td th:text="${badminton.openingTime}"></td>
+                <td th:text="${badminton.closingTime}"></td>
                 <td>
+                    <a th:href="@{/admin/badmintons/edit/{id}(id=${badminton.id})}" class="btn btn-success btn-sm">
+                        <i class="fa-solid fa-pen-to-square"></i>
+                    </a>
+                    <a th:href="@{/admin/badmintons/delete/{id}(id=${badminton.id})}" class="btn btn-danger btn-sm"
+                       onclick="return confirm('Are you sure?')">
+                        <i class="fa-solid fa-trash"></i>
+                    </a>
                     <!-- Button to view courts -->
-                    <a th:href="@{/admin/owners/badmintons(ownerId=${owner.id})}" class="btn btn-info">View Courts</a>
-                    <!-- Assuming you have the endpoint /owners/{id}/courts set up to handle this -->
+                    <a th:href="@{/admin/badmintons/{id}/courts(id=${badminton.id})}" class="btn btn-info btn-sm">
+                        <i class="fa-solid fa-eye"></i>
+                    </a>
                 </td>
             </tr>
             </tbody>

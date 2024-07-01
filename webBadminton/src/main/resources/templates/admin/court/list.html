@@ -58,28 +58,18 @@
         <table class="table table-bordered table-hover">
             <thead class="table-dark">
             <tr>
-                <th>ID</th>
+                <th>No</th>
                 <th>Court Name</th>
                 <!--<th>Rental Price</th>-->
                 <th>Badminton</th>
-                <th>Actions</th>
             </tr>
             </thead>
             <tbody>
-            <tr th:each="court : ${courts}">
-                <td th:text="${court.id}"></td>
-                <td th:text="${court.courtName}"></td>
+            <tr th:each="court, stat : ${courts}">
+                <td th:text="${stat.count}"></td>
+                <td th:text="${court.details}"></td>
 <!--                <td th:text="${court.rentalPrice}"></td>-->
                 <td th:text="${court.badminton.badmintonName}"></td>
-                <td>
-                    <a th:href="@{/admin/courts/edit/{id}(id=${court.id})}" class="btn btn-success btn-sm">
-                        <i class="fa-solid fa-pen-to-square"></i>
-                    </a>
-                    <a th:href="@{/admin/courts/delete/{id}(id=${court.id})}" class="btn btn-danger btn-sm"
-                       onclick="return confirm('Are you sure?')">
-                        <i class="fa-solid fa-trash"></i>
-                    </a>
-                </td>
             </tr>
             </tbody>
         </table>

@@ -48,7 +48,12 @@ public class UserService {
         existedUser.setPassword(user.getPassword());
     }
 
-    public Optional<User> getUserById(){
+    public Optional<User> getUserById(Long userId)
+    {
+        return userRepository.findById(userId);
+    }
+
+    public Optional<User> getUserByCurentId(){
         return userRepository.findById(getCurrentUserId());
     }
 

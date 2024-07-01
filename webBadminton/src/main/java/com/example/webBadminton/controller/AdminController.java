@@ -48,6 +48,16 @@ public class AdminController {
         return "/admin/account/list"; // Name of the Thymeleaf template
     }
 
+    @GetMapping("/owners/badmintons")
+    public String listOwnerCourts(@RequestParam("ownerId") Long ownerId, Model model) {
+        User owner = userService.getUserById(ownerId).orElseThrow(
+                () -> new IllegalArgumentException("Invalid user with id:" + userService.getUserById(ownerId))); // Assume this method exists
+        List<Badminton> badmintons = owner.getBadmintons(); // Assuming Owner has a list of Courts
+        model.addAttribute("owner", owner);
+        model.addAttribute("badmintons", badmintons);
+        return "/admin/owner/badminton/list"; // Thymeleaf template
+    }
+
 
     @GetMapping("/badmintons")
     public String getAllBadmintonsAdmin(Model model){
