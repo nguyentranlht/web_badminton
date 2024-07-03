@@ -1,12 +1,16 @@
 package com.example.webBadminton.controller;
 
+import com.example.webBadminton.model.BookingCourt;
 import com.example.webBadminton.model.CustomUserDetail;
 import com.example.webBadminton.model.User;
+import com.example.webBadminton.model.booking.Booking;
 import com.example.webBadminton.model.court.Badminton;
 import com.example.webBadminton.model.court.Court;
 import com.example.webBadminton.model.court.CourtId;
 import com.example.webBadminton.modelView.SearchCriteria;
 import com.example.webBadminton.service.*;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -21,7 +25,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.validation.Valid;
 import javax.xml.transform.Result;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Controller
@@ -40,15 +46,39 @@ public class OwnerController {
     @Autowired
     private BookingService bookingService;
 
+//    @GetMapping
+//    public String home(Model model) {
+//        List<Badminton> badmintonList = badmintonService.getAllBadmintonByUser(userService.getCurrentUserId());
+//        var booking = bookingService.getBookingsByBadminton(badmintonList);
+//        booking.forEach(p -> System.out.println(p.getCourt().getCourtId()));
+//        model.addAttribute("bookings", booking);
+//        model.addAttribute("court", courtService.getAllCourtByBadminton(badmintonList));
+//        return "owner/home/index";
+//    }
+
     @GetMapping
-    public String home(Model model) {
-        List<Badminton> badmintonList = badmintonService.getAllBadmintonByUser(userService.getCurrentUserId());
-        var booking = bookingService.getBookingsByBadminton(badmintonList);
-        booking.forEach(p -> System.out.println(p.getCourt().getCourtId()));
-        model.addAttribute("bookings", booking);
-        model.addAttribute("court", courtService.getAllCourtByBadminton(badmintonList));
-        return "owner/badminton/index";
+    public String home(Model model) throws JsonProcessingException {
+        Long currentUserId = userService.getCurrentUserId();
+        List<Badminton> badmintonList = badmintonService.getAllBadmintonByUser(currentUserId);
+        List<BookingCourt> bookingList = bookingService.getBookingsByBadminton(badmintonList);
+
+        // Prepare data for the timeline
+        List<Map<String, Object>> bookings = bookingList.stream().map(booking -> {
+            Map<String, Object> map = new HashMap<>();
+            map.put("id", booking.getId());
+            map.put("courtId", booking.getCourt().getCourtId());
+            map.put("details", booking.getCourt().getDetails());
+            map.put("bookingDate", booking.getBookingDate().toString());
+            map.put("startTime", booking.getStartTime().toString());
+            map.put("endTime", booking.getEndTime().toString());
+            return map;
+        }).collect(Collectors.toList());
+
+        model.addAttribute("bookings", bookings);
+        model.addAttribute("courts", courtService.getAllCourtByBadminton(badmintonList));
+        return "owner/home/index";
     }
+
 
     @GetMapping("/badmintons")
     public String getAllBadmintonsAdmin(Model model){
@@ -118,23 +148,6 @@ public class OwnerController {
         model.addAttribute("badmintons", badmintons);
         model.addAttribute("keyword", keyword);
         return "/admin/badminton/list";
-    }
-
-    @PostMapping("/api/addCourt")
-    public String addCourt(@RequestParam("badmintonId") Long badmintonId, @RequestParam("description") String description, RedirectAttributes redirectAttributes) {
-        try {
-            Court court = new Court();
-            court.setBadmintonId(badmintonId);
-            court.setDetails(description);
-            court.setBadminton(badmintonService.getBadmintonById(badmintonId).orElseThrow());
-            court.setCourtId(courtService.getLatestCourt().getCourtId() + 1);
-            // Assuming there's a method in CourtService to save a court
-            courtService.saveCourt(court);
-            redirectAttributes.addFlashAttribute("message", "Court added successfully!");
-        } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("error", "Error adding court: " + e.getMessage());
-        }
-        return "redirect:/owner/courts";
     }
 
     @GetMapping("/courts")

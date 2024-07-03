@@ -3,10 +3,10 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Admin Badminton</title>
+    <title>Owner Badminton</title>
 
     <!-- Favicon -->
-    <link href="admin/img/favicon.ico" rel="icon">
+    <link href="/admin/img/favicon.ico" rel="icon">
 
     <!-- Google Web Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -14,279 +14,158 @@
     <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     <!-- Icon Font Stylesheet -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
 
     <!-- Libraries Stylesheet -->
-    <link href="admin/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
-    <link href="admin/lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
+    <link href="/admin/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+    <link href="/admin/lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
 
     <!-- Customized Bootstrap Stylesheet -->
-    <link href="admin/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/admin/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Template Stylesheet -->
-    <link href="admin/css/style.css" rel="stylesheet">
+    <link href="/admin/css/style.css" rel="stylesheet">
 
+    <!-- Custom Styles -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        #timeline {
+            width: 100%;
+            height: 600px;
+            border: 1px solid lightgray;
+            overflow-x: scroll; /* Enable horizontal scrolling */
+            overflow-y: scroll; /* Enable vertical scrolling */
+        }
+        .vis-group {
+            height: 70px !important; /* Set the fixed height for all groups */
+        }
+        .vis-label {
+            height: 70px !important; /* Set the fixed height for all labels */
+            line-height: 70px !important; /* Center text vertically */
+        }
+        .status-buttons {
+            display: flex;
+            gap: 5px;
+        }
+
+        .status-buttons .btn {
+            padding: 5px 10px;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+            color: white;
+            border-radius: 3px;
+            transition: background-color 0.3s ease;
+        }
+
+        .status-buttons .status-on {
+            background-color: #1a1a1a;
+        }
+
+        .status-buttons .status-hover {
+            background-color: #4a90e2;
+        }
+
+        .status-buttons .status-off {
+            background-color: #5a6e9b;
+        }
+
+        .status-buttons .status-on:hover {
+            background-color: #000;
+        }
+
+        .status-buttons .status-hover:hover {
+            background-color: #357abd;
+        }
+
+        .status-buttons .status-off:hover {
+            background-color: #3e517a;
+        }
+    </style>
 </head>
 
 <body>
 <div class="container-fluid position-relative bg-white d-flex p-0">
     <!-- Spinner Start -->
-    <th:block th:replace="admin/layoutadmin :: admin-spinner"></th:block>
+    <th:block th:replace="owner/owner_layout :: owner-spinner"></th:block>
     <!-- Spinner End -->
 
     <!-- Sidebar Start -->
-    <th:block th:replace="admin/layoutadmin :: admin-sidebar"></th:block>
+    <th:block th:replace="owner/owner_layout :: owner-sidebar"></th:block>
     <!-- Sidebar End -->
 
 
     <!-- Content Start -->
     <div class="content">
         <!-- Navbar Start -->
-        <th:block th:replace="admin/layoutadmin :: admin-header"></th:block>
+        <th:block th:replace="owner/owner_layout :: owner-header"></th:block>
         <!-- Navbar End -->
-        <!-- Sale & Revenue Start -->
+        <!-- Search Form Start -->
         <div class="container-fluid pt-4 px-4">
-            <div class="row g-4">
-                <div class="col-sm-6 col-xl-3">
-                    <div class="bg-light rounded d-flex align-items-center justify-content-between p-4">
-                        <i class="fa fa-chart-line fa-3x text-primary"></i>
-                        <div class="ms-3">
-                            <p class="mb-2">Today Sale</p>
-                            <h6 class="mb-0">$1234</h6>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-6 col-xl-3">
-                    <div class="bg-light rounded d-flex align-items-center justify-content-between p-4">
-                        <i class="fa fa-chart-bar fa-3x text-primary"></i>
-                        <div class="ms-3">
-                            <p class="mb-2">Total Sale</p>
-                            <h6 class="mb-0">$1234</h6>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-6 col-xl-3">
-                    <div class="bg-light rounded d-flex align-items-center justify-content-between p-4">
-                        <i class="fa fa-chart-area fa-3x text-primary"></i>
-                        <div class="ms-3">
-                            <p class="mb-2">Today Revenue</p>
-                            <h6 class="mb-0">$1234</h6>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-6 col-xl-3">
-                    <div class="bg-light rounded d-flex align-items-center justify-content-between p-4">
-                        <i class="fa fa-chart-pie fa-3x text-primary"></i>
-                        <div class="ms-3">
-                            <p class="mb-2">Total Revenue</p>
-                            <h6 class="mb-0">$1234</h6>
-                        </div>
-                    </div>
-                </div>
+            <div class="bg-light rounded p-4">
+                <!--Search theo ngày, tên sân, tên khách hàng. Chưa làm được-->
+                <form th:action="@{/admin/badmintons/search}" method="get" class="d-flex">
+                    <input type="text" name="keyword" th:value="${keyword}" class="form-control me-2" placeholder="Search">
+                    <button type="submit" class="btn btn-primary"><i class="fas fa-search"></i></button>
+                </form>
             </div>
         </div>
-        <!-- Sale & Revenue End -->
-
-
+        <!-- Search Form End -->
         <!-- Recent Sales Start -->
         <div class="container-fluid pt-4 px-4">
             <div class="bg-light text-center rounded p-4">
                 <div class="d-flex align-items-center justify-content-between mb-4">
-                    <h6 class="mb-0">Recent Salse</h6>
+                    <h6 class="mb-0"><Preserved></Preserved> Court: <span th:text="${badmintonName}"></span></h6>
+                    <!--Here-->
                     <a href="">Show All</a>
                 </div>
                 <div class="table-responsive">
                     <table class="table text-start align-middle table-bordered table-hover mb-0">
                         <thead>
                         <tr class="text-dark">
-                            <th scope="col"><input class="form-check-input" type="checkbox"></th>
-                            <th scope="col">Date</th>
-                            <th scope="col">Invoice</th>
-                            <th scope="col">Customer</th>
-                            <th scope="col">Amount</th>
-                            <th scope="col">Status</th>
-                            <th scope="col">Action</th>
+                            <th>Id</th>
+                            <th>Describe</th>
+                            <th>Date</th>
+                            <th>Start Time</th>
+                            <th>End Time</th>
+<!--                            <th>Action</th>-->
                         </tr>
                         </thead>
                         <tbody>
-                        <tr>
-                            <td><input class="form-check-input" type="checkbox"></td>
-                            <td>01 Jan 2045</td>
-                            <td>INV-0123</td>
-                            <td>Jhon Doe</td>
-                            <td>$123</td>
-                            <td>Paid</td>
-                            <td><a class="btn btn-sm btn-primary" href="">Detail</a></td>
-                        </tr>
-                        <tr>
-                            <td><input class="form-check-input" type="checkbox"></td>
-                            <td>01 Jan 2045</td>
-                            <td>INV-0123</td>
-                            <td>Jhon Doe</td>
-                            <td>$123</td>
-                            <td>Paid</td>
-                            <td><a class="btn btn-sm btn-primary" href="">Detail</a></td>
-                        </tr>
-                        <tr>
-                            <td><input class="form-check-input" type="checkbox"></td>
-                            <td>01 Jan 2045</td>
-                            <td>INV-0123</td>
-                            <td>Jhon Doe</td>
-                            <td>$123</td>
-                            <td>Paid</td>
-                            <td><a class="btn btn-sm btn-primary" href="">Detail</a></td>
-                        </tr>
-                        <tr>
-                            <td><input class="form-check-input" type="checkbox"></td>
-                            <td>01 Jan 2045</td>
-                            <td>INV-0123</td>
-                            <td>Jhon Doe</td>
-                            <td>$123</td>
-                            <td>Paid</td>
-                            <td><a class="btn btn-sm btn-primary" href="">Detail</a></td>
-                        </tr>
-                        <tr>
-                            <td><input class="form-check-input" type="checkbox"></td>
-                            <td>01 Jan 2045</td>
-                            <td>INV-0123</td>
-                            <td>Jhon Doe</td>
-                            <td>$123</td>
-                            <td>Paid</td>
-                            <td><a class="btn btn-sm btn-primary" href="">Detail</a></td>
-                        </tr>
+<!--                        <tr th:each="booking : ${bookings}">-->
+<!--                            <td th:text="${booking.court.courtId}"></td>-->
+<!--                            <td th:text="${booking.court.details}"></td>-->
+<!--                            <td th:text="${booking.bookingDate}"></td>-->
+<!--                            <td th:text="${booking.startTime}"></td>-->
+<!--                            <td th:text="${booking.endTime}"></td>-->
+<!--&lt;!&ndash;                            <td>&ndash;&gt;-->
+<!--&lt;!&ndash;                                <div class="status-buttons">&ndash;&gt;-->
+<!--&lt;!&ndash;                                    <button class="btn status-on">On</button>&ndash;&gt;-->
+<!--&lt;!&ndash;                                    <button class="btn status-hover">Hover</button>&ndash;&gt;-->
+<!--&lt;!&ndash;                                    <button class="btn status-off">Off</button>&ndash;&gt;-->
+<!--&lt;!&ndash;                                </div>&ndash;&gt;-->
+<!--&lt;!&ndash;                            </td>&ndash;&gt;-->
+<!--&lt;!&ndash;                            <td>&ndash;&gt;-->
+<!--&lt;!&ndash;                                <a class="btn btn-sm btn-primary" href="">&ndash;&gt;-->
+<!--&lt;!&ndash;                                    <i class="fa-solid fa-file"></i>&ndash;&gt;-->
+<!--&lt;!&ndash;                                </a>&ndash;&gt;-->
+<!--&lt;!&ndash;                            </td>&ndash;&gt;-->
+<!--                            &lt;!&ndash;Trạng thái thanh toán&ndash;&gt;-->
+<!--                            &lt;!&ndash;<td>-->
+<!--                                <span th:text="${badminton.isPaid ? 'Đã thanh toán' : 'Chưa thanh toán'}"></span>-->
+<!--                            </td>&ndash;&gt;-->
+<!--                        </tr>-->
                         </tbody>
                     </table>
                 </div>
+                <div id="timeline"></div>
             </div>
         </div>
         <!-- Recent Sales End -->
 
-
-        <!-- Widgets Start -->
-        <div class="container-fluid pt-4 px-4">
-            <div class="row g-4">
-                <div class="col-sm-12 col-md-6 col-xl-4">
-                    <div class="h-100 bg-light rounded p-4">
-                        <div class="d-flex align-items-center justify-content-between mb-2">
-                            <h6 class="mb-0">Messages</h6>
-                            <a href="">Show All</a>
-                        </div>
-                        <div class="d-flex align-items-center border-bottom py-3">
-                            <img class="rounded-circle flex-shrink-0" src="admin/img/user.jpg" alt="" style="width: 40px; height: 40px;">
-                            <div class="w-100 ms-3">
-                                <div class="d-flex w-100 justify-content-between">
-                                    <h6 class="mb-0">Jhon Doe</h6>
-                                    <small>15 minutes ago</small>
-                                </div>
-                                <span>Short message goes here...</span>
-                            </div>
-                        </div>
-                        <div class="d-flex align-items-center border-bottom py-3">
-                            <img class="rounded-circle flex-shrink-0" src="admin/img/user.jpg" alt="" style="width: 40px; height: 40px;">
-                            <div class="w-100 ms-3">
-                                <div class="d-flex w-100 justify-content-between">
-                                    <h6 class="mb-0">Jhon Doe</h6>
-                                    <small>15 minutes ago</small>
-                                </div>
-                                <span>Short message goes here...</span>
-                            </div>
-                        </div>
-                        <div class="d-flex align-items-center border-bottom py-3">
-                            <img class="rounded-circle flex-shrink-0" src="admin/img/user.jpg" alt="" style="width: 40px; height: 40px;">
-                            <div class="w-100 ms-3">
-                                <div class="d-flex w-100 justify-content-between">
-                                    <h6 class="mb-0">Jhon Doe</h6>
-                                    <small>15 minutes ago</small>
-                                </div>
-                                <span>Short message goes here...</span>
-                            </div>
-                        </div>
-                        <div class="d-flex align-items-center pt-3">
-                            <img class="rounded-circle flex-shrink-0" src="admin/img/user.jpg" alt="" style="width: 40px; height: 40px;">
-                            <div class="w-100 ms-3">
-                                <div class="d-flex w-100 justify-content-between">
-                                    <h6 class="mb-0">Jhon Doe</h6>
-                                    <small>15 minutes ago</small>
-                                </div>
-                                <span>Short message goes here...</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-12 col-md-6 col-xl-4">
-                    <div class="h-100 bg-light rounded p-4">
-                        <div class="d-flex align-items-center justify-content-between mb-4">
-                            <h6 class="mb-0">Calender</h6>
-                            <a href="">Show All</a>
-                        </div>
-                        <div id="calender"></div>
-                    </div>
-                </div>
-                <div class="col-sm-12 col-md-6 col-xl-4">
-                    <div class="h-100 bg-light rounded p-4">
-                        <div class="d-flex align-items-center justify-content-between mb-4">
-                            <h6 class="mb-0">To Do List</h6>
-                            <a href="">Show All</a>
-                        </div>
-                        <div class="d-flex mb-2">
-                            <input class="form-control bg-transparent" type="text" placeholder="Enter task">
-                            <button type="button" class="btn btn-primary ms-2">Add</button>
-                        </div>
-                        <div class="d-flex align-items-center border-bottom py-2">
-                            <input class="form-check-input m-0" type="checkbox">
-                            <div class="w-100 ms-3">
-                                <div class="d-flex w-100 align-items-center justify-content-between">
-                                    <span>Short task goes here...</span>
-                                    <button class="btn btn-sm"><i class="fa fa-times"></i></button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="d-flex align-items-center border-bottom py-2">
-                            <input class="form-check-input m-0" type="checkbox">
-                            <div class="w-100 ms-3">
-                                <div class="d-flex w-100 align-items-center justify-content-between">
-                                    <span>Short task goes here...</span>
-                                    <button class="btn btn-sm"><i class="fa fa-times"></i></button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="d-flex align-items-center border-bottom py-2">
-                            <input class="form-check-input m-0" type="checkbox" checked>
-                            <div class="w-100 ms-3">
-                                <div class="d-flex w-100 align-items-center justify-content-between">
-                                    <span><del>Short task goes here...</del></span>
-                                    <button class="btn btn-sm text-primary"><i class="fa fa-times"></i></button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="d-flex align-items-center border-bottom py-2">
-                            <input class="form-check-input m-0" type="checkbox">
-                            <div class="w-100 ms-3">
-                                <div class="d-flex w-100 align-items-center justify-content-between">
-                                    <span>Short task goes here...</span>
-                                    <button class="btn btn-sm"><i class="fa fa-times"></i></button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="d-flex align-items-center pt-2">
-                            <input class="form-check-input m-0" type="checkbox">
-                            <div class="w-100 ms-3">
-                                <div class="d-flex w-100 align-items-center justify-content-between">
-                                    <span>Short task goes here...</span>
-                                    <button class="btn btn-sm"><i class="fa fa-times"></i></button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Widgets End -->
-
-        <!-- Footer Start -->
-        <th:block th:replace="admin/layoutadmin :: admin-footer"></th:block>
-        <!-- Footer End -->
     </div>
     <!-- Content End -->
 
@@ -298,16 +177,21 @@
 <!-- JavaScript Libraries -->
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-<script src="admin/lib/chart/chart.min.js"></script>
-<script src="admin/lib/easing/easing.min.js"></script>
-<script src="admin/lib/waypoints/waypoints.min.js"></script>
-<script src="admin/lib/owlcarousel/owl.carousel.min.js"></script>
-<script src="admin/lib/tempusdominus/js/moment.min.js"></script>
-<script src="admin/lib/tempusdominus/js/moment-timezone.min.js"></script>
-<script src="admin/lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
+<script src="/admin/lib/chart/chart.min.js"></script>
+<script src="/admin/lib/easing/easing.min.js"></script>
+<script src="/admin/lib/waypoints/waypoints.min.js"></script>
+<script src="/admin/lib/owlcarousel/owl.carousel.min.js"></script>
+<script src="/admin/lib/tempusdominus/js/moment.min.js"></script>
+<script src="/admin/lib/tempusdominus/js/moment-timezone.min.js"></script>
+<script src="/admin/lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.21.0/vis.min.css" rel="stylesheet" type="text/css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.21.0/vis.min.js"></script>
+
 
 <!-- Template Javascript -->
-<script src="admin/js/main.js"></script>
-</body>
+<script src="/admin/js/main.js"></script>
+<script src="/admin/js/timeline.js"></script>
 
+</body>
 </html>
