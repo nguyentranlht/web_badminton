@@ -10,13 +10,14 @@ import com.example.webBadminton.service.CourtService;
 import com.example.webBadminton.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
-@RestController
+@Controller
 @RequestMapping("/api")
 public class APIController {
     @Autowired
@@ -68,10 +69,13 @@ public class APIController {
         return ResponseEntity.ok(data);
     }
 
-    @PostMapping("/api/addCourt")
+    @PostMapping("/addCourt")
     public String addCourt(@RequestParam("badmintonId") Long badmintonId, @RequestParam("description") String description, RedirectAttributes redirectAttributes) {
         try {
             Court court = new Court();
+            Badminton badminton = badmintonService.getBadmintonById(badmintonId).orElseThrow(() -> new IllegalArgumentException("Invalid badminton Id:" + badmintonId));
+            badminton.setCourtQuantity(badminton.getCourtQuantity()+1);
+            badmintonService.updateBadminton(badminton);
             court.setBadmintonId(badmintonId);
             court.setDetails(description);
             court.setBadminton(badmintonService.getBadmintonById(badmintonId).orElseThrow());
