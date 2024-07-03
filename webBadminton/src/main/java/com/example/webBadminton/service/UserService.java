@@ -32,7 +32,7 @@ public class UserService {
             user.passwordEncryption(user.getPassword());
             userRepository.save(user);
             Long userId = userRepository.getUserIdByUsername(user.getUsername());
-            Long role = roleRepository.getRoleIdByName("Super Admin");
+            Long role = roleRepository.getRoleIdByName("User");
             if (role != 0 && userId != 0)
                 userRepository.addRoleToUser(userId, role);
         } catch (Exception e) {
