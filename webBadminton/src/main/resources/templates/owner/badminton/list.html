@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="utf-8">
+    <title>Owner Badminton</title>
+
+    <!-- Favicon -->
+    <link href="/admin/img/favicon.ico" rel="icon">
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Icon Font Stylesheet -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Libraries Stylesheet -->
+    <link href="/admin/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+    <link href="/admin/lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="/admin/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Template Stylesheet -->
+    <link href="/admin/css/style.css" rel="stylesheet">
+
+</head>
+
+<body>
+<div class="container-fluid position-relative bg-white d-flex p-0">
+    <!-- Spinner Start -->
+    <th:block th:replace="owner/owner_layout :: owner-spinner"></th:block>
+    <!-- Spinner End -->
+
+    <!-- Sidebar Start -->
+    <th:block th:replace="owner/owner_layout :: owner-sidebar"></th:block>
+    <!-- Sidebar End -->
+
+
+    <!-- Content Start -->
+    <div class="content">
+        <!-- Navbar Start -->
+        <th:block th:replace="owner/owner_layout :: owner-header"></th:block>
+        <!-- Navbar End -->
+        <!-- Search Form Start -->
+        <div class="container-fluid pt-4 px-4">
+            <div class="bg-light rounded p-4">
+                <form th:action="@{/admin/badmintons/search}" method="get" class="d-flex">
+                    <input type="text" name="keyword" th:value="${keyword}" class="form-control me-2" placeholder="Search">
+                    <button type="submit" class="btn btn-primary"><i class="fas fa-search"></i></button>
+                </form>
+            </div>
+        </div>
+        <!-- Search Form End -->
+        <table class="table table-bordered table-hover">
+            <thead class="table-dark">
+            <tr>
+                <th>ID</th>
+                <th>Badminton Name</th>
+                <th>Court Quantity</th>
+                <th>Opening Time</th>
+                <th>Closing Time</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="badminton : ${badmintons}">
+                <td th:text="${badminton.id}"></td>
+                <td th:text="${badminton.badmintonName}"></td>
+                <td th:text="${badminton.courtQuantity}"></td>
+                <td th:text="${badminton.openingTime}"></td>
+                <td th:text="${badminton.closingTime}"></td>
+                <td>
+                    <div sec:authorize="hasAuthority('Owner')">
+                        <a th:href="@{/owner/badmintons/edit/{id}(id=${badminton.id})}" class="btn btn-success btn-sm">
+                            <i class="fa-solid fa-pen-to-square"></i>
+                        </a>
+                        <a th:href="@{/owner/badmintons/delete/{id}(id=${badminton.id})}" class="btn btn-danger btn-sm"
+                           onclick="return confirm('Are you sure?')">
+                            <i class="fa-solid fa-trash"></i>
+                        </a>
+                    </div>
+                </td>
+
+            </tr>
+            </tbody>
+        </table>
+
+    </div>
+    <!-- Content End -->
+
+
+    <!-- Back to Top -->
+    <a  href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
+</div>
+
+<!-- JavaScript Libraries -->
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="/admin/lib/chart/chart.min.js"></script>
+<script src="/admin/lib/easing/easing.min.js"></script>
+<script src="/admin/lib/waypoints/waypoints.min.js"></script>
+<script src="/admin/lib/owlcarousel/owl.carousel.min.js"></script>
+<script src="/admin/lib/tempusdominus/js/moment.min.js"></script>
+<script src="/admin/lib/tempusdominus/js/moment-timezone.min.js"></script>
+<script src="/admin/lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
+
+<!-- Template Javascript -->
+<script src="/admin/js/main.js"></script>
+<!--Kiểm tra EndDate > StartDate 1 tiếng -->
+<script>
+    function validateTimes() {
+        var openingTime = document.getElementById("openingTime").value;
+        var closingTime = document.getElementById("closingTime").value;
+        var startTime = openingTime ? new Date("1970-01-01T" + openingTime + "Z") : null;
+        var endTime = closingTime ? new Date("1970-01-01T" + closingTime + "Z") : null;
+        if (startTime && endTime) {
+            var diff = (endTime - startTime) / 3600000; // convert milliseconds to hours
+            if (diff < 1) {
+                document.getElementById("timeError").style.display = 'block';
+                document.getElementById("closingTime").setCustomValidity('Invalid');
+            } else {
+                document.getElementById("timeError").style.display = 'none';
+                document.getElementById("closingTime").setCustomValidity('');
+            }
+        }
+    }
+</script>
+</body>
+</html>

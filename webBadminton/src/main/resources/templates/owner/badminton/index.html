@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Admin Badminton</title>
+    <title>Owner Badminton</title>
 
     <!-- Favicon -->
     <link href="/admin/img/favicon.ico" rel="icon">
@@ -73,18 +73,18 @@
 <body>
 <div class="container-fluid position-relative bg-white d-flex p-0">
     <!-- Spinner Start -->
-    <th:block th:replace="admin/layoutadmin :: admin-spinner"></th:block>
+    <th:block th:replace="owner/owner_layout :: owner-spinner"></th:block>
     <!-- Spinner End -->
 
     <!-- Sidebar Start -->
-    <th:block th:replace="admin/layoutadmin :: admin-sidebar"></th:block>
+    <th:block th:replace="owner/owner_layout :: owner-sidebar"></th:block>
     <!-- Sidebar End -->
 
 
     <!-- Content Start -->
     <div class="content">
         <!-- Navbar Start -->
-        <th:block th:replace="admin/layoutadmin :: admin-header"></th:block>
+        <th:block th:replace="owner/owner_layout :: owner-header"></th:block>
         <!-- Navbar End -->
         <!-- Search Form Start -->
         <div class="container-fluid pt-4 px-4">
@@ -101,7 +101,7 @@
         <div class="container-fluid pt-4 px-4">
             <div class="bg-light text-center rounded p-4">
                 <div class="d-flex align-items-center justify-content-between mb-4">
-                    <h6 class="mb-0">Name Badminton: <span th:text="${badmintonName}"></span></h6>
+                    <h6 class="mb-0"><Preserved></Preserved> Court: <span th:text="${badmintonName}"></span></h6>
                     <!--Here-->
                     <a href="">Show All</a>
                 </div>
@@ -109,34 +109,33 @@
                     <table class="table text-start align-middle table-bordered table-hover mb-0">
                         <thead>
                         <tr class="text-dark">
-                            <th><input class="form-check-input" type="checkbox"></th>
+                            <th>Id</th>
+                            <th>Describe</th>
                             <th>Date</th>
-                            <th>Court</th>
-                            <th>Customer</th>
-                            <th>Amount</th>
-                            <th>Status</th>
-                            <th>Action</th>
+                            <th>Start Time</th>
+                            <th>End Time</th>
+<!--                            <th>Action</th>-->
                         </tr>
                         </thead>
                         <tbody>
-                        <tr>
-                            <td><input class="form-check-input" type="checkbox"></td>
-                            <td>Date</td>
-                            <td>Tên Sân</td>
-                            <td>Tên Khách Hàng</td>
-                            <td>Giá Thuê</td>
-                            <td>
-                                <div class="status-buttons">
-                                    <button class="btn status-on">On</button>
-                                    <button class="btn status-hover">Hover</button>
-                                    <button class="btn status-off">Off</button>
-                                </div>
-                            </td>
-                            <td>
-                                <a class="btn btn-sm btn-primary" href="">
-                                    <i class="fa-solid fa-file"></i>
-                                </a>
-                            </td>
+                        <tr th:each="booking : ${bookings}">
+                            <td th:text="${booking.court.courtId}"></td>
+                            <td th:text="${booking.court.details}"></td>
+                            <td th:text="${booking.bookingDate}"></td>
+                            <td th:text="${booking.startTime}"></td>
+                            <td th:text="${booking.endTime}"></td>
+<!--                            <td>-->
+<!--                                <div class="status-buttons">-->
+<!--                                    <button class="btn status-on">On</button>-->
+<!--                                    <button class="btn status-hover">Hover</button>-->
+<!--                                    <button class="btn status-off">Off</button>-->
+<!--                                </div>-->
+<!--                            </td>-->
+<!--                            <td>-->
+<!--                                <a class="btn btn-sm btn-primary" href="">-->
+<!--                                    <i class="fa-solid fa-file"></i>-->
+<!--                                </a>-->
+<!--                            </td>-->
                             <!--Trạng thái thanh toán-->
                             <!--<td>
                                 <span th:text="${badminton.isPaid ? 'Đã thanh toán' : 'Chưa thanh toán'}"></span>

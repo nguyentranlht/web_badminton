@@ -1,6 +1,7 @@
 package com.example.webBadminton.service;
 
 import com.example.webBadminton.model.BookingCourt;
+import com.example.webBadminton.model.court.Badminton;
 import com.example.webBadminton.repository.IBookingRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +38,11 @@ public class BookingService {
         return bookings.stream()
                 .map(BookingCourt::getStartTime)
                 .collect(Collectors.toList());
+    }
+
+    public List<BookingCourt> getBookingsByBadminton(List<Badminton> badmintonList) {
+        List<Long> badmintonIds = badmintonList.stream().map(Badminton::getId).collect(Collectors.toList());
+        return bookingRepository.findBookingsByBadmintonIds(badmintonIds);
     }
 
     public void deleteBooking(Long id) {

@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Admin Badminton</title>
+    <title>Owner Badminton</title>
 
     <!-- Favicon -->
     <link href="/admin/img/favicon.ico" rel="icon">
@@ -32,18 +32,18 @@
 <body>
 <div class="container-fluid position-relative bg-white d-flex p-0">
     <!-- Spinner Start -->
-    <th:block th:replace="admin/layoutadmin :: admin-spinner"></th:block>
+    <th:block th:replace="owner/owner_layout :: owner-spinner"></th:block>
     <!-- Spinner End -->
 
     <!-- Sidebar Start -->
-    <th:block th:replace="admin/layoutadmin :: admin-sidebar"></th:block>
+    <th:block th:replace="owner/owner_layout :: owner-sidebar"></th:block>
     <!-- Sidebar End -->
 
 
     <!-- Content Start -->
     <div class="content">
         <!-- Navbar Start -->
-        <th:block th:replace="admin/layoutadmin :: admin-header"></th:block>
+        <th:block th:replace="owner/owner_layout :: owner-header"></th:block>
         <!-- Navbar End -->
 
         <!-- Form Start -->
@@ -113,7 +113,7 @@
                                 </div>
                             </div>
                             <button type="submit" class="btn btn-primary">Add Badminton</button>
-                            <a th:href="@{/admin}" class="btn btn-link">Cancel</a>
+                            <a th:href="@{/owner}" class="btn btn-link">Cancel</a>
                         </form>
                     </div>
                 </div>

@@ -58,7 +58,7 @@ public class CourtService {
         return courtRepository.findById(id);
     }
 
-    public void addCourt(Badminton badminton) {
+    public void  addCourt(Badminton badminton) {
         for (long i = 1; i <= badminton.getCourtQuantity(); i++) {
             Court court = new Court();
             court.setBadmintonId(badminton.getId()); // Set badmintonId directly
@@ -68,17 +68,19 @@ public class CourtService {
         }
     }
 
+    public Court getLatestCourt()
+    {
+        return courtRepository.findAll().getLast();
+    }
+
     public void saveCourt(Court court) {
         courtRepository.save(court);
     }
 
     public void updateCourt(@NotNull Court court) {
-        CourtId id = new CourtId(court.getBadmintonId(), court.getCourtId());
-        Court existingCourt = courtRepository.findById(id)
+        Court existingCourt = getCourtById(court.getBadmintonId(), court.getCourtId())
                 .orElseThrow(() -> new IllegalStateException(court.getDetails() + " does not exist."));
-        /*existingCourt.setPrice(court.getPrice());
-        existingCourt.setDescription(court.getDescription());
-        existingCourt.setCategory(court.getCategory());*/
+        existingCourt.setDetails(court.getDetails());
         courtRepository.save(existingCourt);
     }
 
@@ -88,6 +90,13 @@ public class CourtService {
                 .orElseThrow(() -> new IllegalArgumentException("Invalid court Id: " + courtId));
         List<LocalTime[]> allTimeSlots = timeSlotService.generateTimeSlots(court);
         return timeSlotService.filterAvailableTimeSlots(allTimeSlots, date, court);
+    }
+
+    public List<Court> getAllCourtByBadminton(List<Badminton> badmintonList) {
+        List<Long> badmintonIds = badmintonList.stream()
+                .map(Badminton::getId)
+                .collect(Collectors.toList());
+        return courtRepository.findAllByBadmintonIds(badmintonIds);
     }
 
 

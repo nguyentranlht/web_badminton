@@ -1,10 +1,13 @@
 package com.example.webBadminton.service;
 
+import com.example.webBadminton.model.CustomUserDetail;
 import com.example.webBadminton.model.Role;
 import com.example.webBadminton.model.User;
 import com.example.webBadminton.repository.IRoleRepository;
 import com.example.webBadminton.repository.IUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -49,6 +52,16 @@ public class UserService {
             existedUser.setPassword(passwordEncoder.encode(user.getPassword()));
         }
         userRepository.save(existedUser);
+    }
+    public Long getCurrentUserId() {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (principal instanceof UserDetails) {
+            UserDetails userDetails = (UserDetails) principal;
+            return ((CustomUserDetail) userDetails).getId();
+        } else {
+            // Handle the case when the user is not authenticated or use an anonymous user
+            return null;
+        }
     }
 
     public List<User> getAllUsers() {

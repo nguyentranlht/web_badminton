@@ -16,4 +16,7 @@ public interface IBadmintonRepository extends JpaRepository<Badminton, Long> {
 
     @Query("SELECT b FROM Badminton b WHERE b.location IN :locations")
     List<Badminton> findByLocations(@Param("locations") List<Location> locations);
+
+    @Query("SELECT b FROM Badminton b WHERE b.user.id = ?1")
+    List<Badminton> findByUser(Long userId);
 }
