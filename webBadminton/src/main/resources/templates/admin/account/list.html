@@ -9,8 +9,8 @@
     <link href="/admin/img/favicon.ico" rel="icon">
 
     <!-- Google Web Fonts -->
-    <link href="https://fonts.googleapis.com" rel="preconnect">
-    <link crossorigin href="https://fonts.gstatic.com" rel="preconnect">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     <!-- Icon Font Stylesheet -->
@@ -19,7 +19,7 @@
 
     <!-- Libraries Stylesheet -->
     <link href="/admin/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
-    <link href="/admin/lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet"/>
+    <link href="/admin/lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
 
     <!-- Customized Bootstrap Stylesheet -->
     <link href="/admin/css/bootstrap.min.css" rel="stylesheet">
@@ -45,46 +45,35 @@
         <!-- Navbar Start -->
         <th:block th:replace="admin/layoutadmin :: admin-header"></th:block>
         <!-- Navbar End -->
-        <!-- Search Form Start -->
-        <div class="container-fluid pt-4 px-4">
-            <div class="bg-light rounded p-4">
-                <form class="d-flex" method="get" th:action="@{/admin/courts/search}">
-                    <input class="form-control me-2" name="keyword" placeholder="Search" th:value="${keyword}"
-                           type="text">
-                    <button class="btn btn-primary" type="submit"><i class="fas fa-search"></i></button>
-                </form>
-            </div>
-        </div>
-        <!-- Search Form End -->
         <table class="table table-bordered table-hover">
             <thead class="table-dark">
             <tr>
-                <th>No</th>
-                <th>Court Name</th>
-                <!--<th>Rental Price</th>-->
-                <th>Badminton</th>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Actions</th>
             </tr>
             </thead>
             <tbody>
-            <tr th:each="court, stat : ${courts}">
-                <td th:text="${stat.count}"></td>
-                <td th:text="${court.details}"></td>
-<!--                <td th:text="${court.rentalPrice}"></td>-->
-                <td th:text="${court.badminton.badmintonName}"></td>
+            <tr th:each="owner : ${owners}">
+                <td th:text="${owner.id}"></td>
+                <td th:text="${owner.name}"></td>
+                <td th:text="${owner.email}"></td>
+                <td>
+                    <!-- Button to view courts -->
+                    <a th:href="@{/admin/owners/badmintons(ownerId=${owner.id})}" class="btn btn-info">View Courts</a>
+                    <!-- Assuming you have the endpoint /owners/{id}/courts set up to handle this -->
+                </td>
             </tr>
             </tbody>
         </table>
 
-
-        <!-- Footer Start -->
-
-        <!-- Footer End -->
     </div>
     <!-- Content End -->
 
 
     <!-- Back to Top -->
-    <a class="btn btn-lg btn-primary btn-lg-square back-to-top" href="#"><i class="bi bi-arrow-up"></i></a>
+    <a  href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
 </div>
 
 <!-- JavaScript Libraries -->
@@ -100,27 +89,7 @@
 
 <!-- Template Javascript -->
 <script src="/admin/js/main.js"></script>
-
 <!--Kiểm tra EndDate > StartDate 1 tiếng -->
-<script>
-    function validateTimes() {
-        var openingTime = document.getElementById("openingTime").value;
-        var closingTime = document.getElementById("closingTime").value;
-        var startTime = openingTime ? new Date("1970-01-01T" + openingTime + "Z") : null;
-        var endTime = closingTime ? new Date("1970-01-01T" + closingTime + "Z") : null;
-        if (startTime && endTime) {
-            var diff = (endTime - startTime) / 3600000; // convert milliseconds to hours
-            if (diff < 1) {
-                document.getElementById("timeError").style.display = 'block';
-                document.getElementById("closingTime").setCustomValidity('Invalid');
-            } else {
-                document.getElementById("timeError").style.display = 'none';
-                document.getElementById("closingTime").setCustomValidity('');
-            }
-        }
-    }
-</script>
-
 </body>
-
 </html>
+

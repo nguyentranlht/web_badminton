@@ -1,12 +1,11 @@
 package com.example.webBadminton.controller;
 
-import com.example.webBadminton.model.BookingCourt;
-import com.example.webBadminton.model.court.Badminton;
+import com.example.webBadminton.model.User;
 import com.example.webBadminton.model.court.Court;
-import com.example.webBadminton.service.BadmintonService;
-import com.example.webBadminton.service.BookingService;
-import com.example.webBadminton.service.CourtService;
-import com.example.webBadminton.service.TimeSlotService;
+import com.example.webBadminton.model.court.Badminton;
+import com.example.webBadminton.model.BookingCourt;
+import com.example.webBadminton.service.*;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,7 +23,7 @@ import java.util.List;
 @RequestMapping("/courts")
 public class CourtController {
     // Đường dẫn thư mục để lưu trữ hình ảnh
-    private final String uploadDir = "src/main/resources/static/img/";
+    //private final String uploadDir = "src/main/resources/static/img/";
     @Autowired
     private CourtService courtService;
     @Autowired
@@ -34,6 +33,11 @@ public class CourtController {
     @Autowired
     private TimeSlotService timeSlotService;
 
+    @Autowired
+    private UserService userService;
+
+    // Đường dẫn thư mục để lưu trữ hình ảnh
+    //private final String uploadDir = "src/main/resources/static/img/";
     // Display a list of all products
     @GetMapping("/{id}")
     public String showCourtList(@PathVariable Long id, Model model) {
@@ -79,13 +83,15 @@ public class CourtController {
         if (result.hasErrors()) {
             return "/user/court/booking";
         }
+        User user =  userService.getUserByCurentId().orElseThrow(
+                () -> new IllegalArgumentException("Invalid user with id:" + userService.getUserByCurentId()));
         String[] times = timeSlot.split(" to ");
         LocalTime startTime = LocalTime.parse(times[0], DateTimeFormatter.ofPattern("HH:mm:ss"));
         LocalTime endTime = LocalTime.parse(times[1], DateTimeFormatter.ofPattern("HH:mm:ss"));
         bookingCourt.setStatus("false");
         bookingCourt.setStartTime(startTime);
         bookingCourt.setEndTime(endTime);
-        Long badmintonId = bookingCourt.getCourt().getBadmintonId();
+        bookingCourt.setUser(user);
         bookingService.addBooking(bookingCourt);
         redirectAttributes.addAttribute("bookingCourt", bookingCourt);
         return "redirect:/payment/create_payment";

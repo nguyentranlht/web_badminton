@@ -1,12 +1,10 @@
 package com.example.webBadminton.controller;
 
+import com.example.webBadminton.model.User;
 import com.example.webBadminton.model.court.Badminton;
 import com.example.webBadminton.model.court.Court;
 import com.example.webBadminton.modelView.SearchCriteria;
-import com.example.webBadminton.service.BadmintonService;
-import com.example.webBadminton.service.CourtService;
-import com.example.webBadminton.service.LocationService;
-import com.example.webBadminton.service.SearchService;
+import com.example.webBadminton.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -30,11 +28,32 @@ public class AdminController {
     @Autowired
     private SearchService searchService;
 
+    @Autowired
+    private UserService userService;
+
     @GetMapping
     public String index() {
 
         return "admin/home/index";
     }
+
+    @GetMapping("/owners")
+    public String showOwners(Model model) {
+        List<User> owners = userService.findOwners();
+        model.addAttribute("owners", owners);
+        return "/admin/account/list"; // Name of the Thymeleaf template
+    }
+
+    @GetMapping("/owners/badmintons")
+    public String listOwnerCourts(@RequestParam("ownerId") Long ownerId, Model model) {
+        User owner = userService.getUserById(ownerId).orElseThrow(
+                () -> new IllegalArgumentException("Invalid user with id:" + userService.getUserById(ownerId))); // Assume this method exists
+        List<Badminton> badmintons = owner.getBadmintons(); // Assuming Owner has a list of Courts
+        model.addAttribute("owner", owner);
+        model.addAttribute("badmintons", badmintons);
+        return "/admin/owner/badminton/list"; // Thymeleaf template
+    }
+
 
     @GetMapping("/badmintons")
     public String getAllBadmintonsAdmin(Model model) {
@@ -111,9 +130,9 @@ public class AdminController {
         return "/admin/court/add";
     }
 
-    @GetMapping("/courts")
-    public String showCourtListAdmin(Model model) {
-        List<Court> courts = courtService.getAllCourts();
+    @GetMapping("/courts/{badmintonId}")
+    public String showCourtListAdmin(@PathVariable Long badmintonId, Model model) {
+        List<Court> courts = courtService.getAllCourtsByIdBadminton(badmintonId);
         model.addAttribute("courts", courts);
         return "/admin/court/list";
     }

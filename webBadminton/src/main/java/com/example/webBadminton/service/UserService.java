@@ -1,12 +1,17 @@
 package com.example.webBadminton.service;
 
+import com.example.webBadminton.model.CustomUserDetail;
 import com.example.webBadminton.model.User;
 import com.example.webBadminton.repository.IRoleRepository;
 import com.example.webBadminton.repository.IUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.validation.constraints.NotNull;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -50,4 +55,26 @@ public class UserService {
         }
     }
 
+    public Optional<User> getUserById(Long userId)
+    {
+        return userRepository.findById(userId);
+    }
+
+    public Optional<User> getUserByCurentId(){
+        return userRepository.findById(getCurrentUserId());
+    }
+
+    public List<User> findOwners() {
+        return userRepository.findByRolesName("Owner");
+    }
+
+
+    public Long getCurrentUserId() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && authentication.getPrincipal() instanceof CustomUserDetail) {
+            CustomUserDetail userDetails = (CustomUserDetail) authentication.getPrincipal();
+            return userDetails.getId();
+        }
+        return null; // or handle differently if user is not authenticated
+    }
 }

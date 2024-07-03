@@ -109,7 +109,7 @@ public class PaymentController {
         bookingCourt.setStatus("true");
         bookingService.updateBooking(bookingCourt);
         model.addAttribute("message", "Thanh toán của bạn đã được xử lý thành công!");
-        return "redirect:/"; // Trả về tên của view (thymeleaf or JSP file)
+        return "/user/success"; // Trả về tên của view (thymeleaf or JSP file)
     }
 }
 
