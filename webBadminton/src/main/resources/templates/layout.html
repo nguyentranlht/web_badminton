@@ -74,6 +74,7 @@
             <div class="collapse navbar-collapse justify-content-between px-3" id="navbarCollapse">
                 <div class="navbar-nav ml-auto py-0">
                     <a class="nav-item nav-link" href="/admin" sec:authorize="hasAnyAuthority('Admin', 'Super Admin')">Admin</a>
+                    <a class="nav-item nav-link" href="/owner" sec:authorize="hasAnyAuthority('Owner')">Owner</a>
                     <a class="nav-item nav-link active" href="/">Home</a>
                     <a class="nav-item nav-link" href="#">About</a>
                     <a class="nav-item nav-link" href="#">Services</a>

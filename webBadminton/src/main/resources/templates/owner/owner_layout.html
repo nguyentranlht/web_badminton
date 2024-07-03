@@ -9,8 +9,8 @@
     <link href="admin/img/favicon.ico" rel="icon">
 
     <!-- Google Web Fonts -->
-    <link href="https://fonts.googleapis.com" rel="preconnect">
-    <link crossorigin href="https://fonts.gstatic.com" rel="preconnect">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     <!-- Icon Font Stylesheet -->
@@ -19,7 +19,7 @@
 
     <!-- Libraries Stylesheet -->
     <link href="admin/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
-    <link href="admin/lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet"/>
+    <link href="admin/lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
 
     <!-- Customized Bootstrap Stylesheet -->
     <link href="admin/css/bootstrap.min.css" rel="stylesheet">
@@ -32,53 +32,44 @@
 <body>
 <div class="container-fluid position-relative bg-white d-flex p-0">
     <!-- Spinner Start -->
-    <div class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center" id="spinner"
-         th:fragment="admin-spinner">
-        <div class="spinner-border text-primary" role="status" style="width: 3rem; height: 3rem;">
+    <div th:fragment="owner-spinner" id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+        <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
             <span class="sr-only">Loading...</span>
         </div>
     </div>
     <!-- Spinner End -->
 
     <!-- Sidebar Start -->
-    <div class="sidebar pe-4 pb-3" th:fragment="admin-sidebar">
+    <div th:fragment="owner-sidebar" class="sidebar pe-4 pb-3">
         <nav class="navbar bg-light navbar-light">
-            <a class="navbar-brand mx-4 mb-3" href="/admin">
+            <a href="/owner" class="navbar-brand mx-4 mb-3">
                 <h3 class="m-0 text-primary"><span class="text-dark">BADMIN</span>TON</h3>
                 <!--<h1 class="m-0 text-primary"><span class="text-dark">BADMIN</span>TON</h1>-->
             </a>
             <div class="d-flex align-items-center ms-4 mb-4">
                 <div class="position-relative">
-                    <img alt="" class="rounded-circle" src="/admin/img/user.jpg" style="width: 40px; height: 40px;">
+                    <img class="rounded-circle" src="/admin/img/user.jpg" alt="" style="width: 40px; height: 40px;">
                     <div class="bg-success rounded-circle border border-2 border-white position-absolute end-0 bottom-0 p-1"></div>
-                </div>
-                <div class="ms-3">
-                    <h6 class="mb-0" th:text="${username}"></h6>
-                    <span th:text="${roles}"></span>
                 </div>
             </div>
             <div class="navbar-nav w-100">
-                <div sec:authorize="hasAnyAuthority('Admin', 'Super Admin')">
-                    <a href="/admin" class="nav-item nav-link active"><i class="fa fa-tachometer-alt me-2"></i>Home</a>
+                <div>
+                    <a href="/owner" class="nav-item nav-link active"><i class="fa fa-tachometer-alt me-2"></i>Home</a>
                 </div>
-                <!--List Badminton and Court-->
-                <div class="nav-item dropdown" sec:authorize="hasAnyAuthority('Admin', 'Super Admin')">
-                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="far fa-file-alt me-2"></i>List</a>
+                <!--Form Register Badminton and Court-->
+                <div class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="far fa-file-alt me-2"></i>Form</a>
                     <div class="dropdown-menu bg-transparent border-0">
-                        <a href="/admin/owners" class="dropdown-item">List Owner</a>
-                        <a href="/admin/badmintons" class="dropdown-item">List Badminton</a>
-
-                        <!--<a href="element.html" class="dropdown-item">Other Elements</a>-->
+                        <a href="/owner/badmintons/add" class="dropdown-item">Add Badminton</a>
+                        <a href="/owner/courts" class="dropdown-item">List Court</a>
+                        <a href="/owner/badmintons" class="dropdown-item">List Badminton</a>
                     </div>
-                </div>
-                <div sec:authorize="hasAnyAuthority('Admin', 'Super Admin')">
-                    <a href="/admin/manage" class="nav-item nav-link"><i class="fa fa-table me-2"></i>Manage</a>
                 </div>
                 <div class="nav-item dropdown">
                     <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="far fa-file-alt me-2"></i>Setting</a>
                     <div class="dropdown-menu bg-transparent border-0">
                         <!--<a href="signin.html" class="dropdown-item">Login</a>-->
-                        <form sec:authorize="isAuthenticated()" th:action="@{/logout}" method="post">
+                        <form th:action="@{/logout}" method="post">
                             <button type="submit" class="nav-item nav-link">Logout</button>
                         </form>
                         <!--<a href="404.html" class="dropdown-item">404 Error</a>-->
@@ -94,24 +85,23 @@
     <!-- Content Start -->
     <div class="content">
         <!-- Navbar Start -->
-        <nav class="navbar navbar-expand bg-light navbar-light sticky-top px-4 py-0" th:fragment="admin-header">
-            <a class="navbar-brand d-flex d-lg-none me-4" href="#">
+        <nav th:fragment="owner-header" class="navbar navbar-expand bg-light navbar-light sticky-top px-4 py-0">
+            <a href="index.html" class="navbar-brand d-flex d-lg-none me-4">
                 <h2 class="text-primary mb-0"><i class="fa fa-hashtag"></i></h2>
             </a>
-            <a class="sidebar-toggler flex-shrink-0" href="#">
+            <a href="#" class="sidebar-toggler flex-shrink-0">
                 <i class="fa fa-bars"></i>
             </a>
             <div class="navbar-nav align-items-center ms-auto">
                 <div class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">
+                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
                         <i class="fa fa-envelope me-lg-2"></i>
                         <span class="d-none d-lg-inline-flex">Message</span>
                     </a>
                     <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
-                        <a class="dropdown-item" href="#">
+                        <a href="#" class="dropdown-item">
                             <div class="d-flex align-items-center">
-                                <img alt="" class="rounded-circle" src="admin/img/user.jpg"
-                                     style="width: 40px; height: 40px;">
+                                <img class="rounded-circle" src="admin/img/user.jpg" alt="" style="width: 40px; height: 40px;">
                                 <div class="ms-2">
                                     <h6 class="fw-normal mb-0">Jhon send you a message</h6>
                                     <small>15 minutes ago</small>
@@ -119,10 +109,9 @@
                             </div>
                         </a>
                         <hr class="dropdown-divider">
-                        <a class="dropdown-item" href="#">
+                        <a href="#" class="dropdown-item">
                             <div class="d-flex align-items-center">
-                                <img alt="" class="rounded-circle" src="admin/img/user.jpg"
-                                     style="width: 40px; height: 40px;">
+                                <img class="rounded-circle" src="admin/img/user.jpg" alt="" style="width: 40px; height: 40px;">
                                 <div class="ms-2">
                                     <h6 class="fw-normal mb-0">Jhon send you a message</h6>
                                     <small>15 minutes ago</small>
@@ -130,10 +119,9 @@
                             </div>
                         </a>
                         <hr class="dropdown-divider">
-                        <a class="dropdown-item" href="#">
+                        <a href="#" class="dropdown-item">
                             <div class="d-flex align-items-center">
-                                <img alt="" class="rounded-circle" src="admin/img/user.jpg"
-                                     style="width: 40px; height: 40px;">
+                                <img class="rounded-circle" src="admin/img/user.jpg" alt="" style="width: 40px; height: 40px;">
                                 <div class="ms-2">
                                     <h6 class="fw-normal mb-0">Jhon send you a message</h6>
                                     <small>15 minutes ago</small>
@@ -141,31 +129,31 @@
                             </div>
                         </a>
                         <hr class="dropdown-divider">
-                        <a class="dropdown-item text-center" href="#">See all message</a>
+                        <a href="#" class="dropdown-item text-center">See all message</a>
                     </div>
                 </div>
                 <div class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">
+                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
                         <i class="fa fa-bell me-lg-2"></i>
                         <span class="d-none d-lg-inline-flex">Notificatin</span>
                     </a>
                     <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
-                        <a class="dropdown-item" href="#">
+                        <a href="#" class="dropdown-item">
                             <h6 class="fw-normal mb-0">Profile updated</h6>
                             <small>15 minutes ago</small>
                         </a>
                         <hr class="dropdown-divider">
-                        <a class="dropdown-item" href="#">
+                        <a href="#" class="dropdown-item">
                             <h6 class="fw-normal mb-0">New user added</h6>
                             <small>15 minutes ago</small>
                         </a>
                         <hr class="dropdown-divider">
-                        <a class="dropdown-item" href="#">
+                        <a href="#" class="dropdown-item">
                             <h6 class="fw-normal mb-0">Password changed</h6>
                             <small>15 minutes ago</small>
                         </a>
                         <hr class="dropdown-divider">
-                        <a class="dropdown-item text-center" href="#">See all notifications</a>
+                        <a href="#" class="dropdown-item text-center">See all notifications</a>
                     </div>
                 </div>
                 <div class="nav-item dropdown">
@@ -325,8 +313,7 @@
                             <a href="">Show All</a>
                         </div>
                         <div class="d-flex align-items-center border-bottom py-3">
-                            <img alt="" class="rounded-circle flex-shrink-0" src="admin/img/user.jpg"
-                                 style="width: 40px; height: 40px;">
+                            <img class="rounded-circle flex-shrink-0" src="admin/img/user.jpg" alt="" style="width: 40px; height: 40px;">
                             <div class="w-100 ms-3">
                                 <div class="d-flex w-100 justify-content-between">
                                     <h6 class="mb-0">Jhon Doe</h6>
@@ -336,8 +323,7 @@
                             </div>
                         </div>
                         <div class="d-flex align-items-center border-bottom py-3">
-                            <img alt="" class="rounded-circle flex-shrink-0" src="admin/img/user.jpg"
-                                 style="width: 40px; height: 40px;">
+                            <img class="rounded-circle flex-shrink-0" src="admin/img/user.jpg" alt="" style="width: 40px; height: 40px;">
                             <div class="w-100 ms-3">
                                 <div class="d-flex w-100 justify-content-between">
                                     <h6 class="mb-0">Jhon Doe</h6>
@@ -347,8 +333,7 @@
                             </div>
                         </div>
                         <div class="d-flex align-items-center border-bottom py-3">
-                            <img alt="" class="rounded-circle flex-shrink-0" src="admin/img/user.jpg"
-                                 style="width: 40px; height: 40px;">
+                            <img class="rounded-circle flex-shrink-0" src="admin/img/user.jpg" alt="" style="width: 40px; height: 40px;">
                             <div class="w-100 ms-3">
                                 <div class="d-flex w-100 justify-content-between">
                                     <h6 class="mb-0">Jhon Doe</h6>
@@ -358,8 +343,7 @@
                             </div>
                         </div>
                         <div class="d-flex align-items-center pt-3">
-                            <img alt="" class="rounded-circle flex-shrink-0" src="admin/img/user.jpg"
-                                 style="width: 40px; height: 40px;">
+                            <img class="rounded-circle flex-shrink-0" src="admin/img/user.jpg" alt="" style="width: 40px; height: 40px;">
                             <div class="w-100 ms-3">
                                 <div class="d-flex w-100 justify-content-between">
                                     <h6 class="mb-0">Jhon Doe</h6>
@@ -386,8 +370,8 @@
                             <a href="">Show All</a>
                         </div>
                         <div class="d-flex mb-2">
-                            <input class="form-control bg-transparent" placeholder="Enter task" type="text">
-                            <button class="btn btn-primary ms-2" type="button">Add</button>
+                            <input class="form-control bg-transparent" type="text" placeholder="Enter task">
+                            <button type="button" class="btn btn-primary ms-2">Add</button>
                         </div>
                         <div class="d-flex align-items-center border-bottom py-2">
                             <input class="form-check-input m-0" type="checkbox">
@@ -408,7 +392,7 @@
                             </div>
                         </div>
                         <div class="d-flex align-items-center border-bottom py-2">
-                            <input checked class="form-check-input m-0" type="checkbox">
+                            <input class="form-check-input m-0" type="checkbox" checked>
                             <div class="w-100 ms-3">
                                 <div class="d-flex w-100 align-items-center justify-content-between">
                                     <span><del>Short task goes here...</del></span>
@@ -441,7 +425,7 @@
         <!-- Widgets End -->
 
         <!-- Footer Start -->
-        <div class="container-fluid pt-4 px-4" th:fragment="admin-footer">
+        <div th:fragment="owner-footer" class="container-fluid pt-4 px-4">
             <div class="bg-light rounded-top p-4">
                 <div class="row">
                     <div class="col-12 col-sm-6 text-center text-sm-start">
@@ -460,7 +444,7 @@
 
 
     <!-- Back to Top -->
-    <a class="btn btn-lg btn-primary btn-lg-square back-to-top" href="#"><i class="bi bi-arrow-up"></i></a>
+    <a  href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
 </div>
 
 <!-- JavaScript Libraries -->

@@ -37,10 +37,14 @@ public class BadmintonService {
     public List<Badminton> getAllBadmintons() {
         return badmintonRepository.findAll();
     }
+    public List<Badminton> getAllBadmintonByUser(Long userId) {
+        return badmintonRepository.findByUser(userId);
+    }
 
     public Optional<Badminton> getBadmintonById(Long id) {
         return badmintonRepository.findById(id);
     }
+
 
     public void addBadminton(Badminton badminton) {
         badmintonRepository.save(badminton);

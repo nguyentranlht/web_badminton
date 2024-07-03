@@ -3,14 +3,14 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Admin Badminton</title>
+    <title>Owner Badminton</title>
 
     <!-- Favicon -->
     <link href="/admin/img/favicon.ico" rel="icon">
 
     <!-- Google Web Fonts -->
-    <link href="https://fonts.googleapis.com" rel="preconnect">
-    <link crossorigin href="https://fonts.gstatic.com" rel="preconnect">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     <!-- Icon Font Stylesheet -->
@@ -19,7 +19,7 @@
 
     <!-- Libraries Stylesheet -->
     <link href="/admin/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
-    <link href="/admin/lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet"/>
+    <link href="/admin/lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
 
     <!-- Customized Bootstrap Stylesheet -->
     <link href="/admin/css/bootstrap.min.css" rel="stylesheet">
@@ -32,26 +32,25 @@
 <body>
 <div class="container-fluid position-relative bg-white d-flex p-0">
     <!-- Spinner Start -->
-    <th:block th:replace="admin/layoutadmin :: admin-spinner"></th:block>
+    <th:block th:replace="owner/owner_layout :: owner-spinner"></th:block>
     <!-- Spinner End -->
 
     <!-- Sidebar Start -->
-    <th:block th:replace="admin/layoutadmin :: admin-sidebar"></th:block>
+    <th:block th:replace="owner/owner_layout :: owner-sidebar"></th:block>
     <!-- Sidebar End -->
 
 
     <!-- Content Start -->
     <div class="content">
         <!-- Navbar Start -->
-        <th:block th:replace="admin/layoutadmin :: admin-header"></th:block>
+        <th:block th:replace="owner/owner_layout :: owner-header"></th:block>
         <!-- Navbar End -->
         <!-- Search Form Start -->
         <div class="container-fluid pt-4 px-4">
             <div class="bg-light rounded p-4">
-                <form class="d-flex" method="get" th:action="@{/admin/badmintons/search}">
-                    <input class="form-control me-2" name="keyword" placeholder="Search" th:value="${keyword}"
-                           type="text">
-                    <button class="btn btn-primary" type="submit"><i class="fas fa-search"></i></button>
+                <form th:action="@{/admin/badmintons/search}" method="get" class="d-flex">
+                    <input type="text" name="keyword" th:value="${keyword}" class="form-control me-2" placeholder="Search">
+                    <button type="submit" class="btn btn-primary"><i class="fas fa-search"></i></button>
                 </form>
             </div>
         </div>
@@ -75,15 +74,6 @@
                 <td th:text="${badminton.openingTime}"></td>
                 <td th:text="${badminton.closingTime}"></td>
                 <td>
-                    <div sec:authorize="hasAnyAuthority('Admin', 'Super Admin')">
-                        <a th:href="@{/admin/badmintons/edit/{id}(id=${badminton.id})}" class="btn btn-success btn-sm">
-                            <i class="fa-solid fa-pen-to-square"></i>
-                        </a>
-                        <a th:href="@{/admin/badmintons/delete/{id}(id=${badminton.id})}" class="btn btn-danger btn-sm"
-                           onclick="return confirm('Are you sure?')">
-                            <i class="fa-solid fa-trash"></i>
-                        </a>
-                    </div>
                     <div sec:authorize="hasAuthority('Owner')">
                         <a th:href="@{/owner/badmintons/edit/{id}(id=${badminton.id})}" class="btn btn-success btn-sm">
                             <i class="fa-solid fa-pen-to-square"></i>
@@ -104,7 +94,7 @@
 
 
     <!-- Back to Top -->
-    <a class="btn btn-lg btn-primary btn-lg-square back-to-top" href="#"><i class="bi bi-arrow-up"></i></a>
+    <a  href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
 </div>
 
 <!-- JavaScript Libraries -->

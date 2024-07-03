@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="utf-8">
+    <title>Admin Badminton</title>
+
+    <!-- Favicon -->
+    <link href="/admin/img/favicon.ico" rel="icon">
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Icon Font Stylesheet -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Libraries Stylesheet -->
+    <link href="/admin/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+    <link href="/admin/lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="/admin/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Template Stylesheet -->
+    <link href="/admin/css/style.css" rel="stylesheet">
+
+</head>
+
+<body>
+<div class="container-fluid position-relative bg-white d-flex p-0">
+    <!-- Spinner Start -->
+    <th:block th:replace="owner/owner_layout :: owner-spinner"></th:block>
+    <!-- Spinner End -->
+
+    <!-- Sidebar Start -->
+    <th:block th:replace="owner/owner_layout :: owner-sidebar"></th:block>
+    <!-- Sidebar End -->
+
+
+    <!-- Content Start -->
+    <div class="content">
+        <!-- Navbar Start -->
+        <th:block th:replace="owner/owner_layout :: owner-header"></th:block>
+        <!-- Navbar End -->
+        <!-- Search Form Start -->
+        <button class="addCourtButton btn btn-primary">Add Court</button>
+        <div th:if="${message}" class="alert alert-success" role="alert">
+            <span th:text="${message}"></span>
+        </div>
+        <div th:if="${error}" class="alert alert-danger" role="alert">
+            <span th:text="${error}"></span>
+        </div>
+        <!-- Search Form End -->
+        <table class="table table-bordered table-hover">
+
+            <thead class="table-dark">
+            <tr>
+                <th>Court Name</th>
+                <th>Badminton</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody id="courtListContainer">
+            <tr th:each="court : ${courts}">
+                <td th:text="${court.details}"></td>
+                <td th:text="${court.badminton.badmintonName}"></td>
+                <td>
+                    <div>
+                        <a th:href="@{/owner/courts/edit/{badmintonId}/{courtId}(badmintonId=${court.badmintonId}, courtId=${court.courtId})}" class="btn btn-success btn-sm">
+                            <i class="fa-solid fa-pen-to-square"></i>
+                        </a>
+                        <a th:href="@{/owner/courts/delete/{badmintonId}/{courtId}(badmintonId=${court.badmintonId}, courtId=${court.courtId})}" class="btn btn-danger btn-sm"
+                           onclick="return confirm('Are you sure?')">
+                            <i class="fa-solid fa-trash"></i>
+                        </a>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+
+
+        <!-- Footer Start -->
+
+        <!-- Footer End -->
+    </div>
+    <!-- Content End -->
+
+
+    <!-- Back to Top -->
+    <a  href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
+</div>
+<div class="modal fade" id="modalAddCourt" tabindex="-1" aria-labelledby="modalLabelAddCourt" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalLabelAddCourt">Adding Court</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="addCourtForm" action="/owner/api/addCourt" method="post">
+                    <div class="form-group mb-3">
+                        <label for="badminton" class="form-label">Select Badminton:</label>
+                        <select class="form-control" id="badminton" name="badmintonId">
+                            <option value="" disabled selected>Select a badminton</option>
+                            <option th:each="badminton : ${badmintons}" th:value="${badminton.id}" th:text="${badminton.badmintonName}"></option>
+                        </select>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="editDescription" class="form-label">Description</label>
+                        <textarea class="form-control" id="editDescription" name="description" rows="3" placeholder="Enter description"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" onclick="submitAddCourtForm()">Save Changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- JavaScript Libraries -->
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="/admin/lib/chart/chart.min.js"></script>
+<script src="/admin/lib/easing/easing.min.js"></script>
+<script src="/admin/lib/waypoints/waypoints.min.js"></script>
+<script src="/admin/lib/owlcarousel/owl.carousel.min.js"></script>
+<script src="/admin/lib/tempusdominus/js/moment.min.js"></script>
+<script src="/admin/lib/tempusdominus/js/moment-timezone.min.js"></script>
+<script src="/admin/lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
+
+<!-- Template Javascript -->
+<script src="/admin/js/main.js"></script>
+<script src="/admin/js/modal_activation.js"></script>
+
+
+</body>
+
+</html>

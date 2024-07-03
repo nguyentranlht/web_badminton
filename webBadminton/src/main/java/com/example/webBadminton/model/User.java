@@ -4,11 +4,14 @@ import com.example.webBadminton.model.court.Badminton;
 import com.example.webBadminton.validator.annotation.ValidUsername;
 import jakarta.persistence.*;
 import lombok.Data;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Data
 @Entity
@@ -55,4 +58,12 @@ public class User {
     public User() {
     }
 
+    public void passwordEncryption(String rawPassword)
+    {
+        this.password = new BCryptPasswordEncoder().encode(rawPassword);
+    }
+
+    public String getRoleName() {
+        return role != null ? role.getName() : null;
+    }
 }

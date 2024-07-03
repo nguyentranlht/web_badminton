@@ -1,9 +1,10 @@
 package com.example.webBadminton.controller;
 
-import com.example.webBadminton.model.User;
 import com.example.webBadminton.model.CustomUserDetail;
+import com.example.webBadminton.model.User;
 import com.example.webBadminton.model.court.Badminton;
 import com.example.webBadminton.model.court.Court;
+import com.example.webBadminton.model.court.CourtId;
 import com.example.webBadminton.modelView.SearchCriteria;
 import com.example.webBadminton.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,14 +15,18 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
+import javax.xml.transform.Result;
+import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Controller
-@RequestMapping("/admin")
-public class AdminController {
+@RequestMapping("/owner")
+public class OwnerController {
     @Autowired
     private CourtService courtService;
     @Autowired
@@ -30,58 +35,42 @@ public class AdminController {
     private LocationService locationService;
     @Autowired
     private SearchService searchService;
-
     @Autowired
     private UserService userService;
+    @Autowired
+    private BookingService bookingService;
 
     @GetMapping
-    public String index(Model model) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        CustomUserDetail customUserDetail = (CustomUserDetail) authentication.getPrincipal();
-        model.addAttribute("username", customUserDetail.getUsername());
-        model.addAttribute("roles", customUserDetail.getAuthorities().stream()
-                .map(authority -> authority.getAuthority())
-                .collect(Collectors.joining(", ")));
-        return "admin/home/index";
+    public String home(Model model) {
+        List<Badminton> badmintonList = badmintonService.getAllBadmintonByUser(userService.getCurrentUserId());
+        var booking = bookingService.getBookingsByBadminton(badmintonList);
+        booking.forEach(p -> System.out.println(p.getCourt().getCourtId()));
+        model.addAttribute("bookings", booking);
+        model.addAttribute("court", courtService.getAllCourtByBadminton(badmintonList));
+        return "owner/badminton/index";
     }
-
-    @GetMapping("/owners")
-    public String showOwners(Model model) {
-        List<User> owners = userService.findOwners();
-        model.addAttribute("owners", owners);
-        return "/admin/account/list"; // Name of the Thymeleaf template
-    }
-
-    @GetMapping("/owners/badmintons")
-    public String listOwnerCourts(@RequestParam("ownerId") Long ownerId, Model model) {
-        User owner = userService.getUserById(ownerId);
-        List<Badminton> badmintons = owner.getBadmintons(); // Assuming Owner has a list of Courts
-        model.addAttribute("owner", owner);
-        model.addAttribute("badmintons", badmintons);
-        return "/admin/owner/badminton/list"; // Thymeleaf template
-    }
-
 
     @GetMapping("/badmintons")
-    public String getAllBadmintonsAdmin(Model model) {
-        List<Badminton> badmintons = badmintonService.getAllBadmintons();
+    public String getAllBadmintonsAdmin(Model model){
+        Long userId = userService.getCurrentUserId();
+        List<Badminton> badmintons = badmintonService.getAllBadmintonByUser(userId);
 
         model.addAttribute("badmintons", badmintons);
         model.addAttribute("location", locationService.getAll());
-        return "/admin/badminton/list";
+        return "/owner/badminton/list";
     }
 
     @GetMapping("/badmintons/add")
-    public String showAddBadmintonForm(Model model) {
+    public String showAddBadmintonForm(Model model){
         model.addAttribute("badminton", new Badminton());
-        return "/admin/badminton/add";
+        return "/owner/badminton/add";
     }
 
 
     @PostMapping("/badmintons/add")
-    public String addBadminton(@Valid Badminton badminton, BindingResult result) {
-        if (result.hasErrors()) {
-            return "/admin/badminton/add";
+    public String addBadminton(@Valid Badminton badminton, BindingResult result){
+        if(result.hasErrors()){
+            return "/owner/badminton/add";
         }
         badminton.getLocation().setProvinceName
                 (locationService.getProvinceName(badminton.getLocation().getProvinceId()));
@@ -89,59 +78,71 @@ public class AdminController {
                 (locationService.getDistrictName(badminton.getLocation().getDistrictId()));
         badminton.getLocation().setWardName
                 (locationService.getWardName(badminton.getLocation().getWardId()));
+        User loggedUser = userService.getUserById(userService.getCurrentUserId());
+        badminton.setUser(loggedUser);
         badmintonService.addBadminton(badminton);
         courtService.addCourt(badminton);
-        return "redirect:/admin/badmintons";
+        return "redirect:/owner/badmintons";
     }
 
     @GetMapping("/badmintons/edit/{id}")
-    public String showUpdateForm(@PathVariable Long id, Model model) {
-        Badminton badminton = badmintonService.getBadmintonById(id)
+    public String showUpdateForm(@PathVariable Long id, Model model){
+        Badminton badminton  = badmintonService.getBadmintonById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid badminton Id:" + id));
         model.addAttribute("badminton", badminton);
-        return "/admin/badminton/update";
+        return "/owner/badminton/update";
     }
-
     @PostMapping("/badmintons/edit/{id}")
-    public String updateBadminton(@PathVariable Long id, Model model, @Valid Badminton badminton, BindingResult result) {
-        if (result.hasErrors()) {
+    public String updateBadminton(@PathVariable Long id, Model model, @Valid Badminton badminton, BindingResult result){
+        if(result.hasErrors()) {
             badminton.setId(id);
-            return "/admin/badminton/update";
+            return "/owner/badminton/update";
         }
         badmintonService.updateBadminton(badminton);
 
         model.addAttribute("badmintons", badmintonService.getAllBadmintons()); //Dòng này để làm gì?
-        return "redirect:/admin/badmintons";
+        return "redirect:/owner/badmintons";
     }
 
     @GetMapping("/badmintons/delete/{id}")
     public String deleteBadminton(@PathVariable("id") Long id) {
         badmintonService.deleteBadminton(id);
-        return "redirect:/admin/badmintons";
+        return "redirect:/owner/badmintons";
     }
 
     @GetMapping("/badmintons/search")
-    public String searchByNameBadminton(@RequestParam("keyword") String keyword, Model model) {
+    public String searchByNameBadminton(@RequestParam("keyword") String keyword, Model model){
         List<Badminton> badmintons = badmintonService.getAllBadmintons()
                 .stream()
-                .filter(p -> p.getBadmintonName().toLowerCase().contains(keyword.toLowerCase())).collect(Collectors.toList());
+                .filter(p-> p.getBadmintonName().toLowerCase().contains(keyword.toLowerCase())).collect(Collectors.toList());
         model.addAttribute("badmintons", badmintons);
         model.addAttribute("keyword", keyword);
         return "/admin/badminton/list";
     }
 
-    @GetMapping("/courts/add")
-    public String showAddCourtForm(Model model) {
-        model.addAttribute("court", new Court());
-        model.addAttribute("badmintons", badmintonService.getAllBadmintons());
-        return "/admin/court/add";
+    @PostMapping("/api/addCourt")
+    public String addCourt(@RequestParam("badmintonId") Long badmintonId, @RequestParam("description") String description, RedirectAttributes redirectAttributes) {
+        try {
+            Court court = new Court();
+            court.setBadmintonId(badmintonId);
+            court.setDetails(description);
+            court.setBadminton(badmintonService.getBadmintonById(badmintonId).orElseThrow());
+            court.setCourtId(courtService.getLatestCourt().getCourtId() + 1);
+            // Assuming there's a method in CourtService to save a court
+            courtService.saveCourt(court);
+            redirectAttributes.addFlashAttribute("message", "Court added successfully!");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("error", "Error adding court: " + e.getMessage());
+        }
+        return "redirect:/owner/courts";
     }
 
-    @GetMapping("/courts/{badmintonId}")
-    public String showCourtListAdmin(@PathVariable Long badmintonId, Model model) {
-        List<Court> courts = courtService.getAllCourtsByIdBadminton(badmintonId);
-        model.addAttribute("courts", courts);
-        return "/admin/court/list";
+    @GetMapping("/courts")
+    public String showCourtListAdmin(Model model) {
+        List<Badminton> badmintonList = badmintonService.getAllBadmintonByUser(userService.getCurrentUserId());
+        model.addAttribute("courts", courtService.getAllCourtByBadminton(badmintonList));
+        model.addAttribute("badmintons", badmintonList);
+        return "/owner/court/list";
     }
 
 //    @PostMapping("/courts/add")
@@ -158,28 +159,23 @@ public class AdminController {
         Court court = courtService.getCourtById(badmintonId, courtId)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid court Ids: BadmintonId=" + badmintonId + ", CourtId=" + courtId));
         model.addAttribute("court", court);
-        model.addAttribute("badmintons", badmintonService.getAllBadmintons());
-        return "/admin/court/update";
+        return "/owner/court/update";
     }
 
-    @PostMapping("/courts/edit/{id}")
-    public String updateCourt(@PathVariable Long badmintonId, @PathVariable Long courtId, @Valid Court court,
-                              BindingResult result, Model model) {
+    @PostMapping("/courts/edit/{badmintonId}/{courtId}")
+    public String updateCourt(@Valid Court court, BindingResult result, Model model) {
         if (result.hasErrors()) {
-            court.setCourtId(courtId);
-            court.setBadmintonId(badmintonId);
-            return "/admin/court/update";
+            return "/owner/court/update";
         }
         courtService.updateCourt(court);
-        model.addAttribute("courts", courtService.getAllCourts());
-        return "redirect:/admin/courts";
+        return "redirect:/owner/courts";
     }
 
     @GetMapping("/courts/delete/{badmintonId}/{courtId}")
     public String deleteCourt(@PathVariable("badmintonId") Long badmintonId, @PathVariable("courtId") Long courtId) {
         courtService.deleteCourt(badmintonId, courtId);
         badmintonService.updateQuantity(badmintonId);
-        return "redirect:/admin/courts";
+        return "redirect:/owner/courts";
     }
 
     @PostMapping("/search")
