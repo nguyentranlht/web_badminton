@@ -45,9 +45,10 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http.csrf().disable()
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers( "/admin/**","/user/**","/login","/","/owner", "/register", "/error","/oauth/**", "/confirm", "/badmintons/search", "/api/**").permitAll()
-                        .requestMatchers("/api/**").hasAnyAuthority("Admin", "User","Super Admin")
-                        .requestMatchers("/badmintons", "/books/add").hasAnyAuthority("Admin", "User", "Super Admin")
+                        .requestMatchers( "/admin/css/**","/admin/img/**","/admin/js/**","/admin/lib/**","/admin/scss/**","jquery-3.7.1.min.js","/user/css/**","/user/js/**","/user/img/**","/user/lib/**","/user/mail/**","/user/scss/**","/login","/", "/register", "/error","/oauth/**", "/confirm", "/api/**").permitAll()
+                        .requestMatchers("/owner/**").hasAnyAuthority("Owner")
+                        .requestMatchers("/admin/**").hasAnyAuthority("Admin","Super Admin")
+                        .requestMatchers("/badmintons/**", "/courts/**", "/history").hasAnyAuthority("Admin", "User", "Super Admin", "Owner")
                         .anyRequest().authenticated()
                 )
                 .logout(logout -> logout

@@ -1,7 +1,6 @@
 package com.example.webBadminton.controller;
 
 import com.example.webBadminton.model.BookingCourt;
-import com.example.webBadminton.model.booking.Booking;
 import com.example.webBadminton.model.court.Badminton;
 import com.example.webBadminton.model.court.Court;
 import com.example.webBadminton.service.BadmintonService;
