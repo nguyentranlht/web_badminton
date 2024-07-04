@@ -3,10 +3,8 @@ package com.example.webBadminton.controller;
 import com.example.webBadminton.model.BookingCourt;
 import com.example.webBadminton.model.court.Badminton;
 import com.example.webBadminton.model.court.Court;
-import com.example.webBadminton.service.BadmintonService;
-import com.example.webBadminton.service.BookingService;
-import com.example.webBadminton.service.CourtService;
-import com.example.webBadminton.service.UserService;
+import com.example.webBadminton.modelView.SearchCriteria;
+import com.example.webBadminton.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -27,6 +25,8 @@ public class APIController {
     private BookingService bookingService;
     @Autowired
     private CourtService courtService;
+    @Autowired
+    private SearchService searchService;
 
     @GetMapping("/bookings")
     public ResponseEntity<?> getCourtsAndBookings() {
@@ -86,5 +86,12 @@ public class APIController {
             redirectAttributes.addFlashAttribute("error", "Error adding court: " + e.getMessage());
         }
         return "redirect:/owner/courts";
+    }
+    @PostMapping("/search")
+    public ResponseEntity<?> performSearch(@RequestBody SearchCriteria criteria) {
+        // Process the search criteria
+        List<Badminton> results = searchService.search(criteria);
+
+        return ResponseEntity.ok(results);
     }
 }

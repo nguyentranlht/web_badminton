@@ -31,13 +31,7 @@ public class BadmintonController {
         return "/user/badminton/list";
     }
 
-    @PostMapping("/search")
-    public ResponseEntity<?> performSearch(@RequestBody SearchCriteria criteria) {
-        // Process the search criteria
-        List<Badminton> results = searchService.search(criteria);
 
-        return ResponseEntity.ok(results);
-    }
 
 
 //    @GetMapping("/add")

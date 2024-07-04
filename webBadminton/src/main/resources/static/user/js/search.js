@@ -25,7 +25,7 @@ $(document).ready(function() {
         };
 
         $.ajax({
-            url: '/badmintons/search',
+            url: '/api/search',
             type: 'POST',
             contentType: 'application/json',
             data: JSON.stringify(formData),
@@ -58,7 +58,7 @@ function updateBadmintonCards(badmintons) {
                     "<div class='col-lg-4 col-md-6 mb-4'>" +
                         "<a href='/courts/" + badminton.id + "' class='text-decoration-none text-dark'>" +
                             "<div class='package-item bg-white mb-2'>" +
-                                "<img class='img-fluid' src='" + badminton.imageUrl + "' alt='Image' style='border-radius: 20px 20px 0 0;'>" +
+                                "<img alt='Image' class='img-fluid' src='/user/img/san1.jpg' style='border-radius: 20px 20px 0 0;'>" +
                                 "<div class='p-4'>" +
                                     "<div class='d-flex justify-content-between mb-3'>" +
                                         "<small class='m-0'>" +
