@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Booking History</title>
+    <link href="user/img/favicon.ico" rel="icon">
+
+    <!-- Google Web Fonts -->
+    <link href="https://fonts.gstatic.com" rel="preconnect">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="user/css/style.css" rel="stylesheet">
+</head>
+<body>
+<th:block th:replace="layout :: header"></th:block>
+
+<div class="container mt-5">
+    <h1>Badminton Court Booking History</h1>
+    <table class="table table-striped">
+        <thead class="thead-dark">
+        <tr>
+            <th>ID</th>
+            <th>Court Name</th>
+            <th>Badminton</th>
+            <th>Date</th>
+            <th>Start Time</th>
+            <th>End Time</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="booking : ${bookings}">
+            <td th:text="${booking.id}"></td>
+            <td th:text="${booking.court.details}"></td>
+            <td th:text="${booking.court.badminton.badmintonName}"></td>
+            <td th:text="${booking.bookingDate}"></td>
+            <td th:text="${booking.startTime}"></td>
+            <td th:text="${booking.endTime}"></td>
+            <td th:text="${booking.status} == 'true' ? 'Payment Successful' : 'Payment Failed'"></td>
+            <td>
+                <a th:href="@{/booking/details(id=${booking.id})}" class="btn btn-info">Details</a>
+                <a th:href="@{/booking/cancel(id=${booking.id})}" class="btn btn-danger" onclick="return confirm('Are you sure you want to cancel this booking?')">Cancel</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<th:block th:replace="layout :: footer"></th:block>
+
+<script src="user/js/main.js"></script>
+</body>
+</html>

@@ -17,6 +17,9 @@ public interface IBookingRepository extends JpaRepository<BookingCourt, Long> {
 
     List<BookingCourt> findByBookingDate(LocalDate date);
 
+    @Query("SELECT b FROM BookingCourt b WHERE b.user.id = ?1")
+    List<BookingCourt> findByUser(Long userId);
+
     @Query("SELECT b FROM BookingCourt b WHERE b.court.badminton.id IN :badmintonIds AND b.status = 'true'")
     List<BookingCourt> findBookingsByBadmintonIds(@Param("badmintonIds") List<Long> badmintonIds);
 }
