@@ -24,6 +24,9 @@ public class BookingService {
     public List<BookingCourt> getAllBooking() {
         return bookingRepository.findAll();
     }
+    public List<BookingCourt> getAllBookingByUser(Long userId) {
+        return bookingRepository.findByUser(userId);
+    }
 
     public Optional<BookingCourt> getBookingById(Long id) {
         return bookingRepository.findById(id);
